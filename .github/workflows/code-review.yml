@@ -16,22 +16,21 @@ jobs:
       - name: 코드 체크아웃
         uses: actions/checkout@v5
         with:
-          fetch-depth: 1
+          fetch-depth: 0
 
       - name: 프론트엔드 리뷰 가이드라인 읽기
         id: guidelines
         run: |
-          FRONTEND_GUIDE=$(cat .claude/commands/review-frontend.md)
-          echo "frontend<<EOF" >> $GITHUB_OUTPUT
-          echo "$FRONTEND_GUIDE" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+          {
+            echo "frontend<<EOF"
+            cat .claude/commands/review-frontend.md
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
 
       - name: 코드 리뷰
         uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          additional_permissions: |
-            actions: read
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
