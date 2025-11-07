@@ -1,0 +1,57 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production
+build/
+dist/
+*.tsbuildinfo
+
+# Misc
+.DS_Store
+*.pem
+.idea/
+.vscode/
+*.log
+
+# Environment variables
+.env.local
+.env.*.local
+*.env.backup
+
+# Turbo
+.turbo/
+
+# React Native
+.expo/
+.expo-shared/
+
+# Android
+*.apk
+*.aab
+android/app/build/
+android/.gradle/
+android/local.properties
+
+# iOS
+ios/Pods/
+ios/build/
+*.xcworkspace
+!default.xcworkspace
+*.xcuserdata
+*.ipa
+DerivedData/
+
+# Metro
+.metro-health-check*
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+.env.*

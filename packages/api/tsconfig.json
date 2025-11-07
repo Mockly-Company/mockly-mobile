@@ -1,0 +1,12 @@
+{
+  "extends": "@mockly/typescript-config/base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "ES2019",
+    "lib": ["ES2019", "DOM"],
+    "strict": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}

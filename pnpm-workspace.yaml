@@ -1,0 +1,8 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+# import 하지 않는 패키지들도 symlink 생성되도록 설정.
+# hoistPattern:
+#   - '@react-native/*'
+#   - '@react-native/codegen'
+#   - '@react-native/gradle-plugin'

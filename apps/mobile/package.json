@@ -1,0 +1,58 @@
+{
+  "name": "mobile",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "start": "react-native start",
+    "dev": "cross-env NODE_ENV=development react-native start",
+    "build": "cross-env NODE_ENV=production react-native bundle",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf node_modules ios/Pods ios/build android/app/build"
+  },
+  "dependencies": {
+    "@mockly/api": "workspace:*",
+    "@mockly/design-system": "workspace:*",
+    "@mockly/entities": "workspace:*",
+    "@mockly/typescript-config": "workspace:*",
+    "@react-native/new-app-screen": "0.82.1",
+    "nativewind": "4.2.1",
+    "react": "19.1.1",
+    "react-native": "0.82.1",
+    "react-native-dotenv": "^3.4.11",
+    "react-native-safe-area-context": "^5.5.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/runtime": "^7.25.0",
+    "@react-native-community/cli": "20.0.0",
+    "@react-native-community/cli-platform-android": "20.0.0",
+    "@react-native-community/cli-platform-ios": "20.0.0",
+    "@react-native/babel-preset": "0.82.1",
+    "@react-native/codegen": "0.82.1",
+    "@react-native/eslint-config": "0.82.1",
+    "@react-native/gradle-plugin": "0.82.1",
+    "@react-native/metro-config": "0.82.1",
+    "@react-native/typescript-config": "0.82.1",
+    "@types/jest": "^29.5.13",
+    "@types/react": "19.1.1",
+    "@types/react-test-renderer": "19.1.0",
+    "babel-jest": "30.2.0",
+    "cross-env": "^10.1.0",
+    "eslint": "9.39.1",
+    "jest": "30.2.0",
+    "prettier": "3.6.2",
+    "react-test-renderer": "19.1.1",
+    "tailwindcss": "3.4.18",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
