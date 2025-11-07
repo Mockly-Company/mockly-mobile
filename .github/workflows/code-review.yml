@@ -1,0 +1,49 @@
+name: AI Front Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  code-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: 프론트엔드 리뷰 가이드라인 읽기
+        id: guidelines
+        run: |
+          FRONTEND_GUIDE=$(cat .claude/commands/review-frontend.md)
+          echo "frontend<<EOF" >> $GITHUB_OUTPUT
+          echo "$FRONTEND_GUIDE" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: 코드 리뷰
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          track_progress: true
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            # 프론트엔드 코드 리뷰 가이드라인
+
+            ${{ steps.guidelines.outputs.frontend }}
+
+            위 가이드라인을 참고하여 이 PR의 변경사항을 검토해주세요.
+
+            각 항목이 만족되는지 확인하고, 개선이 필요한 부분에 대해 구체적으로 코멘트해주세요.
+            특히 React Native와 관련된 모범 사례를 중점적으로 검토해주세요.
+
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
