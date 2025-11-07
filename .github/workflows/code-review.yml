@@ -1,5 +1,11 @@
 name: AI Front Code Review
 
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+  id-token: write
+
 on:
   pull_request:
     types: [opened, synchronize, ready_for_review, reopened]
@@ -7,16 +13,10 @@ on:
 jobs:
   code-review:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      id-token: write
 
     steps:
       - name: 코드 체크아웃
         uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
 
       - name: 프론트엔드 리뷰 가이드라인 읽기
         id: guidelines
