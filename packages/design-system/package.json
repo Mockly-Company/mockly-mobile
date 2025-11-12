@@ -19,7 +19,8 @@
     "clean": "rm -rf dist node_modules"
   },
   "dependencies": {
-    "@mockly/utils": "workspace:*"
+    "@mockly/utils": "workspace:*",
+    "cva": "npm:class-variance-authority@^0.7.1"
   },
   "peerDependencies": {
     "react": "19.1.1",
