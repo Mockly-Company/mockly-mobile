@@ -19,15 +19,15 @@ import { {ComponentName} } from '@/components/{ComponentName}';
 
 \`\`\`tsx
 <{ComponentName}>
-  {기본 예제}
+{기본 예제}
 </{ComponentName}>
 \`\`\`
 
 ## Props
 
 | Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| ... | ... | ... | ... |
+| ---- | ---- | ------- | ----------- |
+| ...  | ...  | ...     | ...         |
 
 ## Variants
 
@@ -91,15 +91,15 @@ import { Button } from '@/components/Button';
 
 ## Props
 
-| Prop | Type | Default | Required | Description |
-|------|------|---------|----------|-------------|
-| children | ReactNode | - | ✅ | 버튼 내부 콘텐츠 |
-| variant | 'primary' \| 'secondary' \| 'outline' \| 'ghost' | 'primary' | ❌ | 버튼 스타일 variant |
-| size | 'sm' \| 'md' \| 'lg' | 'md' | ❌ | 버튼 크기 |
-| disabled | boolean | false | ❌ | 비활성화 상태 |
-| loading | boolean | false | ❌ | 로딩 상태 |
-| fullWidth | boolean | false | ❌ | 전체 너비 사용 여부 |
-| onClick | () => void | - | ❌ | 클릭 이벤트 핸들러 |
+| Prop      | Type                                             | Default   | Required | Description         |
+| --------- | ------------------------------------------------ | --------- | -------- | ------------------- |
+| children  | ReactNode                                        | -         | ✅       | 버튼 내부 콘텐츠    |
+| variant   | 'primary' \| 'secondary' \| 'outline' \| 'ghost' | 'primary' | ❌       | 버튼 스타일 variant |
+| size      | 'sm' \| 'md' \| 'lg'                             | 'md'      | ❌       | 버튼 크기           |
+| disabled  | boolean                                          | false     | ❌       | 비활성화 상태       |
+| loading   | boolean                                          | false     | ❌       | 로딩 상태           |
+| fullWidth | boolean                                          | false     | ❌       | 전체 너비 사용 여부 |
+| onClick   | () => void                                       | -         | ❌       | 클릭 이벤트 핸들러  |
 
 ## Variants
 
@@ -112,6 +112,7 @@ import { Button } from '@/components/Button';
 \`\`\`
 
 **사용 사례:**
+
 - 폼 제출
 - 주요 Call-to-Action
 - 확인/저장 버튼
@@ -125,6 +126,7 @@ import { Button } from '@/components/Button';
 \`\`\`
 
 **사용 사례:**
+
 - 보조 액션
 - 취소 버튼
 - 다중 옵션 중 하나
@@ -138,6 +140,7 @@ import { Button } from '@/components/Button';
 \`\`\`
 
 **사용 사례:**
+
 - 선택적 액션
 - 필터나 토글
 - 덜 중요한 작업
@@ -151,6 +154,7 @@ import { Button } from '@/components/Button';
 \`\`\`
 
 **사용 사례:**
+
 - 테이블 내 액션
 - 내비게이션
 - 아이콘 버튼
@@ -198,7 +202,7 @@ import { PlusIcon } from '@/icons';
 
 \`\`\`tsx
 <Button loading disabled>
-  Processing...
+Processing...
 </Button>
 \`\`\`
 
@@ -206,13 +210,14 @@ import { PlusIcon } from '@/icons';
 
 \`\`\`tsx
 <Button fullWidth>
-  Full Width Button
+Full Width Button
 </Button>
 \`\`\`
 
 ### 폼 제출
 
 \`\`\`tsx
+
 <form onSubmit={handleSubmit}>
   <input type="text" />
   <Button type="submit">
@@ -225,13 +230,14 @@ import { PlusIcon } from '@/icons';
 
 \`\`\`tsx
 <Button disabled>
-  Disabled Button
+Disabled Button
 </Button>
 \`\`\`
 
 ### 버튼 그룹
 
 \`\`\`tsx
+
 <div style={{ display: 'flex', gap: '0.5rem' }}>
   <Button variant="outline">Cancel</Button>
   <Button variant="primary">Save</Button>
@@ -246,13 +252,13 @@ import { PlusIcon } from '@/icons';
 
 \`\`\`tsx
 <Button
-  aria-label="Add new item"
-  aria-pressed={isPressed}
-  aria-disabled={isDisabled}
->
-  Add
-</Button>
-\`\`\`
+aria-label="Add new item"
+aria-pressed={isPressed}
+aria-disabled={isDisabled}
+
+> Add
+> </Button>
+> \`\`\`
 
 ### 키보드 네비게이션
 
@@ -284,6 +290,7 @@ buttonRef.current?.focus();
 ### 언제 사용하나요?
 
 ✅ **사용하는 경우:**
+
 - 사용자 액션을 트리거할 때
 - 폼 제출이 필요할 때
 - 다이얼로그나 모달 확인/취소
@@ -292,6 +299,7 @@ buttonRef.current?.focus();
 ### 언제 사용하지 말아야 하나요?
 
 ❌ **사용하지 않는 경우:**
+
 - 다른 페이지로 이동할 때 → `<Link>` 사용
 - 토글 기능일 때 → `<Switch>` 또는 `<Checkbox>` 사용
 - 여러 옵션 중 선택일 때 → `<Radio>` 또는 `<Select>` 사용
@@ -299,11 +307,13 @@ buttonRef.current?.focus();
 ### 버튼 레이블 작성 가이드
 
 **좋은 예:**
+
 - "Save Changes" (구체적)
 - "Add to Cart" (액션 명확)
 - "Download Report" (결과 명확)
 
 **나쁜 예:**
+
 - "Click Here" (모호함)
 - "OK" (맥락 없음)
 - "Submit" (무엇을 제출하는지 불명확)
@@ -311,18 +321,21 @@ buttonRef.current?.focus();
 ### 버튼 배치
 
 **Primary 버튼 위치:**
+
 - 일반적으로 오른쪽에 배치
 - 사용자의 자연스러운 읽기 흐름 고려
 - 모바일에서는 스택(세로) 배치 고려
 
 \`\`\`tsx
 // 데스크톱
+
 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
   <Button variant="outline">Cancel</Button>
   <Button variant="primary">Save</Button>
 </div>
 
 // 모바일
+
 <div style={{ display: 'flex', flexDirection: 'column-reverse', gap: '0.5rem' }}>
   <Button variant="outline" fullWidth>Cancel</Button>
   <Button variant="primary" fullWidth>Save</Button>
@@ -341,12 +354,12 @@ buttonRef.current?.focus();
 
 \`\`\`tsx
 <Button
-  style={{ borderRadius: '24px' }}
-  className="custom-button"
->
-  Custom Styled
-</Button>
-\`\`\`
+style={{ borderRadius: '24px' }}
+className="custom-button"
+
+> Custom Styled
+> </Button>
+> \`\`\`
 
 ### CSS Variables
 
@@ -370,14 +383,17 @@ buttonRef.current?.focus();
 ## 변경 이력
 
 ### v1.2.0
+
 - `loading` prop 추가
 - `fullWidth` prop 추가
 
 ### v1.1.0
+
 - `ghost` variant 추가
 - 접근성 개선
 
 ### v1.0.0
+
 - 초기 릴리즈
 ```
 
@@ -402,17 +418,17 @@ import { Input } from '@/components/Input';
 
 ## Props
 
-| Prop | Type | Default | Required | Description |
-|------|------|---------|----------|-------------|
-| type | 'text' \| 'email' \| 'password' \| 'number' | 'text' | ❌ | Input 타입 |
-| label | string | - | ❌ | 라벨 텍스트 |
-| placeholder | string | - | ❌ | placeholder 텍스트 |
-| error | string | - | ❌ | 에러 메시지 |
-| helperText | string | - | ❌ | 도움말 텍스트 |
-| disabled | boolean | false | ❌ | 비활성화 상태 |
-| required | boolean | false | ❌ | 필수 입력 여부 |
-| value | string | - | ❌ | Input 값 (제어 컴포넌트) |
-| onChange | (e) => void | - | ❌ | 값 변경 핸들러 |
+| Prop        | Type                                        | Default | Required | Description              |
+| ----------- | ------------------------------------------- | ------- | -------- | ------------------------ |
+| type        | 'text' \| 'email' \| 'password' \| 'number' | 'text'  | ❌       | Input 타입               |
+| label       | string                                      | -       | ❌       | 라벨 텍스트              |
+| placeholder | string                                      | -       | ❌       | placeholder 텍스트       |
+| error       | string                                      | -       | ❌       | 에러 메시지              |
+| helperText  | string                                      | -       | ❌       | 도움말 텍스트            |
+| disabled    | boolean                                     | false   | ❌       | 비활성화 상태            |
+| required    | boolean                                     | false   | ❌       | 필수 입력 여부           |
+| value       | string                                      | -       | ❌       | Input 값 (제어 컴포넌트) |
+| onChange    | (e) => void                                 | -       | ❌       | 값 변경 핸들러           |
 
 ## 예제
 
@@ -465,11 +481,11 @@ import { Input } from '@/components/Input';
 
 \`\`\`tsx
 <Input
-  label="Email"
-  required
-  aria-required="true"
-  aria-invalid={hasError}
-  aria-describedby={hasError ? "email-error" : undefined}
+label="Email"
+required
+aria-required="true"
+aria-invalid={hasError}
+aria-describedby={hasError ? "email-error" : undefined}
 />
 \`\`\`
 ```

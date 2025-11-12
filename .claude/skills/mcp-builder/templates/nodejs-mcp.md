@@ -96,7 +96,7 @@ export interface TextToolsArgs {
   };
   formatText: {
     text: string;
-    style: "uppercase" | "lowercase" | "title" | "capitalize";
+    style: 'uppercase' | 'lowercase' | 'title' | 'capitalize';
   };
 }
 
@@ -146,12 +146,9 @@ export interface StatsResult {
 ## src/tools/textTools.ts
 
 ```typescript
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { TextToolsArgs, WordCountResult } from "../types/index.js";
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { TextToolsArgs, WordCountResult } from '../types/index.js';
 
 export function registerTextTools(server: Server) {
   /**
@@ -167,17 +164,15 @@ export function registerTextTools(server: Server) {
       };
     }
 
-    const words = text.split(/\s+/).filter((w) => w.length > 0);
-    const lines = text.split("\n");
+    const words = text.split(/\s+/).filter(w => w.length > 0);
+    const lines = text.split('\n');
 
     return {
       words: words.length,
       characters: text.length,
       lines: lines.length,
       avgWordLength:
-        words.length > 0
-          ? words.reduce((sum, w) => sum + w.length, 0) / words.length
-          : 0,
+        words.length > 0 ? words.reduce((sum, w) => sum + w.length, 0) / words.length : 0,
     };
   }
 
@@ -205,18 +200,18 @@ export function registerTextTools(server: Server) {
    */
   function formatText(
     text: string,
-    style: "uppercase" | "lowercase" | "title" | "capitalize"
+    style: 'uppercase' | 'lowercase' | 'title' | 'capitalize'
   ): string {
     switch (style) {
-      case "uppercase":
+      case 'uppercase':
         return text.toUpperCase();
-      case "lowercase":
+      case 'lowercase':
         return text.toLowerCase();
-      case "title":
-        return text.replace(/\w\S*/g, (txt) => {
+      case 'title':
+        return text.replace(/\w\S*/g, txt => {
           return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
         });
-      case "capitalize":
+      case 'capitalize':
         return text.charAt(0).toUpperCase() + text.slice(1);
       default:
         throw new Error(`Unknown style: ${style}`);
@@ -226,64 +221,64 @@ export function registerTextTools(server: Server) {
   return {
     tools: [
       {
-        name: "count_words",
-        description: "텍스트의 단어 수를 세고 통계를 제공합니다",
+        name: 'count_words',
+        description: '텍스트의 단어 수를 세고 통계를 제공합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             text: {
-              type: "string",
-              description: "분석할 텍스트",
+              type: 'string',
+              description: '분석할 텍스트',
             },
           },
-          required: ["text"],
+          required: ['text'],
         },
       },
       {
-        name: "extract_emails",
-        description: "텍스트에서 이메일 주소를 추출합니다",
+        name: 'extract_emails',
+        description: '텍스트에서 이메일 주소를 추출합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             text: {
-              type: "string",
-              description: "검색할 텍스트",
+              type: 'string',
+              description: '검색할 텍스트',
             },
           },
-          required: ["text"],
+          required: ['text'],
         },
       },
       {
-        name: "extract_urls",
-        description: "텍스트에서 URL을 추출합니다",
+        name: 'extract_urls',
+        description: '텍스트에서 URL을 추출합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             text: {
-              type: "string",
-              description: "검색할 텍스트",
+              type: 'string',
+              description: '검색할 텍스트',
             },
           },
-          required: ["text"],
+          required: ['text'],
         },
       },
       {
-        name: "format_text",
-        description: "텍스트를 지정된 스타일로 포맷팅합니다",
+        name: 'format_text',
+        description: '텍스트를 지정된 스타일로 포맷팅합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             text: {
-              type: "string",
-              description: "포맷팅할 텍스트",
+              type: 'string',
+              description: '포맷팅할 텍스트',
             },
             style: {
-              type: "string",
-              enum: ["uppercase", "lowercase", "title", "capitalize"],
-              description: "적용할 스타일",
+              type: 'string',
+              enum: ['uppercase', 'lowercase', 'title', 'capitalize'],
+              description: '적용할 스타일',
             },
           },
-          required: ["text", "style"],
+          required: ['text', 'style'],
         },
       },
     ],
@@ -300,7 +295,7 @@ export function registerTextTools(server: Server) {
 ## src/tools/dataTools.ts
 
 ```typescript
-import { StatsResult, JsonValidationResult } from "../types/index.js";
+import { StatsResult, JsonValidationResult } from '../types/index.js';
 
 export function registerDataTools() {
   /**
@@ -310,41 +305,41 @@ export function registerDataTools() {
     const data = JSON.parse(jsonData);
 
     if (!Array.isArray(data)) {
-      throw new Error("JSON은 배열 형태여야 합니다");
+      throw new Error('JSON은 배열 형태여야 합니다');
     }
 
     if (data.length === 0) {
-      return "";
+      return '';
     }
 
     const headers = Object.keys(data[0]);
-    const csvRows = [headers.join(",")];
+    const csvRows = [headers.join(',')];
 
     for (const row of data) {
-      const values = headers.map((header) => {
+      const values = headers.map(header => {
         const value = row[header];
-        return typeof value === "string" ? `"${value}"` : value;
+        return typeof value === 'string' ? `"${value}"` : value;
       });
-      csvRows.push(values.join(","));
+      csvRows.push(values.join(','));
     }
 
-    return csvRows.join("\n");
+    return csvRows.join('\n');
   }
 
   /**
    * CSV를 JSON으로 변환
    */
   function csvToJson(csvData: string): string {
-    const lines = csvData.trim().split("\n");
+    const lines = csvData.trim().split('\n');
     if (lines.length === 0) {
-      return "[]";
+      return '[]';
     }
 
-    const headers = lines[0].split(",").map((h) => h.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
     const result = [];
 
     for (let i = 1; i < lines.length; i++) {
-      const values = lines[i].split(",").map((v) => v.trim().replace(/^"|"$/g, ""));
+      const values = lines[i].split(',').map(v => v.trim().replace(/^"|"$/g, ''));
       const obj: any = {};
       headers.forEach((header, index) => {
         obj[header] = values[index];
@@ -364,14 +359,14 @@ export function registerDataTools() {
 
       return {
         valid: true,
-        type: Array.isArray(data) ? "array" : typeof data,
+        type: Array.isArray(data) ? 'array' : typeof data,
         size: jsonData.length,
         formatted: JSON.stringify(data, null, 2),
       };
     } catch (error) {
       return {
         valid: false,
-        error: error instanceof Error ? error.message : "Unknown error",
+        error: error instanceof Error ? error.message : 'Unknown error',
       };
     }
   }
@@ -381,7 +376,7 @@ export function registerDataTools() {
    */
   function calculateStats(numbers: number[]): StatsResult {
     if (numbers.length === 0) {
-      throw new Error("숫자 목록이 비어있습니다");
+      throw new Error('숫자 목록이 비어있습니다');
     }
 
     const sorted = [...numbers].sort((a, b) => a - b);
@@ -402,60 +397,60 @@ export function registerDataTools() {
   return {
     tools: [
       {
-        name: "json_to_csv",
-        description: "JSON 데이터를 CSV 형식으로 변환합니다",
+        name: 'json_to_csv',
+        description: 'JSON 데이터를 CSV 형식으로 변환합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             jsonData: {
-              type: "string",
-              description: "JSON 문자열 (배열 형태)",
+              type: 'string',
+              description: 'JSON 문자열 (배열 형태)',
             },
           },
-          required: ["jsonData"],
+          required: ['jsonData'],
         },
       },
       {
-        name: "csv_to_json",
-        description: "CSV 데이터를 JSON 형식으로 변환합니다",
+        name: 'csv_to_json',
+        description: 'CSV 데이터를 JSON 형식으로 변환합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             csvData: {
-              type: "string",
-              description: "CSV 문자열",
+              type: 'string',
+              description: 'CSV 문자열',
             },
           },
-          required: ["csvData"],
+          required: ['csvData'],
         },
       },
       {
-        name: "validate_json",
-        description: "JSON 형식이 유효한지 검증합니다",
+        name: 'validate_json',
+        description: 'JSON 형식이 유효한지 검증합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             jsonData: {
-              type: "string",
-              description: "검증할 JSON 문자열",
+              type: 'string',
+              description: '검증할 JSON 문자열',
             },
           },
-          required: ["jsonData"],
+          required: ['jsonData'],
         },
       },
       {
-        name: "calculate_stats",
-        description: "숫자 목록의 통계를 계산합니다",
+        name: 'calculate_stats',
+        description: '숫자 목록의 통계를 계산합니다',
         inputSchema: {
-          type: "object",
+          type: 'object',
           properties: {
             numbers: {
-              type: "array",
-              items: { type: "number" },
-              description: "숫자 배열",
+              type: 'array',
+              items: { type: 'number' },
+              description: '숫자 배열',
             },
           },
-          required: ["numbers"],
+          required: ['numbers'],
         },
       },
     ],
@@ -474,20 +469,17 @@ export function registerDataTools() {
 ```typescript
 #!/usr/bin/env node
 
-import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import {
-  CallToolRequestSchema,
-  ListToolsRequestSchema,
-} from "@modelcontextprotocol/sdk/types.js";
-import { registerTextTools } from "./tools/textTools.js";
-import { registerDataTools } from "./tools/dataTools.js";
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { CallToolRequestSchema, ListToolsRequestSchema } from '@modelcontextprotocol/sdk/types.js';
+import { registerTextTools } from './tools/textTools.js';
+import { registerDataTools } from './tools/dataTools.js';
 
 // 서버 생성
 const server = new Server(
   {
-    name: "my-mcp-server",
-    version: "1.0.0",
+    name: 'my-mcp-server',
+    version: '1.0.0',
   },
   {
     capabilities: {
@@ -511,7 +503,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
 });
 
 // 도구 실행 핸들러
-server.setRequestHandler(CallToolRequestSchema, async (request) => {
+server.setRequestHandler(CallToolRequestSchema, async request => {
   const { name, arguments: args } = request.params;
 
   try {
@@ -526,8 +518,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     return {
       content: [
         {
-          type: "text",
-          text: typeof result === "string" ? result : JSON.stringify(result, null, 2),
+          type: 'text',
+          text: typeof result === 'string' ? result : JSON.stringify(result, null, 2),
         },
       ],
     };
@@ -535,8 +527,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
     return {
       content: [
         {
-          type: "text",
-          text: `Error: ${error instanceof Error ? error.message : "Unknown error"}`,
+          type: 'text',
+          text: `Error: ${error instanceof Error ? error.message : 'Unknown error'}`,
         },
       ],
       isError: true,
@@ -548,11 +540,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("MCP 서버가 시작되었습니다");
+  console.error('MCP 서버가 시작되었습니다');
 }
 
-main().catch((error) => {
-  console.error("서버 오류:", error);
+main().catch(error => {
+  console.error('서버 오류:', error);
   process.exit(1);
 });
 ```
@@ -585,18 +577,20 @@ npm start
 ## 개발
 
 \`\`\`bash
-npm run dev  # 와치 모드로 빌드
+npm run dev # 와치 모드로 빌드
 \`\`\`
 
 ## 제공 도구
 
 ### 텍스트 도구
+
 - count_words: 단어 수 및 통계
 - extract_emails: 이메일 추출
 - extract_urls: URL 추출
 - format_text: 텍스트 포맷팅
 
 ### 데이터 도구
+
 - json_to_csv: JSON → CSV
 - csv_to_json: CSV → JSON
 - validate_json: JSON 검증
@@ -606,12 +600,12 @@ npm run dev  # 와치 모드로 빌드
 
 \`\`\`json
 {
-  "mcpServers": {
-    "my-mcp-server": {
-      "command": "node",
-      "args": ["/path/to/dist/index.js"]
-    }
-  }
+"mcpServers": {
+"my-mcp-server": {
+"command": "node",
+"args": ["/path/to/dist/index.js"]
+}
+}
 }
 \`\`\`
 ```

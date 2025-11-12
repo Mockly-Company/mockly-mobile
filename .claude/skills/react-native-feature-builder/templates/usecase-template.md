@@ -8,16 +8,16 @@ Use Case 작성 시 사용하는 템플릿입니다.
 // src/domain/usecases/[feature]/[ActionName]UseCase.ts
 
 export class [ActionName]UseCase {
-  constructor(
-    private [repository]Repository: [Repository]Repository
-  ) {}
+constructor(
+private [repository]Repository: [Repository]Repository
+) {}
 
-  async execute([params]): Promise<[ReturnType]> {
-    // 1. 입력 검증
-    // 2. 비즈니스 로직
-    // 3. Repository 호출
-    // 4. 결과 반환
-  }
+async execute([params]): Promise<[ReturnType]> {
+// 1. 입력 검증
+// 2. 비즈니스 로직
+// 3. Repository 호출
+// 4. 결과 반환
+}
 }
 \`\`\`
 
@@ -31,18 +31,18 @@ import { AuthToken } from '@/domain/entities/AuthToken';
 import { AuthRepository } from '@/domain/repositories/AuthRepository';
 
 export interface LoginResult {
-  user: User;
-  token: AuthToken;
+user: User;
+token: AuthToken;
 }
 
 export class LoginUseCase {
-  constructor(private authRepository: AuthRepository) {}
+constructor(private authRepository: AuthRepository) {}
 
-  async execute(email: string, password: string): Promise<LoginResult> {
-    // 1. 입력 검증
-    if (!this.isValidEmail(email)) {
-      throw new Error('Invalid email format');
-    }
+async execute(email: string, password: string): Promise<LoginResult> {
+// 1. 입력 검증
+if (!this.isValidEmail(email)) {
+throw new Error('Invalid email format');
+}
 
     if (password.length < 8) {
       throw new Error('Password must be at least 8 characters');
@@ -58,12 +58,13 @@ export class LoginUseCase {
     await this.authRepository.storeToken(token);
 
     return { user, token };
-  }
 
-  private isValidEmail(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+}
+
+private isValidEmail(email: string): boolean {
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+return emailRegex.test(email);
+}
 }
 \`\`\`
 
@@ -76,23 +77,23 @@ import { Post } from '@/domain/entities/Post';
 import { PostRepository } from '@/domain/repositories/PostRepository';
 
 export interface GetPostsParams {
-  page: number;
-  limit: number;
-  filter?: PostFilter;
+page: number;
+limit: number;
+filter?: PostFilter;
 }
 
 export interface PostFilter {
-  authorId?: string;
-  tags?: string[];
-  searchQuery?: string;
+authorId?: string;
+tags?: string[];
+searchQuery?: string;
 }
 
 export class GetPostsUseCase {
-  constructor(private postRepository: PostRepository) {}
+constructor(private postRepository: PostRepository) {}
 
-  async execute(params: GetPostsParams): Promise<Post[]> {
-    // 1. 입력 검증
-    this.validateParams(params);
+async execute(params: GetPostsParams): Promise<Post[]> {
+// 1. 입력 검증
+this.validateParams(params);
 
     // 2. Repository 호출
     const posts = await this.postRepository.getPosts(
@@ -103,22 +104,24 @@ export class GetPostsUseCase {
 
     // 3. 비즈니스 로직 (필요한 경우)
     return this.sortByRelevance(posts, params.filter?.searchQuery);
-  }
 
-  private validateParams(params: GetPostsParams): void {
-    if (params.page < 1) {
-      throw new Error('Page must be greater than 0');
-    }
+}
+
+private validateParams(params: GetPostsParams): void {
+if (params.page < 1) {
+throw new Error('Page must be greater than 0');
+}
 
     if (params.limit < 1 || params.limit > 100) {
       throw new Error('Limit must be between 1 and 100');
     }
-  }
 
-  private sortByRelevance(posts: Post[], searchQuery?: string): Post[] {
-    if (!searchQuery) {
-      return posts;
-    }
+}
+
+private sortByRelevance(posts: Post[], searchQuery?: string): Post[] {
+if (!searchQuery) {
+return posts;
+}
 
     // 검색어 관련성에 따라 정렬
     return posts.sort((a, b) => {
@@ -126,17 +129,19 @@ export class GetPostsUseCase {
       const bScore = this.calculateRelevance(b, searchQuery);
       return bScore - aScore;
     });
-  }
 
-  private calculateRelevance(post: Post, query: string): number {
-    let score = 0;
-    const lowerQuery = query.toLowerCase();
+}
+
+private calculateRelevance(post: Post, query: string): number {
+let score = 0;
+const lowerQuery = query.toLowerCase();
 
     if (post.title.toLowerCase().includes(lowerQuery)) score += 10;
     if (post.content.toLowerCase().includes(lowerQuery)) score += 5;
 
     return score;
-  }
+
+}
 }
 \`\`\`
 
@@ -149,23 +154,23 @@ import { User } from '@/domain/entities/User';
 import { UserRepository } from '@/domain/repositories/UserRepository';
 
 export interface UpdateProfileData {
-  name?: string;
-  bio?: string;
-  website?: string;
-  location?: string;
+name?: string;
+bio?: string;
+website?: string;
+location?: string;
 }
 
 export class UpdateProfileUseCase {
-  constructor(
-    private userRepository: UserRepository
-  ) {}
+constructor(
+private userRepository: UserRepository
+) {}
 
-  async execute(userId: string, data: UpdateProfileData): Promise<User> {
-    // 1. 사용자 존재 확인
-    const existingUser = await this.userRepository.getUserById(userId);
-    if (!existingUser) {
-      throw new Error('User not found');
-    }
+async execute(userId: string, data: UpdateProfileData): Promise<User> {
+// 1. 사용자 존재 확인
+const existingUser = await this.userRepository.getUserById(userId);
+if (!existingUser) {
+throw new Error('User not found');
+}
 
     // 2. 데이터 검증
     this.validateUpdateData(data);
@@ -174,12 +179,13 @@ export class UpdateProfileUseCase {
     const updatedUser = await this.userRepository.updateUser(userId, data);
 
     return updatedUser;
-  }
 
-  private validateUpdateData(data: UpdateProfileData): void {
-    if (data.name !== undefined && data.name.trim().length === 0) {
-      throw new Error('Name cannot be empty');
-    }
+}
+
+private validateUpdateData(data: UpdateProfileData): void {
+if (data.name !== undefined && data.name.trim().length === 0) {
+throw new Error('Name cannot be empty');
+}
 
     if (data.website !== undefined && !this.isValidUrl(data.website)) {
       throw new Error('Invalid website URL');
@@ -188,16 +194,17 @@ export class UpdateProfileUseCase {
     if (data.bio !== undefined && data.bio.length > 500) {
       throw new Error('Bio must be 500 characters or less');
     }
-  }
 
-  private isValidUrl(url: string): boolean {
-    try {
-      new URL(url);
-      return true;
-    } catch {
-      return false;
-    }
-  }
+}
+
+private isValidUrl(url: string): boolean {
+try {
+new URL(url);
+return true;
+} catch {
+return false;
+}
+}
 }
 \`\`\`
 
@@ -213,25 +220,25 @@ import { ProductRepository } from '@/domain/repositories/ProductRepository';
 import { PaymentRepository } from '@/domain/repositories/PaymentRepository';
 
 export interface CreateOrderData {
-  userId: string;
-  items: Array<{
-    productId: string;
-    quantity: number;
-  }>;
-  shippingAddress: Address;
-  paymentMethod: PaymentMethod;
+userId: string;
+items: Array<{
+productId: string;
+quantity: number;
+}>;
+shippingAddress: Address;
+paymentMethod: PaymentMethod;
 }
 
 export class CreateOrderUseCase {
-  constructor(
-    private orderRepository: OrderRepository,
-    private productRepository: ProductRepository,
-    private paymentRepository: PaymentRepository
-  ) {}
+constructor(
+private orderRepository: OrderRepository,
+private productRepository: ProductRepository,
+private paymentRepository: PaymentRepository
+) {}
 
-  async execute(data: CreateOrderData): Promise<Order> {
-    // 1. 입력 검증
-    this.validateOrderData(data);
+async execute(data: CreateOrderData): Promise<Order> {
+// 1. 입력 검증
+this.validateOrderData(data);
 
     // 2. 제품 정보 및 재고 확인
     const orderItems = await this.validateAndPrepareItems(data.items);
@@ -269,12 +276,13 @@ export class CreateOrderUseCase {
     );
 
     return order;
-  }
 
-  private validateOrderData(data: CreateOrderData): void {
-    if (!data.userId) {
-      throw new Error('User ID is required');
-    }
+}
+
+private validateOrderData(data: CreateOrderData): void {
+if (!data.userId) {
+throw new Error('User ID is required');
+}
 
     if (!data.items || data.items.length === 0) {
       throw new Error('Order must have at least one item');
@@ -283,12 +291,13 @@ export class CreateOrderUseCase {
     if (!data.shippingAddress) {
       throw new Error('Shipping address is required');
     }
-  }
 
-  private async validateAndPrepareItems(
-    items: Array<{ productId: string; quantity: number }>
-  ): Promise<OrderItem[]> {
-    const orderItems: OrderItem[] = [];
+}
+
+private async validateAndPrepareItems(
+items: Array<{ productId: string; quantity: number }>
+): Promise<OrderItem[]> {
+const orderItems: OrderItem[] = [];
 
     for (const item of items) {
       // 제품 존재 확인
@@ -312,11 +321,12 @@ export class CreateOrderUseCase {
     }
 
     return orderItems;
-  }
 
-  private calculateTotal(items: OrderItem[]): number {
-    return items.reduce((sum, item) => sum + item.subtotal, 0);
-  }
+}
+
+private calculateTotal(items: OrderItem[]): number {
+return items.reduce((sum, item) => sum + item.subtotal, 0);
+}
 }
 \`\`\`
 
@@ -334,9 +344,9 @@ class RefreshTokenUseCase { }
 
 // ❌ 나쁜 예
 class AuthUseCase {
-  login() { }
-  logout() { }
-  refresh() { }
+login() { }
+logout() { }
+refresh() { }
 }
 \`\`\`
 
@@ -346,17 +356,17 @@ class AuthUseCase {
 
 \`\`\`typescript
 async execute(data: CreateUserData): Promise<User> {
-  // 입력 검증
-  if (!data.email || !this.isValidEmail(data.email)) {
-    throw new Error('Invalid email');
-  }
+// 입력 검증
+if (!data.email || !this.isValidEmail(data.email)) {
+throw new Error('Invalid email');
+}
 
-  if (!data.password || data.password.length < 8) {
-    throw new Error('Password must be at least 8 characters');
-  }
+if (!data.password || data.password.length < 8) {
+throw new Error('Password must be at least 8 characters');
+}
 
-  // 비즈니스 로직
-  // ...
+// 비즈니스 로직
+// ...
 }
 \`\`\`
 
@@ -381,14 +391,14 @@ Use Case는 Repository 인터페이스에만 의존합니다.
 \`\`\`typescript
 // ✅ 좋은 예
 class LoginUseCase {
-  constructor(private authRepository: AuthRepository) {}
-  // AuthRepository는 인터페이스
+constructor(private authRepository: AuthRepository) {}
+// AuthRepository는 인터페이스
 }
 
 // ❌ 나쁜 예
 class LoginUseCase {
-  constructor(private apiClient: ApiClient) {}
-  // 구체적인 구현에 의존
+constructor(private apiClient: ApiClient) {}
+// 구체적인 구현에 의존
 }
 \`\`\`
 
@@ -398,15 +408,15 @@ class LoginUseCase {
 
 \`\`\`typescript
 interface CreatePostData {
-  title: string;
-  content: string;
-  tags: string[];
+title: string;
+content: string;
+tags: string[];
 }
 
 class CreatePostUseCase {
-  async execute(data: CreatePostData): Promise<Post> {
-    // 타입 안전한 구현
-  }
+async execute(data: CreatePostData): Promise<Post> {
+// 타입 안전한 구현
+}
 }
 \`\`\`
 
@@ -414,22 +424,23 @@ class CreatePostUseCase {
 
 \`\`\`typescript
 describe('LoginUseCase', () => {
-  let useCase: LoginUseCase;
-  let mockAuthRepository: jest.Mocked<AuthRepository>;
+let useCase: LoginUseCase;
+let mockAuthRepository: jest.Mocked<AuthRepository>;
 
-  beforeEach(() => {
-    mockAuthRepository = {
-      login: jest.fn(),
-      getCurrentUser: jest.fn(),
-      storeToken: jest.fn(),
-    } as any;
+beforeEach(() => {
+mockAuthRepository = {
+login: jest.fn(),
+getCurrentUser: jest.fn(),
+storeToken: jest.fn(),
+} as any;
 
     useCase = new LoginUseCase(mockAuthRepository);
-  });
 
-  it('should login successfully with valid credentials', async () => {
-    const mockToken = { accessToken: 'token', refreshToken: 'refresh' };
-    const mockUser = { id: '1', email: 'test@example.com', name: 'Test' };
+});
+
+it('should login successfully with valid credentials', async () => {
+const mockToken = { accessToken: 'token', refreshToken: 'refresh' };
+const mockUser = { id: '1', email: 'test@example.com', name: 'Test' };
 
     mockAuthRepository.login.mockResolvedValue(mockToken);
     mockAuthRepository.getCurrentUser.mockResolvedValue(mockUser);
@@ -439,18 +450,19 @@ describe('LoginUseCase', () => {
     expect(result.user).toEqual(mockUser);
     expect(result.token).toEqual(mockToken);
     expect(mockAuthRepository.storeToken).toHaveBeenCalledWith(mockToken);
-  });
 
-  it('should throw error for invalid email', async () => {
-    await expect(
-      useCase.execute('invalid-email', 'password123')
-    ).rejects.toThrow('Invalid email format');
-  });
+});
 
-  it('should throw error for short password', async () => {
-    await expect(
-      useCase.execute('test@example.com', '123')
-    ).rejects.toThrow('Password must be at least 8 characters');
-  });
+it('should throw error for invalid email', async () => {
+await expect(
+useCase.execute('invalid-email', 'password123')
+).rejects.toThrow('Invalid email format');
+});
+
+it('should throw error for short password', async () => {
+await expect(
+useCase.execute('test@example.com', '123')
+).rejects.toThrow('Password must be at least 8 characters');
+});
 });
 \`\`\`

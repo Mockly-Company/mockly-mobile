@@ -10,6 +10,7 @@ React Native 앱의 기능을 체계적으로 분석하고 Clean Architecture �
 ## Overview
 
 이 스킬은 React Native 앱 개발 시 다음을 제공:
+
 1. 요구사항 체계적 정리 및 분석
 2. 상세 기능 분석 및 데이터 모델링
 3. Clean Architecture 기반 설계
@@ -19,6 +20,7 @@ React Native 앱의 기능을 체계적으로 분석하고 Clean Architecture �
 ## When to Use
 
 다음과 같은 경우 이 스킬을 사용:
+
 - 새로운 기능을 추가할 때
 - 복잡한 화면을 구현할 때
 - 요구사항을 코드로 변환할 때
@@ -52,6 +54,7 @@ Phase 4: 구현 및 컨벤션 적용
 ### 1.1 요구사항 수집
 
 사용자에게 다음 질문:
+
 - 어떤 기능을 만들고 싶으신가요?
 - 주요 사용자는 누구인가요?
 - 이 기능으로 달성하고자 하는 목표는 무엇인가요?
@@ -59,6 +62,7 @@ Phase 4: 구현 및 컨벤션 적용
 ### 1.2 사용자 스토리 작성
 
 **형식:**
+
 ```
 As a [사용자 역할]
 I want to [목표/욕구]
@@ -66,6 +70,7 @@ So that [이유]
 ```
 
 **예시:**
+
 ```
 As a 앱 사용자
 I want to 로그인하고 내 프로필을 볼 수 있게
@@ -77,8 +82,10 @@ So that 개인화된 경험을 제공받을 수 있다
 요구사항을 구체적인 기능 목록으로 분해:
 
 **예시:**
+
 ```markdown
 ## 주요 기능
+
 1. 사용자 인증
    - 이메일/비밀번호 로그인
    - 소셜 로그인 (Google, Apple)
@@ -98,6 +105,7 @@ So that 개인화된 경험을 제공받을 수 있다
 ### 1.4 우선순위 설정
 
 각 기능에 우선순위 부여:
+
 - **P0 (Must Have)**: 핵심 기능, 반드시 필요
 - **P1 (Should Have)**: 중요하지만 나중에 가능
 - **P2 (Nice to Have)**: 있으면 좋음
@@ -109,6 +117,7 @@ So that 개인화된 경험을 제공받을 수 있다
 - 외부 의존성 (API, 서드파티 서비스)
 
 **Phase 1 완료 체크리스트:**
+
 - [ ] 사용자 스토리 작성
 - [ ] 기능 목록 정리
 - [ ] 우선순위 설정
@@ -130,6 +139,7 @@ So that 개인화된 경험을 제공받을 수 있다
 각 기능의 화면 흐름을 정의:
 
 **예시: 로그인 기능**
+
 ```
 Splash Screen
     ↓
@@ -143,27 +153,32 @@ Home Screen ←────────┘
 각 화면에 대해:
 
 **템플릿:**
+
 ```markdown
 ### [화면 이름]
 
 **목적:** [이 화면의 목적]
 
 **UI 요소:**
+
 - Input: 이메일, 비밀번호
 - Button: 로그인, 회원가입, 소셜 로그인
 - Link: 비밀번호 찾기
 
 **상태:**
+
 - Loading: 로그인 진행 중
 - Error: 로그인 실패 메시지
 - Success: 홈 화면으로 이동
 
 **사용자 액션:**
+
 1. 이메일/비밀번호 입력
 2. 로그인 버튼 클릭
 3. 자동 로그인 체크박스 토글
 
 **비즈니스 로직:**
+
 - 이메일 형식 검증
 - 비밀번호 최소 길이 검증
 - 로그인 API 호출
@@ -176,6 +191,7 @@ Home Screen ←────────┘
 필요한 Entity 정의:
 
 **예시:**
+
 ```typescript
 // User Entity
 interface User {
@@ -201,15 +217,19 @@ interface AuthToken {
 
 ```markdown
 ### POST /auth/login
+
 **Request:**
+
 - email: string
 - password: string
 
 **Response:**
+
 - user: User
 - token: AuthToken
 
 **Error:**
+
 - 400: Invalid credentials
 - 500: Server error
 ```
@@ -221,6 +241,7 @@ interface AuthToken {
 - **Persistent State**: 앱 재시작 후에도 유지
 
 **예시:**
+
 ```markdown
 - Local: 로그인 form 입력값, loading 상태
 - Global: 현재 로그인된 사용자 정보
@@ -230,6 +251,7 @@ interface AuthToken {
 ### 2.6 외부 라이브러리/서비스 파악
 
 필요한 라이브러리:
+
 ```markdown
 - react-navigation: 화면 네비게이션
 - axios: HTTP 통신
@@ -241,6 +263,7 @@ interface AuthToken {
 ```
 
 **Phase 2 완료 체크리스트:**
+
 - [ ] 화면 흐름 정의
 - [ ] 모든 화면 상세 분석
 - [ ] Entity 정의
@@ -309,6 +332,7 @@ export interface User {
 **네이밍 규칙:** `[Verb][Noun]UseCase`
 
 **예시:**
+
 ```typescript
 // src/domain/usecases/auth/LoginUseCase.ts
 export interface LoginUseCase {
@@ -496,6 +520,7 @@ src/
 ```
 
 **Phase 3 완료 체크리스트:**
+
 - [ ] Entities 정의
 - [ ] Use Cases 정의
 - [ ] Repository Interfaces 정의
@@ -516,6 +541,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 ### 4.1 프로젝트 컨벤션 로드
 
 프로젝트의 기존 컨벤션 확인:
+
 - 코딩 스타일 (ESLint, Prettier 설정)
 - 네이밍 규칙
 - 파일/폴더 구조
@@ -523,6 +549,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 - 스타일링 방식 (StyleSheet, Styled Components 등)
 
 **프로젝트 컨벤션 파일:**
+
 - `.claude/skills/project-guide.md`
 - `README.md`
 - `.eslintrc.js`, `prettier.config.js`
@@ -535,11 +562,13 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 #### Step 1: Domain Layer 구현
 
 **순서:**
+
 1. Entities 생성
 2. Repository Interfaces 생성
 3. Use Cases 구현
 
 **사용 템플릿:**
+
 - [Entity 템플릿](./templates/entity-template.md)
 - [Use Case 템플릿](./templates/usecase-template.md)
 - [Repository Interface 템플릿](./templates/repository-template.md)
@@ -547,16 +576,19 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 #### Step 2: Data Layer 구현
 
 **순서:**
+
 1. Data Sources 구현 (API, Storage)
 2. Repository 구현
 
 **사용 템플릿:**
+
 - [Data Source 템플릿](./templates/datasource-template.md)
 - [Repository Implementation 템플릿](./templates/repository-impl-template.md)
 
 #### Step 3: Infrastructure 구현
 
 **순서:**
+
 1. API Client 설정
 2. Storage 유틸리티 설정
 3. DI Container 설정
@@ -564,12 +596,14 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 #### Step 4: Presentation Layer 구현
 
 **순서:**
+
 1. Custom Hooks 구현
 2. Components 구현
 3. Screens 구현
 4. Navigation 설정
 
 **사용 템플릿:**
+
 - [Screen 템플릿](./templates/screen-template.md)
 - [Component 템플릿](./templates/component-template.md)
 - [Hook 템플릿](./templates/hook-template.md)
@@ -579,6 +613,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 각 파일 생성 시 자동 적용:
 
 1. **Import 순서:**
+
    ```typescript
    // 1. React/React Native
    import React from 'react';
@@ -627,6 +662,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 프로젝트 컨벤�
 각 레이어별 테스트:
 
 **Use Case 테스트:**
+
 ```typescript
 describe('LoginUseCase', () => {
   it('should login successfully with valid credentials', async () => {
@@ -652,12 +688,15 @@ describe('LoginUseCase', () => {
 # [기능명] 구현 문서
 
 ## 개요
+
 [기능 설명]
 
 ## 아키텍처
+
 [레이어 다이어그램]
 
 ## 주요 파일
+
 - Domain:
   - entities/User.ts
   - usecases/LoginUseCase.ts
@@ -667,13 +706,16 @@ describe('LoginUseCase', () => {
   - screens/LoginScreen.tsx
 
 ## 사용 방법
+
 [사용 예시]
 
 ## 테스트
+
 [테스트 실행 방법]
 ```
 
 **Phase 4 완료 체크리스트:**
+
 - [ ] 모든 레이어 구현 완료
 - [ ] 프로젝트 컨벤션 적용 확인
 - [ ] 테스트 코드 작성

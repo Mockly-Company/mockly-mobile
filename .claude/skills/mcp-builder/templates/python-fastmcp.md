@@ -65,7 +65,7 @@ if __name__ == "__main__":
     mcp.run()
 ```
 
-## tools/__init__.py
+## tools/**init**.py
 
 ```python
 """도구 모듈 패키지"""
@@ -358,12 +358,14 @@ python server.py
 ## 제공 도구
 
 ### 텍스트 도구
+
 - count_words: 단어 수 및 통계 계산
 - extract_emails: 이메일 주소 추출
 - extract_urls: URL 추출
 - format_text: 텍스트 포맷팅
 
 ### 데이터 도구
+
 - json_to_csv: JSON을 CSV로 변환
 - csv_to_json: CSV를 JSON으로 변환
 - validate_json: JSON 검증

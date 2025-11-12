@@ -186,7 +186,7 @@ describe('groupBy', () => {
     const data = [
       { category: 'A', value: 1 },
       { category: 'B', value: 2 },
-      { category: 'A', value: 3 }
+      { category: 'A', value: 3 },
     ];
 
     const result = groupBy(data, 'category');

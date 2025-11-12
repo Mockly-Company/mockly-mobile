@@ -19,6 +19,7 @@ MCP(Model Context Protocol) 서버를 생성하고 개발하기 위한 종합 �
 ## 포함 내용
 
 ### 메인 스킬 (SKILL.md)
+
 - MCP 개요 및 개념
 - Python FastMCP 가이드
 - Node.js MCP SDK 가이드
@@ -29,14 +30,18 @@ MCP(Model Context Protocol) 서버를 생성하고 개발하기 위한 종합 �
 ### 템플릿
 
 #### templates/python-fastmcp.md
+
 완전한 Python FastMCP 서버 템플릿:
+
 - 기본 프로젝트 구조
 - 여러 도구 예제
 - 에러 처리
 - 테스트 코드
 
 #### templates/nodejs-mcp.md
+
 완전한 Node.js MCP SDK 서버 템플릿:
+
 - TypeScript 설정
 - 타입 안전한 구현
 - 프로젝트 구조
@@ -91,12 +96,15 @@ npm start
 ## 예제 프로젝트
 
 ### 1. 날씨 API MCP 서버
+
 외부 날씨 API를 통합하여 날씨 정보를 제공
 
 ### 2. 데이터베이스 쿼리 MCP 서버
+
 SQL 데이터베이스 쿼리 실행 및 결과 반환
 
 ### 3. 파일 시스템 MCP 서버
+
 파일 읽기, 쓰기, 검색 기능 제공
 
 ## 개발 워크플로우
@@ -119,6 +127,7 @@ SQL 데이터베이스 쿼리 실행 및 결과 반환
 ## 트러블슈팅
 
 문제 발생 시:
+
 1. SKILL.md의 트러블슈팅 섹션 참고
 2. MCP 공식 문서 확인
 3. 로깅을 활성화하여 디버깅

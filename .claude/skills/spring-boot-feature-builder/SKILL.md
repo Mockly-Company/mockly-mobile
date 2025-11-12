@@ -10,6 +10,7 @@ Spring Boot 백엔드 API를 체계적으로 분석하고 Layered Architecture �
 ## Overview
 
 이 스킬은 Spring Boot 백엔드 개발 시 다음을 제공:
+
 1. RESTful API 요구사항 체계적 정리
 2. Entity, DTO, API 설계
 3. Layered Architecture 기반 설계 (Controller-Service-Repository)
@@ -19,6 +20,7 @@ Spring Boot 백엔드 API를 체계적으로 분석하고 Layered Architecture �
 ## When to Use
 
 다음과 같은 경우 이 스킬을 사용:
+
 - 새로운 RESTful API를 구현할 때
 - 복잡한 비즈니스 로직을 개발할 때
 - 데이터베이스 Entity 설계가 필요할 때
@@ -52,6 +54,7 @@ API 요구사항을 명확하고 구조화된 형태로 정리.
 ### 1.1 API 요구사항 수집
 
 사용자에게 다음 질문:
+
 - 어떤 API를 만들고 싶으신가요?
 - 주요 기능은 무엇인가요?
 - 어떤 데이터를 다루나요?
@@ -60,6 +63,7 @@ API 요구사항을 명확하고 구조화된 형태로 정리.
 ### 1.2 사용자 스토리 작성
 
 **형식:**
+
 ```
 As a [API 클라이언트]
 I want to [API 기능]
@@ -67,6 +71,7 @@ So that [목적]
 ```
 
 **예시:**
+
 ```
 As a 모바일 앱
 I want to GET /api/users/{id}로 사용자 정보를 조회
@@ -78,25 +83,29 @@ So that 사용자 프로필을 표시할 수 있다
 요구사항을 RESTful API 엔드포인트로 정리:
 
 **예시:**
+
 ```markdown
 ## User API
-- GET    /api/users          - 사용자 목록 조회
-- GET    /api/users/{id}     - 사용자 상세 조회
-- POST   /api/users          - 사용자 생성
-- PUT    /api/users/{id}     - 사용자 수정
-- DELETE /api/users/{id}     - 사용자 삭제
+
+- GET /api/users - 사용자 목록 조회
+- GET /api/users/{id} - 사용자 상세 조회
+- POST /api/users - 사용자 생성
+- PUT /api/users/{id} - 사용자 수정
+- DELETE /api/users/{id} - 사용자 삭제
 
 ## Auth API
-- POST   /api/auth/login     - 로그인
-- POST   /api/auth/logout    - 로그아웃
-- POST   /api/auth/refresh   - 토큰 갱신
+
+- POST /api/auth/login - 로그인
+- POST /api/auth/logout - 로그아웃
+- POST /api/auth/refresh - 토큰 갱신
 
 ## Post API
-- GET    /api/posts          - 게시글 목록 조회 (페이징, 검색)
-- GET    /api/posts/{id}     - 게시글 상세 조회
-- POST   /api/posts          - 게시글 작성
-- PUT    /api/posts/{id}     - 게시글 수정
-- DELETE /api/posts/{id}     - 게시글 삭제
+
+- GET /api/posts - 게시글 목록 조회 (페이징, 검색)
+- GET /api/posts/{id} - 게시글 상세 조회
+- POST /api/posts - 게시글 작성
+- PUT /api/posts/{id} - 게시글 수정
+- DELETE /api/posts/{id} - 게시글 삭제
 ```
 
 ### 1.4 우선순위 설정
@@ -113,6 +122,7 @@ So that 사용자 프로필을 표시할 수 있다
 - 보안 요구사항
 
 **Phase 1 완료 체크리스트:**
+
 - [ ] API 엔드포인트 목록 작성
 - [ ] 우선순위 설정
 - [ ] 제약사항 파악
@@ -133,6 +143,7 @@ So that 사용자 프로필을 표시할 수 있다
 데이터베이스 Entity 정의:
 
 **예시: User Entity**
+
 ```java
 @Entity
 @Table(name = "users")
@@ -172,6 +183,7 @@ public class User {
 Request/Response DTO 정의:
 
 **예시:**
+
 ```java
 // Request DTO
 public class CreateUserRequest {
@@ -205,36 +217,40 @@ public class UserResponse {
 각 엔드포인트의 상세 명세:
 
 **예시: POST /api/users**
+
 ```markdown
 ### POST /api/users
+
 사용자를 생성합니다.
 
 **Request Body:**
 \`\`\`json
 {
-  "email": "user@example.com",
-  "name": "John Doe",
-  "password": "password123"
+"email": "user@example.com",
+"name": "John Doe",
+"password": "password123"
 }
 \`\`\`
 
 **Response (201 Created):**
 \`\`\`json
 {
-  "id": 1,
-  "email": "user@example.com",
-  "name": "John Doe",
-  "profileImage": null,
-  "createdAt": "2024-01-01T00:00:00"
+"id": 1,
+"email": "user@example.com",
+"name": "John Doe",
+"profileImage": null,
+"createdAt": "2024-01-01T00:00:00"
 }
 \`\`\`
 
 **Error Responses:**
+
 - 400 Bad Request: 입력 검증 실패
 - 409 Conflict: 이메일 중복
 - 500 Internal Server Error: 서버 오류
 
 **Validation Rules:**
+
 - email: 필수, 이메일 형식, 최대 100자
 - name: 필수, 2-100자
 - password: 필수, 최소 8자
@@ -259,6 +275,7 @@ Category (N) ─── (N) Post (Many-to-Many)
 각 API의 비즈니스 규칙:
 
 **예시: 게시글 작성**
+
 ```markdown
 1. 인증된 사용자만 작성 가능
 2. 제목은 5자 이상, 200자 이하
@@ -269,6 +286,7 @@ Category (N) ─── (N) Post (Many-to-Many)
 ```
 
 **Phase 2 완료 체크리스트:**
+
 - [ ] Entity 설계 완료
 - [ ] DTO 설계 완료
 - [ ] API 명세서 작성
@@ -560,6 +578,7 @@ src/main/java/com/example/project/
 ```
 
 **Phase 3 완료 체크리스트:**
+
 - [ ] Entity 정의
 - [ ] Repository 정의
 - [ ] Service 정의
@@ -579,6 +598,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 Spring Boot 컨벤션
 ### 4.1 프로젝트 컨벤션 로드
 
 프로젝트의 기존 컨벤션 확인:
+
 - 패키지 구조
 - 네이밍 규칙
 - 어노테이션 스타일
@@ -612,6 +632,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 Spring Boot 컨벤션
 ### 4.3 컨벤션 자동 적용
 
 1. **어노테이션 순서:**
+
    ```java
    @Entity
    @Table(name = "users")
@@ -630,6 +651,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 Spring Boot 컨벤션
    - Controller: PascalCase + Controller (UserController)
 
 3. **Exception 처리:**
+
    ```java
    @ControllerAdvice
    public class GlobalExceptionHandler {
@@ -642,6 +664,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 Spring Boot 컨벤션
    ```
 
 4. **Response 형식:**
+
    ```java
    // 성공
    {
@@ -663,6 +686,7 @@ Phase 3의 설계를 바탕으로 실제 코드 구현 및 Spring Boot 컨벤션
 ### 4.4 테스트 코드 작성
 
 #### Repository 테스트
+
 ```java
 @DataJpaTest
 class PostRepositoryTest {
@@ -687,6 +711,7 @@ class PostRepositoryTest {
 ```
 
 #### Service 테스트
+
 ```java
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
@@ -715,6 +740,7 @@ class PostServiceTest {
 ```
 
 #### Controller 테스트
+
 ```java
 @WebMvcTest(PostController.class)
 class PostControllerTest {
@@ -740,6 +766,7 @@ class PostControllerTest {
 ```
 
 **Phase 4 완료 체크리스트:**
+
 - [ ] 모든 레이어 구현 완료
 - [ ] Spring Boot 컨벤션 적용
 - [ ] 테스트 코드 작성

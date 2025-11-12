@@ -14,6 +14,7 @@ describe('useCustomHook', () => {
 ## 필수 테스트 케이스
 
 ### 1. 초기화 테스트
+
 Hook의 초기 상태 확인
 
 ```typescript
@@ -34,6 +35,7 @@ it('should initialize with provided values', () => {
 ```
 
 ### 2. 상태 업데이트 테스트
+
 Hook의 상태 변경 함수 테스트
 
 ```typescript
@@ -60,6 +62,7 @@ it('should handle multiple state updates', () => {
 ```
 
 ### 3. 비동기 작업 테스트
+
 비동기 데이터 로딩 테스트
 
 ```typescript
@@ -88,6 +91,7 @@ it('should handle fetch errors', async () => {
 ```
 
 ### 4. Effect 테스트
+
 useEffect 동작 확인
 
 ```typescript
@@ -123,6 +127,7 @@ it('should run effect on dependency change', () => {
 ```
 
 ### 5. Cleanup 테스트
+
 Effect cleanup 함수 확인
 
 ```typescript
@@ -219,9 +224,7 @@ it('should fetch and cache data', async () => {
   );
   global.fetch = mockFetch;
 
-  const { result, waitForNextUpdate } = renderHook(() =>
-    useFetch('/api/data')
-  );
+  const { result, waitForNextUpdate } = renderHook(() => useFetch('/api/data'));
 
   await waitForNextUpdate();
 
@@ -264,10 +267,9 @@ it('should increment counter every second', () => {
 
 ```typescript
 it('should update when props change', () => {
-  const { result, rerender } = renderHook(
-    ({ id }) => useFetchUser(id),
-    { initialProps: { id: 1 } }
-  );
+  const { result, rerender } = renderHook(({ id }) => useFetchUser(id), {
+    initialProps: { id: 1 },
+  });
 
   expect(result.current.userId).toBe(1);
 
@@ -281,9 +283,7 @@ it('should update when props change', () => {
 
 ```typescript
 it('should handle errors gracefully', async () => {
-  const { result, waitForNextUpdate } = renderHook(() =>
-    useCustomHook({ throwError: true })
-  );
+  const { result, waitForNextUpdate } = renderHook(() => useCustomHook({ throwError: true }));
 
   await waitForNextUpdate();
 
@@ -300,7 +300,7 @@ beforeEach(() => {
   const localStorageMock = {
     getItem: jest.fn(),
     setItem: jest.fn(),
-    clear: jest.fn()
+    clear: jest.fn(),
   };
   global.localStorage = localStorageMock;
 

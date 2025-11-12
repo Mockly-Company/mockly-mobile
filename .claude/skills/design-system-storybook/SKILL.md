@@ -10,14 +10,16 @@ description: 디자인 시스템 컴포넌트를 만들 때 자동으로 Storybo
 ## Purpose
 
 이 스킬은 다음 작업을 자동화:
-1. 컴포넌트에 대한 Storybook stories 파일 생성 (*.stories.tsx)
-2. 컴포넌트 문서 파일 생성 (*.md)
+
+1. 컴포넌트에 대한 Storybook stories 파일 생성 (\*.stories.tsx)
+2. 컴포넌트 문서 파일 생성 (\*.md)
 3. 다양한 variant 및 props 예제 작성
 4. 접근성(a11y) 정보 포함
 
 ## When to Use
 
 다음과 같은 경우 이 스킬을 사용:
+
 - 새로운 디자인 시스템 컴포넌트를 만들었을 때
 - 기존 컴포넌트에 Storybook 스토리 추가가 필요할 때
 - 컴포넌트 문서를 작성해야 할 때
@@ -28,6 +30,7 @@ description: 디자인 시스템 컴포넌트를 만들 때 자동으로 Storybo
 ### Step 1: 컴포넌트 분석
 
 먼저 대상 컴포넌트 파일을 읽어서 다음 정보를 파악:
+
 - 컴포넌트 이름
 - Props 인터페이스 (TypeScript 타입)
 - 기본 props (defaultProps)
@@ -35,6 +38,7 @@ description: 디자인 시스템 컴포넌트를 만들 때 자동으로 Storybo
 - 필수/선택 props
 
 **예시:**
+
 ```typescript
 interface ButtonProps {
   children: React.ReactNode;
@@ -52,6 +56,7 @@ interface ButtonProps {
 **사용할 템플릿:** [templates/storybook-story.md](./templates/storybook-story.md)
 
 **생성 규칙:**
+
 1. **Meta 정보 설정**
    - title: 컴포넌트 경로 (예: "Components/Button")
    - component: 컴포넌트 import
@@ -77,6 +82,7 @@ interface ButtonProps {
    - 접근성 테스트를 위한 story
 
 **Args 타입 지정:**
+
 - Storybook 7.x+ 스타일 사용
 - `satisfies Meta<typeof Component>` 사용
 - StoryObj 타입 활용
@@ -88,11 +94,13 @@ interface ButtonProps {
 **사용할 템플릿:** [templates/component-docs.md](./templates/component-docs.md)
 
 **문서 구조:**
+
 1. **개요**
    - 컴포넌트 설명
    - 주요 사용 사례
 
 2. **설치 및 Import**
+
    ```tsx
    import { Button } from '@/components/Button';
    ```
@@ -126,6 +134,7 @@ interface ButtonProps {
 프로젝트에 Storybook이 설정되어 있는지 확인:
 
 **필요한 패키지:**
+
 ```json
 {
   "devDependencies": {
@@ -138,6 +147,7 @@ interface ButtonProps {
 ```
 
 **설정 파일 확인:**
+
 - `.storybook/main.ts` 또는 `.storybook/main.js`
 - `.storybook/preview.ts` 또는 `.storybook/preview.js`
 
@@ -146,6 +156,7 @@ interface ButtonProps {
 ### Step 5: 파일 위치 규칙
 
 **표준 구조:**
+
 ```
 src/components/Button/
 ├── Button.tsx              # 컴포넌트
@@ -170,18 +181,21 @@ src/components/
 ## Best Practices
 
 ### Story 작성
+
 1. **실제 사용 사례 반영**: 실제로 사용될 법한 예제 작성
 2. **모든 variants 커버**: 모든 가능한 조합 포함
 3. **Interactive controls**: args를 통해 실시간 조작 가능하게
 4. **Accessibility 고려**: a11y addon으로 접근성 검증
 
 ### 문서 작성
+
 1. **명확한 설명**: 비개발자도 이해할 수 있게
 2. **풍부한 예제**: 다양한 사용 시나리오 제공
 3. **Do's and Don'ts**: 좋은 예시와 나쁜 예시
 4. **디자인 토큰 참조**: 색상, 간격 등 디자인 토큰 명시
 
 ### 코드 품질
+
 1. **타입 안전성**: TypeScript 타입 완전 활용
 2. **재사용성**: 공통 args는 별도로 정의
 3. **성능**: decorators 활용으로 중복 제거
@@ -192,6 +206,7 @@ src/components/
 ### 기본 Button 컴포넌트
 
 **입력 (Button.tsx):**
+
 ```typescript
 interface ButtonProps {
   children: React.ReactNode;

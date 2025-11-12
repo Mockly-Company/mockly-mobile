@@ -36,12 +36,14 @@ React Native 앱 기능을 체계적으로 분석하고 Clean Architecture 기�
 스킬이 4단계로 안내합니다:
 
 #### Phase 1: 요구사항 정리
+
 - 사용자 스토리 작성
 - 기능 목록 정리
 - 우선순위 설정 (P0/P1/P2)
 - 제약사항 파악
 
 #### Phase 2: 상세 기능 분석
+
 - 화면 흐름 정의
 - 화면별 상세 분석
 - Entity 정의
@@ -49,12 +51,14 @@ React Native 앱 기능을 체계적으로 분석하고 Clean Architecture 기�
 - 필요한 라이브러리 파악
 
 #### Phase 3: Clean Architecture 설계
+
 - Domain Layer 설계 (Entities, Use Cases, Repositories)
 - Data Layer 설계 (Repository 구현, Data Sources)
 - Presentation Layer 설계 (Screens, Hooks, Components)
 - 파일 구조 설계
 
 #### Phase 4: 구현 및 컨벤션 적용
+
 - 프로젝트 컨벤션 적용
 - 레이어별 구현
 - 테스트 코드 작성
@@ -75,16 +79,19 @@ Infrastructure (API, Storage)
 ### 레이어별 책임
 
 **Domain Layer (핵심):**
+
 - Entities: 비즈니스 데이터 모델
 - Use Cases: 비즈니스 로직
 - Repository Interfaces: 데이터 접근 추상화
 
 **Data Layer:**
+
 - Repository Implementations
 - Data Sources (API, Storage)
 - DTO ↔ Entity 변환
 
 **Presentation Layer:**
+
 - Screens: 전체 화면
 - Components: 재사용 UI
 - Hooks: 비즈니스 로직과 UI 연결
@@ -94,6 +101,7 @@ Infrastructure (API, Storage)
 ### 예제 1: 로그인 기능
 
 **Phase 1 - 요구사항:**
+
 ```
 As a 앱 사용자
 I want to 이메일/비밀번호로 로그인
@@ -106,6 +114,7 @@ So that 내 계정에 접근할 수 있다
 ```
 
 **Phase 2 - 분석:**
+
 ```
 화면: Login Screen → Home Screen
 
@@ -119,6 +128,7 @@ API:
 ```
 
 **Phase 3 - 설계:**
+
 ```
 Domain:
 - entities/User.ts
@@ -140,11 +150,13 @@ Presentation:
 ### 예제 2: 게시글 목록 기능
 
 **간단한 요청:**
+
 ```
 "게시글 목록 기능 만들어줘. 무한 스크롤, 새로고침, 검색 기능이 필요해"
 ```
 
 **자동 생성:**
+
 - Domain: Post Entity, GetPostsUseCase
 - Data: PostRepositoryImpl, PostApiDataSource
 - Presentation: PostListScreen, usePosts Hook
@@ -323,23 +335,27 @@ Phase 4: 구현
 ## 체크리스트
 
 ### Phase 1 완료
+
 - [ ] 사용자 스토리 작성
 - [ ] 기능 목록 정리
 - [ ] 우선순위 설정
 - [ ] 제약사항 파악
 
 ### Phase 2 완료
+
 - [ ] 화면 흐름 정의
 - [ ] 모든 화면 상세 분석
 - [ ] Entity 정의
 - [ ] API 엔드포인트 정의
 
 ### Phase 3 완료
+
 - [ ] Use Cases 정의
 - [ ] Repository Interfaces 정의
 - [ ] 파일 구조 설계
 
 ### Phase 4 완료
+
 - [ ] 모든 레이어 구현
 - [ ] 테스트 코드 작성
 - [ ] 문서 작성
@@ -347,6 +363,7 @@ Phase 4: 구현
 ## 변경 이력
 
 ### v1.0.0
+
 - 초기 릴리즈
 - 4단계 워크플로우
 - Clean Architecture 템플릿
