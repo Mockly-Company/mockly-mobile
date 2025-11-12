@@ -1,10 +1,10 @@
 {
-  "extends": "@mockly/typescript-config/react-native.json",
+  "extends": "@mockly/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
     "moduleResolution": "bundler"
   },
-  "include": ["src/**/*", "nativewind-env.d.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
