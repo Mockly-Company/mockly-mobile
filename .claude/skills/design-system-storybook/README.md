@@ -5,8 +5,9 @@
 ## 개요
 
 새로운 디자인 시스템 컴포넌트를 만들면 자동으로:
-1. **Storybook stories 파일** (*.stories.tsx) 생성
-2. **컴포넌트 문서** (*.md) 생성
+
+1. **Storybook stories 파일** (\*.stories.tsx) 생성
+2. **컴포넌트 문서** (\*.md) 생성
 3. 다양한 **variants와 examples** 포함
 4. **접근성(a11y) 정보** 추가
 
@@ -51,13 +52,14 @@ export const Button: React.FC<ButtonProps> = ({ ... }) => {
 ### 3. 자동 생성
 
 스킬이 자동으로:
+
 - `Button.stories.tsx` 생성
 - `Button.md` 생성
 - 모든 variants와 사용 예제 포함
 
 ## 생성되는 파일
 
-### Storybook Stories (*.stories.tsx)
+### Storybook Stories (\*.stories.tsx)
 
 ```typescript
 import type { Meta, StoryObj } from '@storybook/react';
@@ -84,6 +86,7 @@ export const AllVariants: Story = { ... };
 ```
 
 **포함되는 Stories:**
+
 - Default - 기본 사용 예제
 - 각 Variant별 Story
 - 각 Size별 Story
@@ -92,7 +95,7 @@ export const AllVariants: Story = { ... };
 - AllVariants Story (한눈에 보기)
 - Accessibility Story
 
-### 컴포넌트 문서 (*.md)
+### 컴포넌트 문서 (\*.md)
 
 ```markdown
 # Button
@@ -100,16 +103,24 @@ export const AllVariants: Story = { ... };
 버튼 컴포넌트 설명...
 
 ## 설치 및 Import
+
 ## 기본 사용법
+
 ## Props (완전한 테이블)
+
 ## Variants (각 variant 설명 + 예제)
+
 ## 예제 (다양한 사용 시나리오)
+
 ## 접근성 (ARIA, 키보드, 스크린 리더)
+
 ## 디자인 가이드라인 (Do's and Don'ts)
+
 ## 관련 컴포넌트
 ```
 
 **포함되는 섹션:**
+
 - 개요 및 설명
 - 설치 및 Import
 - 기본 사용법
@@ -146,16 +157,19 @@ src/components/
 ## 지원하는 컴포넌트 타입
 
 ### 기본 컴포넌트
+
 - Button, Input, Checkbox, Radio, Switch
 - Card, Badge, Tag, Chip
 - Avatar, Icon, Image
 
 ### 복잡한 컴포넌트
+
 - Modal, Dropdown, Tooltip, Popover
 - Tabs, Accordion, Collapse
 - DataTable, Pagination, Select
 
 ### 레이아웃 컴포넌트
+
 - Container, Grid, Stack, Flex
 - Divider, Spacer
 
@@ -166,6 +180,7 @@ src/components/
 ### 예제 1: Button 컴포넌트
 
 **입력:**
+
 ```tsx
 interface ButtonProps {
   children: React.ReactNode;
@@ -176,6 +191,7 @@ interface ButtonProps {
 ```
 
 **출력:**
+
 ```
 ✅ Storybook Stories 생성 완료
 📁 파일: src/components/Button/Button.stories.tsx
@@ -197,6 +213,7 @@ interface ButtonProps {
 ### 예제 2: Modal 컴포넌트
 
 **입력:**
+
 ```tsx
 interface ModalProps {
   isOpen: boolean;
@@ -208,6 +225,7 @@ interface ModalProps {
 ```
 
 **출력:**
+
 - 상태 관리가 포함된 Interactive stories
 - 다양한 size variants
 - closeOnOverlayClick 등 옵션별 stories
@@ -241,6 +259,7 @@ npm run storybook
 이 스킬은 다음 템플릿을 사용합니다:
 
 ### 1. [Storybook Story 템플릿](./templates/storybook-story.md)
+
 - 기본 story 구조
 - ArgTypes 패턴
 - 다양한 story 타입 예제
@@ -248,6 +267,7 @@ npm run storybook
 - Play function (interaction testing)
 
 ### 2. [컴포넌트 문서 템플릿](./templates/component-docs.md)
+
 - 문서 구조
 - Props 테이블 형식
 - 예제 작성 방법
@@ -255,6 +275,7 @@ npm run storybook
 - 디자인 가이드라인
 
 ### 3. [복잡한 컴포넌트 예제](./templates/complex-component-example.md)
+
 - Modal, Dropdown, DataTable 예제
 - 상태 관리가 필요한 컴포넌트
 - Wrapper 컴포넌트 패턴
@@ -263,18 +284,21 @@ npm run storybook
 ## Best Practices
 
 ### Story 작성
+
 1. ✅ 실제 사용 사례를 반영한 예제
 2. ✅ 모든 variants와 states 커버
 3. ✅ Interactive controls로 실시간 조작 가능
 4. ✅ a11y addon으로 접근성 검증
 
 ### 문서 작성
+
 1. ✅ 비개발자도 이해할 수 있는 명확한 설명
 2. ✅ 풍부한 코드 예제
 3. ✅ Do's and Don'ts 포함
 4. ✅ 디자인 토큰 참조
 
 ### 코드 품질
+
 1. ✅ TypeScript 타입 완전 활용
 2. ✅ 공통 args는 별도로 정의하여 재사용
 3. ✅ Decorators로 중복 제거
@@ -300,17 +324,21 @@ npm run storybook
 ## 트러블슈팅
 
 ### Storybook이 설치되지 않았어요
+
 ```bash
 npx storybook@latest init
 ```
 
 ### Stories가 표시되지 않아요
+
 `.storybook/main.ts`의 `stories` 패턴을 확인하세요:
+
 ```typescript
-stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)']
+stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'];
 ```
 
 ### 타입 에러가 발생해요
+
 `@storybook/react` 버전이 7.x 이상인지 확인하세요.
 
 ## 추가 리소스
@@ -322,6 +350,7 @@ stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)']
 ## 변경 이력
 
 ### v1.0.0
+
 - 초기 릴리즈
 - Button, Input, Modal 등 기본 컴포넌트 지원
 - Storybook 7.x 호환

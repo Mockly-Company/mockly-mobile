@@ -20,12 +20,14 @@ git status --short
 ```
 
 다음 기준으로 파일 타입을 자동 분류:
+
 - **프론트엔드**: `*.tsx`, `*.jsx`, `src/components/*`, `src/hooks/*`, `src/pages/*`
 - **백엔드**: `*.controller.ts`, `*.service.ts`, `*.route.ts`, `src/api/*`, `src/services/*`
 
 ### 2단계: 코드 분석
 
 변경된 각 파일을 읽고 다음 요소를 파악:
+
 - 새로 추가된 함수/메서드
 - 변경된 함수 시그니처
 - 새로운 컴포넌트
@@ -38,11 +40,13 @@ git status --short
 파일 타입에 따라 적절한 테스트 전략을 선택:
 
 #### 프론트엔드 테스트
+
 - **React 컴포넌트**: `templates/frontend-component-test.md` 참고
 - **Custom Hooks**: `templates/frontend-hook-test.md` 참고
 - **유틸리티 함수**: `templates/frontend-util-test.md` 참고
 
 #### 백엔드 테스트
+
 - **API 엔드포인트**: `templates/backend-api-test.md` 참고
 - **Service 레이어**: `templates/backend-service-test.md` 참고
 - **Repository**: `templates/backend-repository-test.md` 참고
@@ -52,6 +56,7 @@ git status --short
 **중요**: 모든 테스트 파일은 `FORMS.md`에 정의된 출력 형식을 따라야 합니다.
 
 #### 테스트 파일 위치 규칙
+
 - **프론트엔드**: 소스 파일과 같은 디렉토리
   - `ComponentName.tsx` → `ComponentName.test.tsx`
   - `useHook.ts` → `useHook.test.ts`
@@ -60,7 +65,9 @@ git status --short
   - `user.controller.ts` → `user.controller.test.ts`
 
 #### 출력 형식 (FORMS.md 참고)
+
 생성되는 테스트 파일은 다음 구조를 따릅니다:
+
 - 파일 메타데이터 (주석)
 - Import 문
 - describe 블록 (섹션별 구분)
@@ -71,6 +78,7 @@ git status --short
 자세한 형식은 `FORMS.md` 문서를 참고하세요.
 
 #### 기존 테스트 파일이 있는 경우
+
 1. 파일을 읽어 현재 테스트 케이스 파악
 2. 변경된 코드에 맞춰 테스트 업데이트
 3. 새로운 기능에 대한 테스트 추가
@@ -115,6 +123,7 @@ git status --short
 생성된 모든 테스트는 다음 기준을 충족해야 합니다:
 
 ### 공통 기준
+
 - [ ] 테스트 이름이 명확하고 설명적
 - [ ] Arrange-Act-Assert 패턴 준수
 - [ ] 테스트가 독립적이고 순서에 의존하지 않음
@@ -122,12 +131,14 @@ git status --short
 - [ ] 엣지 케이스를 다룸
 
 ### 프론트엔드 추가 기준
+
 - [ ] 사용자 시나리오를 테스트
 - [ ] 접근성(a11y)을 고려
 - [ ] 비동기 작업을 올바르게 처리
 - [ ] 에러 상태를 테스트
 
 ### 백엔드 추가 기준
+
 - [ ] 인증/인가를 테스트
 - [ ] 입력 검증을 테스트
 - [ ] DB 트랜잭션을 올바르게 처리
@@ -172,6 +183,7 @@ auto-test-generator
 ```
 
 설치되지 않은 경우:
+
 ```bash
 npm install --save-dev @testing-library/react @testing-library/react-hooks @testing-library/jest-dom jest supertest @types/jest @types/supertest
 ```

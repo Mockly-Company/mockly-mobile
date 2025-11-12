@@ -18,27 +18,21 @@ describe('API Endpoint Tests', () => {
 ```typescript
 describe('GET /api/resource', () => {
   it('should return all resources', async () => {
-    const response = await request(app)
-      .get('/api/resource')
-      .expect(200);
+    const response = await request(app).get('/api/resource').expect(200);
 
     expect(response.body).toBeInstanceOf(Array);
     expect(response.body.length).toBeGreaterThan(0);
   });
 
   it('should return resource by id', async () => {
-    const response = await request(app)
-      .get('/api/resource/1')
-      .expect(200);
+    const response = await request(app).get('/api/resource/1').expect(200);
 
     expect(response.body).toHaveProperty('id', 1);
     expect(response.body).toHaveProperty('name');
   });
 
   it('should return 404 for non-existent resource', async () => {
-    const response = await request(app)
-      .get('/api/resource/999999')
-      .expect(404);
+    const response = await request(app).get('/api/resource/999999').expect(404);
 
     expect(response.body).toHaveProperty('error');
   });
@@ -52,13 +46,10 @@ describe('POST /api/resource', () => {
   it('should create new resource', async () => {
     const newResource = {
       name: 'Test Resource',
-      description: 'Test Description'
+      description: 'Test Description',
     };
 
-    const response = await request(app)
-      .post('/api/resource')
-      .send(newResource)
-      .expect(201);
+    const response = await request(app).post('/api/resource').send(newResource).expect(201);
 
     expect(response.body).toHaveProperty('id');
     expect(response.body.name).toBe(newResource.name);
@@ -66,10 +57,7 @@ describe('POST /api/resource', () => {
   });
 
   it('should validate required fields', async () => {
-    const response = await request(app)
-      .post('/api/resource')
-      .send({})
-      .expect(400);
+    const response = await request(app).post('/api/resource').send({}).expect(400);
 
     expect(response.body).toHaveProperty('error');
     expect(response.body.error).toContain('required');
@@ -88,16 +76,10 @@ describe('POST /api/resource', () => {
     const resource = { name: 'Unique Name' };
 
     // First creation should succeed
-    await request(app)
-      .post('/api/resource')
-      .send(resource)
-      .expect(201);
+    await request(app).post('/api/resource').send(resource).expect(201);
 
     // Second creation with same name should fail
-    const response = await request(app)
-      .post('/api/resource')
-      .send(resource)
-      .expect(409);
+    const response = await request(app).post('/api/resource').send(resource).expect(409);
 
     expect(response.body.error).toContain('already exists');
   });
@@ -111,23 +93,17 @@ describe('PUT /api/resource/:id', () => {
   it('should update existing resource', async () => {
     const updates = {
       name: 'Updated Name',
-      description: 'Updated Description'
+      description: 'Updated Description',
     };
 
-    const response = await request(app)
-      .put('/api/resource/1')
-      .send(updates)
-      .expect(200);
+    const response = await request(app).put('/api/resource/1').send(updates).expect(200);
 
     expect(response.body.name).toBe(updates.name);
     expect(response.body.description).toBe(updates.description);
   });
 
   it('should return 404 for non-existent resource', async () => {
-    await request(app)
-      .put('/api/resource/999999')
-      .send({ name: 'Test' })
-      .expect(404);
+    await request(app).put('/api/resource/999999').send({ name: 'Test' }).expect(404);
   });
 
   it('should validate update data', async () => {
@@ -157,32 +133,22 @@ describe('PATCH /api/resource/:id', () => {
 ```typescript
 describe('DELETE /api/resource/:id', () => {
   it('should delete resource', async () => {
-    await request(app)
-      .delete('/api/resource/1')
-      .expect(204);
+    await request(app).delete('/api/resource/1').expect(204);
 
     // Verify deletion
-    await request(app)
-      .get('/api/resource/1')
-      .expect(404);
+    await request(app).get('/api/resource/1').expect(404);
   });
 
   it('should return 404 for non-existent resource', async () => {
-    await request(app)
-      .delete('/api/resource/999999')
-      .expect(404);
+    await request(app).delete('/api/resource/999999').expect(404);
   });
 
   it('should handle cascading deletes', async () => {
     // Delete parent
-    await request(app)
-      .delete('/api/parent/1')
-      .expect(204);
+    await request(app).delete('/api/parent/1').expect(204);
 
     // Verify children are also deleted
-    const response = await request(app)
-      .get('/api/parent/1/children')
-      .expect(200);
+    const response = await request(app).get('/api/parent/1/children').expect(200);
 
     expect(response.body).toHaveLength(0);
   });
@@ -196,9 +162,7 @@ describe('DELETE /api/resource/:id', () => {
 ```typescript
 describe('Authentication', () => {
   it('should return 401 without token', async () => {
-    await request(app)
-      .get('/api/protected')
-      .expect(401);
+    await request(app).get('/api/protected').expect(401);
   });
 
   it('should return 401 with invalid token', async () => {
@@ -297,14 +261,11 @@ describe('Query Parameters', () => {
   });
 
   it('should search by keyword', async () => {
-    const response = await request(app)
-      .get('/api/resource')
-      .query({ search: 'test' })
-      .expect(200);
+    const response = await request(app).get('/api/resource').query({ search: 'test' }).expect(200);
 
-    expect(response.body.every(r =>
-      r.name.includes('test') || r.description.includes('test')
-    )).toBe(true);
+    expect(
+      response.body.every(r => r.name.includes('test') || r.description.includes('test'))
+    ).toBe(true);
   });
 });
 ```
@@ -317,9 +278,7 @@ describe('Error Handling', () => {
     // Mock database failure
     jest.spyOn(db, 'query').mockRejectedValueOnce(new Error('DB Error'));
 
-    const response = await request(app)
-      .get('/api/resource')
-      .expect(500);
+    const response = await request(app).get('/api/resource').expect(500);
 
     expect(response.body).toHaveProperty('error');
     expect(response.body.error).toContain('Internal Server Error');
@@ -335,9 +294,7 @@ describe('Error Handling', () => {
   });
 
   it('should not expose sensitive error details', async () => {
-    const response = await request(app)
-      .get('/api/resource/invalid')
-      .expect(400);
+    const response = await request(app).get('/api/resource/invalid').expect(400);
 
     expect(response.body.error).not.toContain('stack');
     expect(response.body.error).not.toContain('SQL');
@@ -368,10 +325,7 @@ describe('File Upload', () => {
   it('should validate file size', async () => {
     const largeBuffer = Buffer.alloc(10 * 1024 * 1024); // 10MB
 
-    await request(app)
-      .post('/api/upload')
-      .attach('file', largeBuffer, 'large.txt')
-      .expect(413);
+    await request(app).post('/api/upload').attach('file', largeBuffer, 'large.txt').expect(413);
   });
 });
 ```

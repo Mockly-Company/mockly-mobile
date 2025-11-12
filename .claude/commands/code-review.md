@@ -47,5 +47,6 @@ description: 변경된 파일을 자동 감지하여 적절한 코드 리뷰를 
 ---
 
 **참고**: 특정 영역만 리뷰하고 싶다면:
+
 - `/review-frontend` - 프론트엔드 전용 리뷰
 - `/review-backend` - 백엔드 전용 리뷰

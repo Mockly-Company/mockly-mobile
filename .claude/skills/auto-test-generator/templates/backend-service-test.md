@@ -34,7 +34,7 @@ describe('getData', () => {
   it('should return all data', async () => {
     const mockData = [
       { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' }
+      { id: 2, name: 'Item 2' },
     ];
 
     mockRepository.findAll.mockResolvedValue(mockData);
@@ -83,9 +83,7 @@ describe('createData', () => {
   it('should validate input before creation', async () => {
     const invalidInput = { name: '' };
 
-    await expect(service.createData(invalidInput)).rejects.toThrow(
-      'Name is required'
-    );
+    await expect(service.createData(invalidInput)).rejects.toThrow('Name is required');
 
     expect(mockRepository.create).not.toHaveBeenCalled();
   });
@@ -95,9 +93,7 @@ describe('createData', () => {
 
     mockRepository.findByName.mockResolvedValue({ id: 1, name: 'Duplicate' });
 
-    await expect(service.createData(input)).rejects.toThrow(
-      'Data already exists'
-    );
+    await expect(service.createData(input)).rejects.toThrow('Data already exists');
   });
 });
 ```
@@ -123,9 +119,7 @@ describe('updateData', () => {
   it('should throw error when updating non-existent data', async () => {
     mockRepository.findById.mockResolvedValue(null);
 
-    await expect(service.updateData(999, { name: 'Test' })).rejects.toThrow(
-      'Data not found'
-    );
+    await expect(service.updateData(999, { name: 'Test' })).rejects.toThrow('Data not found');
   });
 
   it('should validate updates', async () => {
@@ -133,9 +127,7 @@ describe('updateData', () => {
 
     mockRepository.findById.mockResolvedValue(existing);
 
-    await expect(service.updateData(1, { name: '' })).rejects.toThrow(
-      'Invalid name'
-    );
+    await expect(service.updateData(1, { name: '' })).rejects.toThrow('Invalid name');
   });
 });
 ```
@@ -185,9 +177,7 @@ describe('processOrder', () => {
   it('should process order successfully', async () => {
     const order = {
       userId: 1,
-      items: [
-        { productId: 1, quantity: 2, price: 10 }
-      ]
+      items: [{ productId: 1, quantity: 2, price: 10 }],
     };
 
     mockRepository.getUser.mockResolvedValue({ id: 1, balance: 100 });
@@ -206,14 +196,12 @@ describe('processOrder', () => {
   it('should reject order with insufficient balance', async () => {
     const order = {
       userId: 1,
-      items: [{ productId: 1, quantity: 2, price: 100 }]
+      items: [{ productId: 1, quantity: 2, price: 100 }],
     };
 
     mockRepository.getUser.mockResolvedValue({ id: 1, balance: 50 });
 
-    await expect(service.processOrder(order)).rejects.toThrow(
-      'Insufficient balance'
-    );
+    await expect(service.processOrder(order)).rejects.toThrow('Insufficient balance');
 
     expect(mockRepository.createOrder).not.toHaveBeenCalled();
   });
@@ -221,15 +209,13 @@ describe('processOrder', () => {
   it('should reject order with insufficient stock', async () => {
     const order = {
       userId: 1,
-      items: [{ productId: 1, quantity: 10, price: 10 }]
+      items: [{ productId: 1, quantity: 10, price: 10 }],
     };
 
     mockRepository.getUser.mockResolvedValue({ id: 1, balance: 1000 });
     mockRepository.getProduct.mockResolvedValue({ id: 1, stock: 5 });
 
-    await expect(service.processOrder(order)).rejects.toThrow(
-      'Insufficient stock'
-    );
+    await expect(service.processOrder(order)).rejects.toThrow('Insufficient stock');
   });
 });
 ```
@@ -275,7 +261,7 @@ describe('fetchExternalData', () => {
 
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       ok: true,
-      json: async () => mockResponse
+      json: async () => mockResponse,
     } as Response);
 
     const result = await service.fetchExternalData();
@@ -287,12 +273,10 @@ describe('fetchExternalData', () => {
   it('should handle API errors', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValueOnce({
       ok: false,
-      status: 500
+      status: 500,
     } as Response);
 
-    await expect(service.fetchExternalData()).rejects.toThrow(
-      'External API error'
-    );
+    await expect(service.fetchExternalData()).rejects.toThrow('External API error');
   });
 
   it('should retry on failure', async () => {
@@ -302,7 +286,7 @@ describe('fetchExternalData', () => {
       .mockRejectedValueOnce(new Error('Network error'))
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ data: 'success' })
+        json: async () => ({ data: 'success' }),
       } as Response);
 
     const result = await service.fetchExternalData();
@@ -321,7 +305,7 @@ describe('sendNotification', () => {
 
   beforeEach(() => {
     mockEmailService = {
-      send: jest.fn().mockResolvedValue(true)
+      send: jest.fn().mockResolvedValue(true),
     } as any;
     service = new ServiceName(mockRepository, mockEmailService);
   });
@@ -336,7 +320,7 @@ describe('sendNotification', () => {
     expect(mockEmailService.send).toHaveBeenCalledWith({
       to: 'user@example.com',
       subject: 'Notification',
-      body: 'Test message'
+      body: 'Test message',
     });
   });
 
@@ -360,7 +344,7 @@ describe('caching', () => {
   beforeEach(() => {
     mockCache = {
       get: jest.fn(),
-      set: jest.fn()
+      set: jest.fn(),
     } as any;
     service = new ServiceName(mockRepository, mockCache);
   });
@@ -403,9 +387,7 @@ describe('caching', () => {
 ```typescript
 describe('error handling', () => {
   it('should handle database connection errors', async () => {
-    mockRepository.findAll.mockRejectedValue(
-      new Error('Connection timeout')
-    );
+    mockRepository.findAll.mockRejectedValue(new Error('Connection timeout'));
 
     await expect(service.getData()).rejects.toThrow('Connection timeout');
   });
@@ -449,9 +431,7 @@ describe('authorization', () => {
 
     mockRepository.findById.mockResolvedValue(resource);
 
-    await expect(
-      service.getResource(1, { userId: 2 })
-    ).rejects.toThrow('Access denied');
+    await expect(service.getResource(1, { userId: 2 })).rejects.toThrow('Access denied');
   });
 
   it('should allow admin to access any resource', async () => {

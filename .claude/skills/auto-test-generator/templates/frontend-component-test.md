@@ -14,6 +14,7 @@ describe('ComponentName', () => {
 ## 필수 테스트 케이스
 
 ### 1. 렌더링 테스트
+
 컴포넌트가 올바르게 렌더링되는지 확인
 
 ```typescript
@@ -29,6 +30,7 @@ it('should render with default props', () => {
 ```
 
 ### 2. Props 테스트
+
 Props가 올바르게 전달되고 표시되는지 확인
 
 ```typescript
@@ -49,6 +51,7 @@ it('should handle optional props', () => {
 ```
 
 ### 3. 사용자 이벤트 테스트
+
 클릭, 입력 등 사용자 인터랙션 테스트
 
 ```typescript
@@ -71,6 +74,7 @@ it('should handle input change', () => {
 ```
 
 ### 4. 조건부 렌더링 테스트
+
 상태에 따른 조건부 렌더링 확인
 
 ```typescript
@@ -91,6 +95,7 @@ it('should hide content when empty', () => {
 ```
 
 ### 5. 비동기 작업 테스트
+
 API 호출 등 비동기 작업 테스트
 
 ```typescript
@@ -115,6 +120,7 @@ it('should handle async errors', async () => {
 ```
 
 ### 6. 상태 변경 테스트
+
 컴포넌트 내부 상태 변경 테스트
 
 ```typescript
@@ -208,12 +214,12 @@ it('should have proper heading hierarchy', () => {
 ```typescript
 // API 모킹
 jest.mock('./api', () => ({
-  fetchData: jest.fn(() => Promise.resolve({ data: 'mock data' }))
+  fetchData: jest.fn(() => Promise.resolve({ data: 'mock data' })),
 }));
 
 // 모듈 모킹
 jest.mock('./utils', () => ({
-  formatDate: jest.fn((date) => '2024-01-01')
+  formatDate: jest.fn(date => '2024-01-01'),
 }));
 ```
 

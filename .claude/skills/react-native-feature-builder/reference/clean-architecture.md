@@ -19,6 +19,7 @@ Presentation → Domain ← Data → Infrastructure
 ### 2. 관심사의 분리 (Separation of Concerns)
 
 각 레이어는 명확한 책임을 가집니다:
+
 - **Domain**: 비즈니스 로직
 - **Data**: 데이터 접근
 - **Presentation**: UI 표현
@@ -30,16 +31,19 @@ Presentation → Domain ← Data → Infrastructure
 **책임:** 비즈니스 로직과 규칙
 
 **구성요소:**
+
 - **Entities**: 비즈니스 데이터 모델
 - **Use Cases**: 비즈니스 로직 단위
 - **Repository Interfaces**: 데이터 접근 추상화
 
 **규칙:**
+
 - 외부 의존성 없음 (React, React Native, 외부 라이브러리 금지)
 - 순수한 TypeScript/JavaScript만 사용
 - 모든 비즈니스 로직은 이곳에
 
 **예시:**
+
 ```typescript
 // domain/entities/User.ts
 export interface User {
@@ -79,16 +83,19 @@ export interface AuthRepository {
 **책임:** 데이터 소스와의 통신
 
 **구성요소:**
+
 - **Repository Implementations**: Domain의 Repository 구현
 - **Data Sources**: 실제 데이터 소스 (API, Storage)
 - **Models**: API 응답 모델 (Entity와 별도)
 
 **규칙:**
+
 - Domain의 Repository interface 구현
 - 여러 Data Source를 조합 가능
 - DTO (Data Transfer Object)를 Entity로 변환
 
 **예시:**
+
 ```typescript
 // data/models/UserDto.ts
 export interface UserDto {
@@ -137,17 +144,20 @@ export class AuthRepositoryImpl implements AuthRepository {
 **책임:** UI 표현 및 사용자 상호작용
 
 **구성요소:**
+
 - **Screens**: 전체 화면 컴포넌트
 - **Components**: 재사용 가능한 UI 컴포넌트
 - **Hooks**: 비즈니스 로직과 UI 연결
 - **View Models**: 화면 상태 관리 (선택)
 
 **규칙:**
+
 - Use Case를 통해 비즈니스 로직 실행
 - UI 상태 관리
 - React Native 특화 로직 포함 가능
 
 **예시:**
+
 ```typescript
 // presentation/hooks/useAuth.ts
 export const useAuth = () => {
@@ -224,13 +234,12 @@ class Container {
 export const container = new Container();
 
 // 등록
-container.register('AuthRepository', () =>
-  new AuthRepositoryImpl(new AuthApiDataSource(apiClient))
+container.register(
+  'AuthRepository',
+  () => new AuthRepositoryImpl(new AuthApiDataSource(apiClient))
 );
 
-container.register('LoginUseCase', () =>
-  new LoginUseCase(container.resolve('AuthRepository'))
-);
+container.register('LoginUseCase', () => new LoginUseCase(container.resolve('AuthRepository')));
 
 // 사용
 const loginUseCase = container.resolve<LoginUseCase>('LoginUseCase');
@@ -510,7 +519,14 @@ describe('GetPostsUseCase', () => {
 
   it('should return posts from repository', async () => {
     const mockPosts: Post[] = [
-      { id: '1', title: 'Test', content: 'Content', authorId: 'user1', createdAt: new Date(), updatedAt: new Date() },
+      {
+        id: '1',
+        title: 'Test',
+        content: 'Content',
+        authorId: 'user1',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
     mockRepository.getPosts.mockResolvedValue(mockPosts);
 

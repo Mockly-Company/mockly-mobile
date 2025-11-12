@@ -7,12 +7,14 @@ React Native 프로젝트의 코딩 컨벤션 및 베스트 프랙티스입니�
 ### 네이밍 규칙
 
 **파일명:**
+
 - Components: PascalCase (예: `UserProfile.tsx`)
 - Hooks: camelCase with `use` prefix (예: `useAuth.ts`)
 - Utils: camelCase (예: `dateFormatter.ts`)
 - Constants: UPPER_SNAKE_CASE (예: `API_ENDPOINTS.ts`)
 
 **폴더명:**
+
 - kebab-case 또는 camelCase 일관되게 사용
 - 기능별 폴더링 권장
 
@@ -40,11 +42,7 @@ interface UserProfileProps {
   isEditable?: boolean;
 }
 
-export const UserProfile: React.FC<UserProfileProps> = ({
-  user,
-  onEdit,
-  isEditable = false,
-}) => {
+export const UserProfile: React.FC<UserProfileProps> = ({ user, onEdit, isEditable = false }) => {
   // 구현
 };
 
@@ -57,11 +55,13 @@ export const UserProfile = (props: any) => {
 ### 타입 vs Interface
 
 **Interface 사용:**
+
 - Component Props
 - 공개 API
 - 확장 가능한 타입
 
 **Type 사용:**
+
 - Union types
 - Utility types
 - Computed properties

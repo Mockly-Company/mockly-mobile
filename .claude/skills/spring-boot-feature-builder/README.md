@@ -36,12 +36,14 @@ RESTful API를 추가할 때 4단계 워크플로우를 통해 체계적으로 �
 스킬이 4단계로 안내합니다:
 
 #### Phase 1: 요구사항 정리
+
 - API 엔드포인트 목록 작성
 - RESTful 설계 원칙 적용
 - 우선순위 설정 (P0/P1/P2)
 - 제약사항 파악
 
 #### Phase 2: API 및 데이터 설계
+
 - Entity 설계 (JPA)
 - DTO 설계 (Request/Response)
 - API 명세서 작성
@@ -49,6 +51,7 @@ RESTful API를 추가할 때 4단계 워크플로우를 통해 체계적으로 �
 - 비즈니스 로직 정의
 
 #### Phase 3: Layered Architecture 설계
+
 - Controller Layer (REST API)
 - Service Layer (비즈니스 로직)
 - Repository Layer (데이터 접근)
@@ -56,6 +59,7 @@ RESTful API를 추가할 때 4단계 워크플로우를 통해 체계적으로 �
 - 파일 구조 설계
 
 #### Phase 4: 구현 및 컨벤션 적용
+
 - Spring Boot 컨벤션 적용
 - 레이어별 구현
 - Exception 처리
@@ -76,21 +80,25 @@ Entity Layer (Domain Model)
 ### 레이어별 책임
 
 **Controller Layer:**
+
 - REST API 엔드포인트
 - Request/Response 처리
 - 입력 검증 (@Valid)
 
 **Service Layer:**
+
 - 비즈니스 로직
 - 트랜잭션 관리 (@Transactional)
 - Entity ↔ DTO 변환
 
 **Repository Layer:**
+
 - JPA Repository
 - 커스텀 쿼리 메서드
 - 데이터베이스 접근
 
 **Entity Layer:**
+
 - JPA Entity
 - 도메인 모델
 - 관계 매핑
@@ -100,6 +108,7 @@ Entity Layer (Domain Model)
 ### 예제 1: User API
 
 **Phase 1 - 요구사항:**
+
 ```
 API 엔드포인트:
 - GET    /api/users          # 사용자 목록
@@ -110,6 +119,7 @@ API 엔드포인트:
 ```
 
 **Phase 2 - 설계:**
+
 ```
 Entity: User
 - id: Long
@@ -125,6 +135,7 @@ DTO:
 ```
 
 **Phase 3 - Architecture:**
+
 ```
 UserController → UserService → UserRepository → User Entity
 ```
@@ -135,11 +146,13 @@ UserController → UserService → UserRepository → User Entity
 ### 예제 2: Post API (관계 포함)
 
 **간단한 요청:**
+
 ```
 "게시글 API 만들어줘. 사용자가 작성하고, 카테고리를 여러 개 가질 수 있어"
 ```
 
 **자동 생성:**
+
 - Entity: Post, User, Category (Many-to-Many)
 - Controller: PostController (CRUD + 검색)
 - Service: PostService (비즈니스 로직, 권한 확인)
@@ -193,6 +206,7 @@ src/main/java/com/example/project/
 ### 1. RESTful API 설계
 
 표준 HTTP 메서드와 상태 코드 사용:
+
 - GET: 조회 (200 OK)
 - POST: 생성 (201 Created)
 - PUT: 수정 (200 OK)
@@ -315,23 +329,27 @@ Phase 4: 구현
 ## 체크리스트
 
 ### Phase 1 완료
+
 - [ ] API 엔드포인트 목록
 - [ ] RESTful 설계 확인
 - [ ] 우선순위 설정
 
 ### Phase 2 완료
+
 - [ ] Entity 설계
 - [ ] DTO 설계
 - [ ] API 명세서 작성
 - [ ] 관계 정의
 
 ### Phase 3 완료
+
 - [ ] Repository 정의
 - [ ] Service 정의
 - [ ] Controller 정의
 - [ ] 파일 구조 설계
 
 ### Phase 4 완료
+
 - [ ] 모든 레이어 구현
 - [ ] Exception 처리
 - [ ] 테스트 코드 작성
@@ -340,6 +358,7 @@ Phase 4: 구현
 ## 변경 이력
 
 ### v1.0.0
+
 - 초기 릴리즈
 - 4단계 워크플로우
 - Layered Architecture 템플릿

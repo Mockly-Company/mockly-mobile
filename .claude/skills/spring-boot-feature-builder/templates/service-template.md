@@ -9,7 +9,7 @@ Spring Boot Service 레이어 작성 시 사용하는 템플릿입니다.
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class [Entity]Service {
-    private final [Entity]Repository [entity]Repository;
+private final [Entity]Repository [entity]Repository;
 
     public [Entity]Response get[Entity](Long id) {
         // 조회 로직
@@ -33,6 +33,7 @@ public class [Entity]Service {
     public void delete[Entity](Long id) {
         // 삭제 로직
     }
+
 }
 \`\`\`
 
@@ -43,7 +44,7 @@ package com.example.project.domain.user.service;
 
 import com.example.project.domain.user.entity.User;
 import com.example.project.domain.user.repository.UserRepository;
-import com.example.project.domain.user.dto.*;
+import com.example.project.domain.user.dto.\*;
 import com.example.project.global.exception.ResourceNotFoundException;
 import com.example.project.global.exception.DuplicateResourceException;
 import lombok.RequiredArgsConstructor;
@@ -57,8 +58,8 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class UserService {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+private final UserRepository userRepository;
+private final PasswordEncoder passwordEncoder;
 
     /**
      * 사용자 조회
@@ -157,6 +158,7 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+
 }
 \`\`\`
 
@@ -167,7 +169,7 @@ package com.example.project.domain.post.service;
 
 import com.example.project.domain.post.entity.Post;
 import com.example.project.domain.post.repository.PostRepository;
-import com.example.project.domain.post.dto.*;
+import com.example.project.domain.post.dto.\*;
 import com.example.project.domain.user.entity.User;
 import com.example.project.domain.user.repository.UserRepository;
 import com.example.project.domain.category.entity.Category;
@@ -190,9 +192,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class PostService {
-    private final PostRepository postRepository;
-    private final UserRepository userRepository;
-    private final CategoryRepository categoryRepository;
+private final PostRepository postRepository;
+private final UserRepository userRepository;
+private final CategoryRepository categoryRepository;
 
     /**
      * 게시글 조회
@@ -364,6 +366,7 @@ public class PostService {
             throw new ValidationException("Content must be at least 10 characters");
         }
     }
+
 }
 \`\`\`
 
@@ -374,9 +377,9 @@ public class PostService {
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class OrderService {
-    private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
-    private final PaymentService paymentService;
+private final OrderRepository orderRepository;
+private final ProductRepository productRepository;
+private final PaymentService paymentService;
 
     /**
      * 주문 생성 (복잡한 트랜잭션)
@@ -449,6 +452,7 @@ public class OrderService {
             .status(OrderStatus.PENDING)
             .build();
     }
+
 }
 \`\`\`
 
@@ -462,18 +466,18 @@ public class OrderService {
 // ✅ 좋은 예
 @Service
 public class UserService {
-    // User 관련 로직만
+// User 관련 로직만
 }
 
 @Service
 public class PostService {
-    // Post 관련 로직만
+// Post 관련 로직만
 }
 
 // ❌ 나쁜 예
 @Service
 public class ApplicationService {
-    // 여러 Entity 로직이 섞여 있음
+// 여러 Entity 로직이 섞여 있음
 }
 \`\`\`
 
@@ -508,6 +512,6 @@ log.error("Failed to create user", exception);
 
 \`\`\`java
 private void validate[Something]([Params]) {
-    // 검증 로직
+// 검증 로직
 }
 \`\`\`

@@ -38,9 +38,11 @@ auto-test-generator
 ### 프론트엔드 템플릿
 
 #### 1. `frontend-component-test.md`
+
 React 컴포넌트 테스트를 위한 템플릿
 
 **포함 내용:**
+
 - 렌더링 테스트
 - Props 테스트
 - 사용자 이벤트 테스트
@@ -49,14 +51,17 @@ React 컴포넌트 테스트를 위한 템플릿
 - 접근성(a11y) 테스트
 
 **사용 케이스:**
+
 - `.tsx`, `.jsx` 파일
 - `src/components/` 디렉토리
 - `src/pages/` 디렉토리
 
 #### 2. `frontend-hook-test.md`
+
 Custom Hook 테스트를 위한 템플릿
 
 **포함 내용:**
+
 - 초기화 테스트
 - 상태 업데이트 테스트
 - Effect 테스트
@@ -64,13 +69,16 @@ Custom Hook 테스트를 위한 템플릿
 - Context 통합 테스트
 
 **사용 케이스:**
+
 - `useXxx.ts` 파일
 - `src/hooks/` 디렉토리
 
 #### 3. `frontend-util-test.md`
+
 유틸리티 함수 테스트를 위한 템플릿
 
 **포함 내용:**
+
 - 정상/엣지/에러 케이스
 - 문자열/배열/객체 처리
 - 날짜/시간 처리
@@ -78,6 +86,7 @@ Custom Hook 테스트를 위한 템플릿
 - 타입 체크 함수 테스트
 
 **사용 케이스:**
+
 - `src/utils/` 디렉토리
 - `src/helpers/` 디렉토리
 - Pure function 파일
@@ -85,9 +94,11 @@ Custom Hook 테스트를 위한 템플릿
 ### 백엔드 템플릿
 
 #### 1. `backend-api-test.md`
+
 API 엔드포인트 테스트를 위한 템플릿
 
 **포함 내용:**
+
 - GET/POST/PUT/DELETE 테스트
 - 인증/인가 테스트
 - 쿼리 파라미터 테스트
@@ -95,14 +106,17 @@ API 엔드포인트 테스트를 위한 템플릿
 - 에러 처리 테스트
 
 **사용 케이스:**
+
 - `*.controller.ts` 파일
 - `*.route.ts` 파일
 - `src/api/` 디렉토리
 
 #### 2. `backend-service-test.md`
+
 Service 레이어 테스트를 위한 템플릿
 
 **포함 내용:**
+
 - CRUD 작업 테스트
 - 비즈니스 로직 테스트
 - 트랜잭션 테스트
@@ -111,6 +125,7 @@ Service 레이어 테스트를 위한 템플릿
 - 권한 확인 테스트
 
 **사용 케이스:**
+
 - `*.service.ts` 파일
 - `src/services/` 디렉토리
 
@@ -119,6 +134,7 @@ Service 레이어 테스트를 위한 템플릿
 ### React 컴포넌트
 
 **입력:** `src/components/Button.tsx`
+
 ```typescript
 export const Button = ({ label, onClick }) => {
   return <button onClick={onClick}>{label}</button>;
@@ -126,6 +142,7 @@ export const Button = ({ label, onClick }) => {
 ```
 
 **출력:** `src/components/Button.test.tsx`
+
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Button } from './Button';
@@ -149,6 +166,7 @@ describe('Button', () => {
 ### API 엔드포인트
 
 **입력:** `src/api/users.controller.ts`
+
 ```typescript
 app.get('/api/users/:id', async (req, res) => {
   const user = await userService.findById(req.params.id);
@@ -157,23 +175,20 @@ app.get('/api/users/:id', async (req, res) => {
 ```
 
 **출력:** `src/api/users.controller.test.ts`
+
 ```typescript
 import request from 'supertest';
 import { app } from '../app';
 
 describe('GET /api/users/:id', () => {
   it('should return user by id', async () => {
-    const response = await request(app)
-      .get('/api/users/1')
-      .expect(200);
+    const response = await request(app).get('/api/users/1').expect(200);
 
     expect(response.body).toHaveProperty('id', 1);
   });
 
   it('should return 404 for non-existent user', async () => {
-    await request(app)
-      .get('/api/users/999')
-      .expect(404);
+    await request(app).get('/api/users/999').expect(404);
   });
 });
 ```
@@ -201,13 +216,9 @@ module.exports = {
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
-  collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.test.{ts,tsx}'
-  ]
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!src/**/*.d.ts', '!src/**/*.test.{ts,tsx}'],
 };
 ```
 
@@ -240,6 +251,7 @@ module.exports = {
 이 스킬은 `FORMS.md`에 정의된 표준 형식으로 테스트 코드를 생성합니다.
 
 **FORMS.md 주요 내용:**
+
 - 분석 리포트 형식
 - 테스트 파일 구조 (프론트엔드/백엔드)
 - 테스트 케이스 명명 규칙
@@ -248,6 +260,7 @@ module.exports = {
 - 완료 리포트 형식
 
 **형식 준수 이점:**
+
 - ✅ 일관된 코드 스타일
 - ✅ 즉시 실행 가능한 테스트
 - ✅ 쉬운 유지보수
@@ -259,6 +272,7 @@ module.exports = {
 새로운 템플릿이나 개선 사항이 있다면 템플릿 파일을 추가하거나 수정해주세요.
 
 새로운 스킬을 추가하려면:
+
 1. `SKILL_FORMAT.md` 가이드 참고
 2. `.claude/skills/` 디렉토리에 스킬 추가
 3. README 업데이트
