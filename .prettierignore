@@ -5,3 +5,5 @@ build
 coverage
 pnpm-lock.yaml
 *.log
+packages/storybook/.rnstorybook/storybook.requires.ts
+packages/storybook/.storybook

@@ -15,6 +15,7 @@ export default [
       'coverage/',
       '**/node_modules/**',
       '**/dist/**',
+      '**/.rnstorybook/**',
     ],
   },
   {
@@ -58,6 +59,7 @@ export default [
           varsIgnorePattern: '^_',
         },
       ],
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
   {

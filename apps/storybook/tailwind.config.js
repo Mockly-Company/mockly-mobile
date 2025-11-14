@@ -1,13 +1,17 @@
+const designSystemConfig = require('../../packages/design-system/tailwind.config.js');
+
 /** @type {import('tailwindcss').Config} */
-const config = {
+module.exports = {
   content: [
-    './src/**/*.{js,jsx,ts,tsx}',
-    '../../../packages/design-system/src/**/*.{js,jsx,ts,tsx}',
+    './App.tsx',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './.storybook/**/*.{js,jsx,ts,tsx}',
+    './.rnstorybook/**/*.{js,jsx,ts,tsx}',
   ],
+  presets: [require('nativewind/preset')],
   theme: {
-    extend: {},
+    extend: {...designSystemConfig.theme.extend},
   },
+  // important: 'html',
   plugins: [],
 };
-
-export default config;

@@ -1,47 +1,54 @@
-import type { StorybookConfig } from '@storybook/react-vite';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import type {StorybookConfig} from '@storybook/react-native-web-vite';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const config: StorybookConfig = {
+const main: StorybookConfig = {
   stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../components/**/*.stories.?(ts|tsx|js|jsx)',
     '../../../packages/design-system/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
-  addons: ['@storybook/addon-docs', '@storybook/addon-links'],
+  addons: [
+    '@storybook/addon-docs',
+    '@storybook/addon-links',
+    '@storybook/addon-onboarding',
+  ],
   framework: {
-    name: '@storybook/react-vite',
-    options: {},
+    name: '@storybook/react-native-web-vite',
+    options: {
+      pluginReactOptions: {
+        jsxImportSource: 'nativewind',
+        babel: {
+          plugins: [
+            'react-native-reanimated/plugin',
+            // {
+            //   name: '@babel/plugin-transform-react-jsx',
+            //   manipulateOptions: opts => {
+            //     opts.runtime = 'automatic';
+            //     opts.importSource = 'nativewind';
+            //   },
+            // },
+          ],
+          presets: ['nativewind/babel'],
+        },
+      },
+      modulesToTranspile: [
+        '@mockly/design-system',
+        '@mockly/typescript-config',
+        'nativewind',
+        'react-native-css-interop',
+      ],
+    },
   },
-  core: {
-    builder: '@storybook/builder-vite',
-  },
+
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
-  async viteFinal(config) {
-    const reactNativeWebPath = path.resolve(__dirname, '../node_modules/react-native-web');
-    config.resolve = config.resolve || {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'react-native': reactNativeWebPath,
-      'react-native$': reactNativeWebPath,
-    };
-    config.resolve.extensions = [
-      '.web.tsx',
-      '.web.ts',
-      '.web.jsx',
-      '.web.js',
-      '.tsx',
-      '.ts',
-      '.jsx',
-      '.js',
-    ];
-    return config;
+  babel: {
+    presets: ['module:@react-native/babel-preset', 'nativewind/babel'],
+    plugins: [
+      'transform-inline-environment-variables',
+      ['babel-plugin-react-docgen-typescript', {exclude: 'node_modules'}],
+      'react-native-reanimated/plugin',
+    ],
   },
 };
 
-export default config;
+export default main;
