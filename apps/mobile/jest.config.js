@@ -1,5 +1,3 @@
-const config = {
+module.exports = {
   preset: 'react-native',
 };
-
-export default config;

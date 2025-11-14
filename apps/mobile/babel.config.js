@@ -1,5 +1,5 @@
 const config = {
-  presets: ['module:@react-native/babel-preset'],
+  presets: ['module:@react-native/babel-preset', 'nativewind/babel'],
   plugins: [
     [
       'module:react-native-dotenv',
@@ -15,7 +15,11 @@ const config = {
         allowUndefined: true,
       },
     ],
+    [
+      require.resolve('react-native-reanimated/plugin'),
+      { relativeSourceLocation: true },
+    ],
   ],
 };
 
-export default config;
+module.exports = config;

@@ -73,6 +73,8 @@ export default [
       ],
       'react-native/no-inline-styles': 'warn',
       'react-native/no-color-literals': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   {
