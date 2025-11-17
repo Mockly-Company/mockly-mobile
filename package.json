@@ -48,15 +48,9 @@
     "pnpm": ">=8.0.0"
   },
   "packageManager": "pnpm@9.15.0",
-  "resolutions": {
-    "react-docgen-typescript": "2.2.2"
-  },
-  "overrides": {
-    "react-docgen-typescript": "2.2.2"
-  },
   "pnpm": {
-    "overrides": {
-      "react-docgen-typescript": "2.2.2"
+    "patchedDependencies": {
+      "@gorhom/bottom-sheet": "patches/@gorhom__bottom-sheet.patch"
     }
   }
 }
