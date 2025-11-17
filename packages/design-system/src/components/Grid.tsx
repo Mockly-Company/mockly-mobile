@@ -1,35 +1,25 @@
 import React from 'react';
-import { View, ViewProps } from 'react-native';
-import { tw } from '../lib/tw';
+import { FlatGrid, FlatGridProps } from 'react-native-super-grid';
+import { spacing as spacingValues } from '../theme';
 
-export interface GridProps extends ViewProps {
-  columns?: number;
-  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+type SpacingKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+const spacingMap: Record<SpacingKey, number> = {
+  xs: spacingValues.xs,
+  sm: spacingValues.sm,
+  md: spacingValues.md,
+  lg: spacingValues.lg,
+  xl: spacingValues.xl,
+  xxl: spacingValues.xxl,
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface GridProps<T = any> extends Omit<FlatGridProps<T>, 'spacing'> {
+  spacing?: SpacingKey;
 }
 
-const spacingMap = {
-  xs: 'xs',
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg',
-  xl: 'xl',
-  xxl: 'xxl',
-} as const;
+export const Grid: React.FC<GridProps> = ({ spacing = 'md', ...props }) => {
+  const spacingValue = spacingMap[spacing];
 
-export const Grid: React.FC<GridProps> = ({
-  columns = 2,
-  spacing = 'md',
-  style,
-  children,
-  ...props
-}) => {
-  const gapValue = spacingMap[spacing];
-
-  return (
-    <View style={[tw`flex-row flex-wrap gap-${gapValue}`, style]} {...props}>
-      {React.Children.map(children, child => (
-        <View style={{ flex: 1, minWidth: `${100 / columns}%` }}>{child}</View>
-      ))}
-    </View>
-  );
+  return <FlatGrid spacing={spacingValue} {...props} />;
 };

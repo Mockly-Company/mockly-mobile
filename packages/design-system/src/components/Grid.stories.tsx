@@ -11,9 +11,9 @@ const meta = {
   },
   tags: ['autodocs'],
   argTypes: {
-    columns: {
+    itemDimension: {
       control: 'number',
-      description: 'Number of columns',
+      description: 'Minimum width or height for each item',
     },
     spacing: {
       control: 'select',
@@ -23,7 +23,7 @@ const meta = {
   },
   decorators: [
     Story => (
-      <View style={{ padding: 20, width: 400 }}>
+      <View style={{ padding: 20, width: 400, height: 600 }}>
         <Story />
       </View>
     ),
@@ -41,89 +41,54 @@ const GridItem = ({ label }: { label: string }) => (
       borderRadius: 8,
       alignItems: 'center',
       justifyContent: 'center',
+      height: 80,
     }}
   >
     <Text color="background">{label}</Text>
   </View>
 );
 
+const gridData = [
+  { id: '1', label: 'Item 1' },
+  { id: '2', label: 'Item 2' },
+  { id: '3', label: 'Item 3' },
+  { id: '4', label: 'Item 4' },
+  { id: '5', label: 'Item 5' },
+  { id: '6', label: 'Item 6' },
+];
+
 export const TwoColumns: Story = {
   args: {
-    columns: 2,
+    itemDimension: 130,
+    data: gridData.slice(0, 4),
     spacing: 'md',
-    children: (
-      <>
-        <GridItem label="Item 1" />
-        <GridItem label="Item 2" />
-        <GridItem label="Item 3" />
-        <GridItem label="Item 4" />
-      </>
-    ),
+    renderItem: ({ item }: any) => <GridItem label={item.label} />,
   },
 };
 
 export const ThreeColumns: Story = {
   args: {
-    columns: 3,
+    itemDimension: 80,
+    data: gridData,
     spacing: 'md',
-    children: (
-      <>
-        <GridItem label="Item 1" />
-        <GridItem label="Item 2" />
-        <GridItem label="Item 3" />
-        <GridItem label="Item 4" />
-        <GridItem label="Item 5" />
-        <GridItem label="Item 6" />
-      </>
-    ),
-  },
-};
-
-export const FourColumns: Story = {
-  args: {
-    columns: 4,
-    spacing: 'md',
-    children: (
-      <>
-        <GridItem label="1" />
-        <GridItem label="2" />
-        <GridItem label="3" />
-        <GridItem label="4" />
-        <GridItem label="5" />
-        <GridItem label="6" />
-        <GridItem label="7" />
-        <GridItem label="8" />
-      </>
-    ),
+    renderItem: ({ item }: any) => <GridItem label={item.label} />,
   },
 };
 
 export const SmallSpacing: Story = {
   args: {
-    columns: 2,
+    itemDimension: 130,
+    data: gridData.slice(0, 4),
     spacing: 'xs',
-    children: (
-      <>
-        <GridItem label="Item 1" />
-        <GridItem label="Item 2" />
-        <GridItem label="Item 3" />
-        <GridItem label="Item 4" />
-      </>
-    ),
+    renderItem: ({ item }: any) => <GridItem label={item.label} />,
   },
 };
 
 export const LargeSpacing: Story = {
   args: {
-    columns: 2,
+    itemDimension: 130,
+    data: gridData.slice(0, 4),
     spacing: 'xl',
-    children: (
-      <>
-        <GridItem label="Item 1" />
-        <GridItem label="Item 2" />
-        <GridItem label="Item 3" />
-        <GridItem label="Item 4" />
-      </>
-    ),
+    renderItem: ({ item }: any) => <GridItem label={item.label} />,
   },
 };

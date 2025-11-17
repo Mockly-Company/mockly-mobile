@@ -1,6 +1,9 @@
+// Design System Theme Configuration
+
 export const colors = {
   primary: '#007AFF',
   secondary: '#5856D6',
+  accent: '#FF9500',
   success: '#34C759',
   warning: '#FF9500',
   error: '#FF3B30',
@@ -30,10 +33,10 @@ export const typography = {
     xxl: 32,
   },
   fontWeight: {
-    regular: '400' as const,
-    medium: '500' as const,
-    semibold: '600' as const,
-    bold: '700' as const,
+    regular: '400',
+    medium: '500',
+    semibold: '600',
+    bold: '700',
   },
 };
 
@@ -52,4 +55,4 @@ export const theme = {
   borderRadius,
 };
 
-export type Theme = typeof theme;
+export default theme;

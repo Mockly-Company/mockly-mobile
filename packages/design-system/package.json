@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "@mockly/utils": "workspace:*",
-    "cva": "npm:class-variance-authority@^0.7.1"
+    "cva": "npm:class-variance-authority@^0.7.1",
+    "react-native-super-grid": "^6.0.2"
   },
   "peerDependencies": {
     "react": "19.1.1",

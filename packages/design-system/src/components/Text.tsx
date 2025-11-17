@@ -1,12 +1,34 @@
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps, TextStyle } from 'react-native';
-import { colors } from '../theme';
+import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
+import { colors } from '../theme';
 
-export interface TextProps extends RNTextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'body' | 'caption';
+const textVariants = cva('', {
+  variants: {
+    variant: {
+      h1: 'text-xxl font-bold',
+      h2: 'text-xl font-bold',
+      h3: 'text-lg font-semibold',
+      body: 'text-md',
+      caption: 'text-sm',
+    },
+  },
+  defaultVariants: {
+    variant: 'body',
+  },
+});
+
+const WeightMap = {
+  regular: '400',
+  medium: '500',
+  semibold: '600',
+  bold: '700',
+};
+
+export interface TextProps extends RNTextProps, VariantProps<typeof textVariants> {
   color?: keyof typeof colors;
-  weight?: TextStyle['fontWeight'];
+  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
 }
 
 export const Text: React.FC<TextProps> = ({
@@ -16,17 +38,9 @@ export const Text: React.FC<TextProps> = ({
   style,
   ...props
 }) => {
-  const variantStyle = VariantStyles[variant];
+  const textClass = textVariants({ variant });
   const colorStyle = { color: colors[color] };
-  const weightStyle = { fontWeight: weight };
+  const weightStyle = { fontWeight: WeightMap[weight] as TextStyle['fontWeight'] };
 
-  return <RNText style={[variantStyle, colorStyle, weightStyle, style]} {...props} />;
-};
-
-const VariantStyles = {
-  h1: tw`text-xxl font-bold`,
-  h2: tw`text-xl font-bold`,
-  h3: tw`text-lg font-semibold`,
-  body: tw`text-md`,
-  caption: tw`text-sm`,
+  return <RNText style={[tw.style(textClass), colorStyle, weightStyle, style]} {...props} />;
 };
