@@ -1,4 +1,3 @@
-import '../global.css';
 import {type Preview} from '@storybook/react-native';
 import {View} from 'react-native';
 import {withBackgrounds} from '@storybook/addon-ondevice-backgrounds';

@@ -5,6 +5,6 @@
     "rootDir": "./src",
     "moduleResolution": "bundler"
   },
-  "include": ["src/**/*", "nativewind-env.d.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

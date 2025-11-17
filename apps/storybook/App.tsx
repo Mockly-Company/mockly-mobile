@@ -1,4 +1,3 @@
-import './global.css';
 import StorybookUI from './.rnstorybook'; // ✅ Safe! Metro stubs this out when enabled: false
 // import {Text, View} from 'react-native';
 

@@ -1,6 +1,5 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const {withStorybook} = require('@storybook/react-native/metro/withStorybook');
-const {withNativeWind} = require('nativewind/metro');
 const defaultConfig = getDefaultConfig(__dirname);
 
 const path = require('path');
@@ -36,13 +35,11 @@ const config = {
   },
 };
 
-const finalConfig = withNativeWind(mergeConfig(defaultConfig, config), {
-  input: path.resolve(__dirname, './global.css'),
-});
+const finalConfig = mergeConfig(defaultConfig, config);
+
 module.exports = withStorybook(finalConfig, {
   // enabled: process.env.STORYBOOK_ENABLED === 'true',
   enabled: true,
 
-  // Path to your storybook config (default: './.rnstorybook')
   configPath: path.resolve(__dirname, './.rnstorybook'),
 });

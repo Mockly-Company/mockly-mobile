@@ -1,37 +1,29 @@
 import React from 'react';
 import { View, ViewProps } from 'react-native';
-import { cn } from '@mockly/utils';
+import { tw } from '../lib/tw';
 
 export interface SpacerProps extends ViewProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   direction?: 'vertical' | 'horizontal';
 }
 
+const sizeMap = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+  xl: 'xl',
+  xxl: 'xxl',
+} as const;
+
 export const Spacer: React.FC<SpacerProps> = ({
   size = 'md',
   direction = 'vertical',
-  className,
+  style,
   ...props
 }) => {
-  const sizeStyle = direction === 'vertical' ? VERTICAL_STYLES[size] : HORIZONTAL_STYLES[size];
+  const sizeValue = sizeMap[size];
+  const spacerStyle = direction === 'vertical' ? tw`h-${sizeValue}` : tw`w-${sizeValue}`;
 
-  return <View className={cn(sizeStyle, className, 'h-xs')} {...props} />;
-};
-
-const VERTICAL_STYLES = {
-  xs: 'h-xs',
-  sm: 'h-sm',
-  md: 'h-md',
-  lg: 'h-lg',
-  xl: 'h-xl',
-  xxl: 'h-xxl',
-};
-
-const HORIZONTAL_STYLES = {
-  xs: 'w-xs',
-  sm: 'w-sm',
-  md: 'w-md',
-  lg: 'w-lg',
-  xl: 'w-xl',
-  xxl: 'w-xxl',
+  return <View style={[spacerStyle, style]} {...props} />;
 };

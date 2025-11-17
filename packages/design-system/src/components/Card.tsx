@@ -1,40 +1,46 @@
 import React from 'react';
 import { View, ViewProps } from 'react-native';
-import { cn } from '@mockly/utils';
-import { cva, VariantProps } from 'cva';
+import { tw } from '../lib/tw';
 
-type CardVariant = VariantProps<typeof cardVariants>;
-export interface CardProps extends ViewProps, CardVariant {}
-const cardVariants = cva('rounded-lg', {
-  variants: {
-    variant: {
-      elevated: 'bg-primary shadow-md',
-      outlined: 'bg-primary border border-border',
-      filled: 'bg-surface',
-    },
-    padding: {
-      xs: 'p-xs',
-      sm: 'p-sm',
-      md: 'p-md',
-      lg: 'p-lg',
-      xl: 'p-xl',
-      xxl: 'p-xxl',
-    },
-  },
-  defaultVariants: {
-    variant: 'elevated',
-    padding: 'md',
-  },
-});
+export interface CardProps extends ViewProps {
+  variant?: 'elevated' | 'outlined' | 'filled';
+  padding?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+}
+
+const paddingMap = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+  xl: 'xl',
+  xxl: 'xxl',
+} as const;
+
 export const Card: React.FC<CardProps> = ({
   variant = 'elevated',
   padding = 'md',
-  className,
+  style,
   children,
   ...props
 }) => {
+  const baseStyle = tw`rounded-lg`;
+  const paddingStyle = tw`p-${paddingMap[padding]}`;
+
+  let variantStyle;
+  switch (variant) {
+    case 'elevated':
+      variantStyle = tw`bg-background shadow-md`;
+      break;
+    case 'outlined':
+      variantStyle = tw`bg-background border border-border`;
+      break;
+    case 'filled':
+      variantStyle = tw`bg-surface`;
+      break;
+  }
+
   return (
-    <View className={cn('rounded-lg', cardVariants({ variant, padding }), className)} {...props}>
+    <View style={[baseStyle, variantStyle, paddingStyle, style]} {...props}>
       {children}
     </View>
   );

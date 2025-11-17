@@ -1,39 +1,32 @@
 import React from 'react';
 import { View, ViewProps } from 'react-native';
-import { cn } from '@mockly/utils';
-import { cva, type VariantProps } from 'cva';
+import { tw } from '../lib/tw';
 
-type GridVariant = VariantProps<typeof gridVariants>;
-export interface GridProps extends ViewProps, GridVariant {
+export interface GridProps extends ViewProps {
   columns?: number;
+  spacing?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 }
-const gridVariants = cva('flex-row flex-wrap', {
-  variants: {
-    spacing: {
-      xs: 'gap-xs',
-      sm: 'gap-sm',
-      md: 'gap-md',
-      lg: 'gap-lg',
-      xl: 'gap-xl',
-      xxl: 'gap-xxl',
-    },
-  },
-  defaultVariants: {
-    spacing: 'md',
-  },
-});
+
+const spacingMap = {
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg',
+  xl: 'xl',
+  xxl: 'xxl',
+} as const;
+
 export const Grid: React.FC<GridProps> = ({
   columns = 2,
   spacing = 'md',
-  className,
+  style,
   children,
   ...props
 }) => {
+  const gapValue = spacingMap[spacing];
+
   return (
-    <View
-      className={cn('flex-row flex-wrap', gridVariants({ spacing }), className, 'gap-{10}')}
-      {...props}
-    >
+    <View style={[tw`flex-row flex-wrap gap-${gapValue}`, style]} {...props}>
       {React.Children.map(children, child => (
         <View style={{ flex: 1, minWidth: `${100 / columns}%` }}>{child}</View>
       ))}

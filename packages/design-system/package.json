@@ -23,15 +23,14 @@
     "cva": "npm:class-variance-authority@^0.7.1"
   },
   "peerDependencies": {
-    "react": "19.1.0",
-    "react-native": "0.81.0"
+    "react": "19.1.1",
+    "react-native": "0.82.1",
+    "twrnc": "^4.11.1"
   },
   "devDependencies": {
     "@mockly/typescript-config": "workspace:*",
     "@storybook/react": "10.0.5",
-    "@types/react": "19.1.0",
-    "nativewind": "4.2.1",
-    "tailwindcss": "3",
+    "@types/react": "19.1.1",
     "typescript": "5.9.3"
   }
 }

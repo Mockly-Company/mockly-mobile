@@ -2,22 +2,20 @@
   "extends": "@mockly/typescript-config/react-native.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "jsxImportSource": "nativewind",
+    "moduleResolution": "bundler",
     "paths": {
       "@mockly/entities": ["../../packages/entities/src"],
       "@mockly/design-system": ["../../packages/design-system/src"],
-      "@mockly/api": ["../../packages/api/src"],
-      "@mockly/config": ["../../packages/config/src"]
+      "@mockly/api": ["../../packages/api/src"]
     },
     "types": ["jest", "react-native", "node"]
   },
   "include": [
     "src/**/*",
-    "nativewind-env.d.ts",
     "__tests__/**/*",
-    "components/**/*",
     ".rnstorybook/**/*",
-    ".storybook/**/*"
+    ".storybook/**/*",
+    "components/**/*"
   ],
   "exclude": ["node_modules", "android", "ios", "**/Pods"]
 }

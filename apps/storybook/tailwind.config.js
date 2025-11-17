@@ -8,10 +8,8 @@ module.exports = {
     './.storybook/**/*.{js,jsx,ts,tsx}',
     './.rnstorybook/**/*.{js,jsx,ts,tsx}',
   ],
-  presets: [require('nativewind/preset')],
   theme: {
     extend: {...designSystemConfig.theme.extend},
   },
-  // important: 'html',
   plugins: [],
 };
