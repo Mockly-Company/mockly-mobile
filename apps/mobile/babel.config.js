@@ -15,7 +15,11 @@ const config = {
         allowUndefined: true,
       },
     ],
+    [
+      require.resolve('react-native-reanimated/plugin'),
+      { relativeSourceLocation: true },
+    ],
   ],
 };
 
-export default config;
+module.exports = config;

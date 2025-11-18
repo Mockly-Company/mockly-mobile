@@ -8,8 +8,8 @@
       "@mockly/api": ["../../packages/api/src"],
       "@mockly/config": ["../../packages/config/src"]
     },
-    "types": ["jest", "react-native"]
+    "types": ["jest", "react-native", "node"]
   },
-  "include": ["src/**/*", "nativewind-env.d.ts", "__tests__/**/*"],
+  "include": ["src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "android", "ios", "**/Pods"]
 }

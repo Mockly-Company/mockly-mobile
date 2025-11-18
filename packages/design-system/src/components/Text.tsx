@@ -1,52 +1,57 @@
-import React from 'react';
-import { Text as RNText, TextProps as RNTextProps, StyleSheet } from 'react-native';
-import { colors, typography } from '../theme';
+import React, { useMemo } from 'react';
+import { Text as RNText, TextProps as RNTextProps } from 'react-native';
+import { cva, type VariantProps } from 'cva';
+import { tw } from '../lib/tw';
 
-export interface TextProps extends RNTextProps {
-  variant?: 'h1' | 'h2' | 'h3' | 'body' | 'caption';
-  color?: keyof typeof colors;
-  weight?: keyof typeof typography.fontWeight;
-}
+const textVariants = cva('', {
+  variants: {
+    variant: {
+      h1: 'text-xxl font-bold',
+      h2: 'text-xl font-bold',
+      h3: 'text-lg font-semibold',
+      body: 'text-md',
+      caption: 'text-sm',
+    },
+    weight: {
+      normal: 'font-normal',
+      medium: 'font-medium',
+      semibold: 'font-semibold',
+      bold: 'font-bold',
+    },
+    color: {
+      primary: 'text-primary',
+      secondary: 'text-secondary',
+      success: 'text-success',
+      warning: 'text-warning',
+      error: 'text-error',
+      text: 'text-text',
+      textSecondary: 'text-text-secondary',
+      background: 'text-background',
+      border: 'text-border',
+      surface: 'text-surface',
+      accent: 'text-accent',
+    },
+  },
+  defaultVariants: {
+    variant: 'body',
+    weight: 'normal',
+    color: 'text',
+  },
+});
+
+export interface TextProps extends RNTextProps, VariantProps<typeof textVariants> {}
 
 export const Text: React.FC<TextProps> = ({
   variant = 'body',
   color = 'text',
-  weight = 'regular',
+  weight = 'normal',
   style,
   ...props
 }) => {
-  return (
-    <RNText
-      style={[
-        styles[variant],
-        { color: colors[color] },
-        { fontWeight: typography.fontWeight[weight] },
-        style,
-      ]}
-      {...props}
-    />
+  const textStyle = useMemo(
+    () => tw.style(textVariants({ variant, weight, color })),
+    [weight, variant, color]
   );
+  const accessibilityRole = variant && variant.startsWith('h') ? 'header' : 'text';
+  return <RNText accessibilityRole={accessibilityRole} style={[textStyle, style]} {...props} />;
 };
-
-const styles = StyleSheet.create({
-  h1: {
-    fontSize: typography.fontSize.xxl,
-    fontWeight: typography.fontWeight.bold,
-  },
-  h2: {
-    fontSize: typography.fontSize.xl,
-    fontWeight: typography.fontWeight.bold,
-  },
-  h3: {
-    fontSize: typography.fontSize.lg,
-    fontWeight: typography.fontWeight.semibold,
-  },
-  body: {
-    fontSize: typography.fontSize.md,
-    fontWeight: typography.fontWeight.regular,
-  },
-  caption: {
-    fontSize: typography.fontSize.sm,
-    fontWeight: typography.fontWeight.regular,
-  },
-});

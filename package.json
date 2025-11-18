@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --filter=mobile",
-    "dev:storybook": "turbo run dev --filter=@mockly/storybook",
+    "dev": "turbo run android --filter=mobile",
+    "storybook": "turbo run storybook:android --filter=@mockly/storybook",
+    "storybook:web": "turbo run storybook:web --filter=@mockly/storybook",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "test": "turbo run test",
@@ -47,5 +48,10 @@
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "patchedDependencies": {
+      "@gorhom/bottom-sheet": "patches/@gorhom__bottom-sheet.patch"
+    }
+  }
 }

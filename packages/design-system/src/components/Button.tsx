@@ -1,12 +1,54 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, TouchableOpacityProps } from 'react-native';
-import { colors, spacing, typography, borderRadius } from '../theme';
+import React, { PropsWithChildren, useMemo } from 'react';
+import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
+import { cva, type VariantProps } from 'cva';
 
-export interface ButtonProps extends TouchableOpacityProps {
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'small' | 'medium' | 'large';
-  children: string;
-}
+import { tw } from '../lib/tw';
+
+const buttonVariants = cva('items-center justify-center rounded-md', {
+  variants: {
+    variant: {
+      primary: 'bg-primary',
+      secondary: 'bg-secondary',
+      outline: 'bg-transparent border border-primary',
+    },
+    size: {
+      small: 'py-sm px-md',
+      medium: 'py-md px-lg',
+      large: 'py-md px-xl',
+    },
+    disabled: {
+      true: 'opacity-50',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    size: 'medium',
+  },
+});
+
+const buttonTextVariants = cva('font-semibold', {
+  variants: {
+    variant: {
+      primary: 'text-white',
+      secondary: 'text-white',
+      outline: 'text-primary',
+    },
+    size: {
+      small: 'text-sm',
+      medium: 'text-md',
+      large: 'text-lg',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+    size: 'medium',
+  },
+});
+
+export interface ButtonProps
+  extends TouchableOpacityProps,
+    Omit<VariantProps<typeof buttonVariants>, 'disabled'>,
+    PropsWithChildren {}
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -16,68 +58,22 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
+  const buttonStyle = useMemo(
+    () => tw.style(buttonVariants({ variant, size, disabled })),
+    [variant, size, disabled]
+  );
+  const textStyle = useMemo(() => tw.style(buttonTextVariants({ variant, size })), [variant, size]);
+
   return (
     <TouchableOpacity
-      style={[styles.base, styles[variant], styles[size], disabled && styles.disabled, style]}
+      style={[buttonStyle, style]}
       disabled={disabled}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
       {...props}
     >
-      <Text style={[styles.text, styles[`${variant}Text`], styles[`${size}Text`]]}>{children}</Text>
+      <Text style={textStyle}>{children}</Text>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  base: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: borderRadius.md,
-  },
-  primary: {
-    backgroundColor: colors.primary,
-  },
-  secondary: {
-    backgroundColor: colors.secondary,
-  },
-  outline: {
-    backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: colors.primary,
-  },
-  small: {
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.md,
-  },
-  medium: {
-    paddingVertical: spacing.sm,
-    paddingHorizontal: spacing.lg,
-  },
-  large: {
-    paddingVertical: spacing.md,
-    paddingHorizontal: spacing.xl,
-  },
-  disabled: {
-    opacity: 0.5,
-  },
-  text: {
-    fontWeight: typography.fontWeight.semibold,
-  },
-  primaryText: {
-    color: '#FFFFFF',
-  },
-  secondaryText: {
-    color: '#FFFFFF',
-  },
-  outlineText: {
-    color: colors.primary,
-  },
-  smallText: {
-    fontSize: typography.fontSize.sm,
-  },
-  mediumText: {
-    fontSize: typography.fontSize.md,
-  },
-  largeText: {
-    fontSize: typography.fontSize.lg,
-  },
-});

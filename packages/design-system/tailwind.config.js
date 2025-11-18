@@ -1,4 +1,4 @@
-import { colors, spacing, typography, borderRadius } from './dist/theme/index.js';
+const { colors, spacing, typography, borderRadius } = require('./src/theme');
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -33,12 +33,6 @@ const config = {
         xl: `${typography.fontSize.xl}px`,
         xxl: `${typography.fontSize.xxl}px`,
       },
-      fontWeight: {
-        regular: typography.fontWeight.regular,
-        medium: typography.fontWeight.medium,
-        semibold: typography.fontWeight.semibold,
-        bold: typography.fontWeight.bold,
-      },
       borderRadius: {
         sm: `${borderRadius.sm}px`,
         md: `${borderRadius.md}px`,
@@ -50,4 +44,5 @@ const config = {
   },
   plugins: [],
 };
-export default config;
+
+module.exports = config;

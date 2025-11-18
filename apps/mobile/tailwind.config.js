@@ -1,14 +1,10 @@
-import designSystemConfig from '../../packages/design-system/tailwind.config.js';
-import nativewindPreset from 'nativewind/preset';
-/** @type {import('tailwindcss').Config} */
-const confing = {
-  ...designSystemConfig,
-  content: [
-    './App.{js,jsx,ts,tsx}',
-    './src/**/*.{js,jsx,ts,tsx}',
-    '../../packages/design-system/src/**/*.{js,jsx,ts,tsx}',
-  ],
-  presets: [nativewindPreset],
-};
+const designSystemConfig = require('../../packages/design-system/tailwind.config.js');
 
-export default confing;
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ['./App.tsx', './components/**/*.{js,jsx,ts,tsx}'],
+  theme: {
+    extend: { ...designSystemConfig.theme.extend },
+  },
+  plugins: [],
+};

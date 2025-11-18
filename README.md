@@ -33,6 +33,7 @@ React Native 모바일 애플리케이션입니다.
 - Design System 패키지 통합
 
 **실행 방법:**
+Android Studio와 앱 에뮬레이터가 설치되어 있어야 실행 가능합니다.
 
 ```bash
 # Metro bundler 시작 (개발 모드, .env.dev 사용)
@@ -55,14 +56,19 @@ pnpm ios      # iOS 실행
 - Design System 컴포넌트 통합
 
 **실행 방법:**
+Android Studio와 앱 에뮬레이터가 설치되어 있어야 실행 가능합니다.
 
 ```bash
 # 루트에서 실행
-pnpm dev:storybook  # http://localhost:6006
+pnpm storybook:web  # 웹을 통해 디자인 시스템 확인하는 방법
+
+pnpm storybook # 안드로이드로 디자인 시스템 확인하는 방법
 
 # 또는 직접 실행
 cd apps/storybook
-pnpm dev
+pnpm storybook:web
+pnpm storybook:android
+pnpm storybook:ios
 ```
 
 ### Packages
