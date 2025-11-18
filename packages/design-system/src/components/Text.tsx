@@ -1,8 +1,7 @@
-import React from 'react';
-import { Text as RNText, TextProps as RNTextProps, TextStyle } from 'react-native';
+import React, { useMemo } from 'react';
+import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
-import { colors } from '../theme';
 
 const textVariants = cva('', {
   variants: {
@@ -13,34 +12,48 @@ const textVariants = cva('', {
       body: 'text-md',
       caption: 'text-sm',
     },
+    weight: {
+      normal: 'font-normal',
+      medium: 'font-medium',
+      semibold: 'font-semibold',
+      bold: 'font-bold',
+    },
+    color: {
+      primary: 'text-primary',
+      secondary: 'text-secondary',
+      success: 'text-success',
+      warning: 'text-warning',
+      error: 'text-error',
+      text: 'text-text',
+      textSecondary: 'text-text-secondary',
+      background: 'text-background',
+      border: 'text-border',
+      surface: 'text-surface',
+      accent: 'text-accent',
+    },
   },
   defaultVariants: {
     variant: 'body',
+    weight: 'normal',
+    color: 'text',
   },
 });
 
-const WeightMap = {
-  regular: '400',
-  medium: '500',
-  semibold: '600',
-  bold: '700',
-};
-
-export interface TextProps extends RNTextProps, VariantProps<typeof textVariants> {
-  color?: keyof typeof colors;
-  weight?: 'regular' | 'medium' | 'semibold' | 'bold';
-}
+export interface TextProps extends RNTextProps, VariantProps<typeof textVariants> {}
 
 export const Text: React.FC<TextProps> = ({
   variant = 'body',
   color = 'text',
-  weight = 'regular',
+  weight = 'normal',
   style,
   ...props
 }) => {
-  const textClass = textVariants({ variant });
-  const colorStyle = { color: colors[color] };
-  const weightStyle = { fontWeight: WeightMap[weight] as TextStyle['fontWeight'] };
-
-  return <RNText style={[tw.style(textClass), colorStyle, weightStyle, style]} {...props} />;
+  const textStyle = useMemo(
+    () => textVariants({ variant, weight, color }),
+    [weight, variant, color]
+  );
+  const accessibilityRole = variant?.startsWith('h') ? 'header' : 'text';
+  return (
+    <RNText accessibilityRole={accessibilityRole} style={[tw.style(textStyle), style]} {...props} />
+  );
 };

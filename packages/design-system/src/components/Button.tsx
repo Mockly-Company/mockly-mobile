@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
 
-// Button container variants using CVA
 const buttonVariants = cva('items-center justify-center rounded-md', {
   variants: {
     variant: {
@@ -26,7 +25,6 @@ const buttonVariants = cva('items-center justify-center rounded-md', {
   },
 });
 
-// Button text variants using CVA
 const buttonTextVariants = cva('font-semibold', {
   variants: {
     variant: {
@@ -48,9 +46,8 @@ const buttonTextVariants = cva('font-semibold', {
 
 export interface ButtonProps
   extends TouchableOpacityProps,
-    Omit<VariantProps<typeof buttonVariants>, 'disabled'> {
-  children: string;
-}
+    Omit<VariantProps<typeof buttonVariants>, 'disabled'>,
+    PropsWithChildren {}
 
 export const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
@@ -60,11 +57,21 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const buttonClass = buttonVariants({ variant, size, disabled });
-  const textClass = buttonTextVariants({ variant, size });
+  const buttonClass = useMemo(
+    () => buttonVariants({ variant, size, disabled }),
+    [variant, size, disabled]
+  );
+  const textClass = useMemo(() => buttonTextVariants({ variant, size }), [variant, size]);
 
   return (
-    <TouchableOpacity style={[tw.style(buttonClass), style]} disabled={disabled} {...props}>
+    <TouchableOpacity
+      style={[tw.style(buttonClass), style]}
+      disabled={disabled}
+      accessible={true}
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
+      {...props}
+    >
       <Text style={tw.style(textClass)}>{children}</Text>
     </TouchableOpacity>
   );

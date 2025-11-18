@@ -13,8 +13,7 @@ const spacingMap: Record<SpacingKey, number> = {
   xxl: spacingValues.xxl,
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export interface GridProps<T = any> extends Omit<FlatGridProps<T>, 'spacing'> {
+export interface GridProps extends Omit<FlatGridProps, 'spacing'> {
   spacing?: SpacingKey;
 }
 
