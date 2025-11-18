@@ -40,7 +40,7 @@ jobs:
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          track_progress: false # 변경사항 검토 시 진행 상황 추적 비활성화
+          track_progress: true # 변경사항 검토 시 진행 상황 추적 비활성화
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
