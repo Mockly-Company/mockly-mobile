@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
@@ -48,7 +48,10 @@ export const Spacer: React.FC<SpacerProps> = ({
   style,
   ...props
 }) => {
-  const spacerClass = spacerVariants({ size, direction });
+  const spacerStyle = useMemo(
+    () => tw.style(spacerVariants({ size, direction })),
+    [size, direction]
+  );
 
-  return <View style={[tw.style(spacerClass), style]} {...props} />;
+  return <View style={[spacerStyle, style]} {...props} />;
 };

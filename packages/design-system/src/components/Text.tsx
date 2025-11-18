@@ -49,11 +49,9 @@ export const Text: React.FC<TextProps> = ({
   ...props
 }) => {
   const textStyle = useMemo(
-    () => textVariants({ variant, weight, color }),
+    () => tw.style(textVariants({ variant, weight, color })),
     [weight, variant, color]
   );
-  const accessibilityRole = variant?.startsWith('h') ? 'header' : 'text';
-  return (
-    <RNText accessibilityRole={accessibilityRole} style={[tw.style(textStyle), style]} {...props} />
-  );
+  const accessibilityRole = variant && variant.startsWith('h') ? 'header' : 'text';
+  return <RNText accessibilityRole={accessibilityRole} style={[textStyle, style]} {...props} />;
 };

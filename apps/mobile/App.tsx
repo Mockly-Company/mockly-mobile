@@ -9,9 +9,9 @@ import {
 
 function App() {
   useDeviceContext(tw);
-  const [colorSchewme] = useAppColorScheme(tw);
+  const [colorScheme] = useAppColorScheme(tw);
 
-  const isDarkMode = colorSchewme === 'dark';
+  const isDarkMode = colorScheme === 'dark';
 
   return (
     <SafeAreaProvider>

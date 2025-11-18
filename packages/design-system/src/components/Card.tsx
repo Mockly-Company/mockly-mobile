@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
@@ -34,10 +34,9 @@ export const Card: React.FC<CardProps> = ({
   children,
   ...props
 }) => {
-  const cardClass = cardVariants({ variant, padding });
-
+  const cardStyle = useMemo(() => tw.style(cardVariants({ variant, padding })), [variant, padding]);
   return (
-    <View style={[tw.style(cardClass), style]} {...props}>
+    <View style={[cardStyle, style]} {...props}>
       {children}
     </View>
   );

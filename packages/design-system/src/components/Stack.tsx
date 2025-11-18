@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
@@ -51,10 +51,13 @@ export const Stack: React.FC<StackProps> = ({
   children,
   ...props
 }) => {
-  const stackClass = stackVariants({ direction, spacing, align, justify });
+  const stackStyle = useMemo(
+    () => tw.style(stackVariants({ direction, spacing, align, justify })),
+    [direction, spacing, align, justify]
+  );
 
   return (
-    <View style={[tw.style(stackClass), style]} {...props}>
+    <View style={[stackStyle, style]} {...props}>
       {children}
     </View>
   );

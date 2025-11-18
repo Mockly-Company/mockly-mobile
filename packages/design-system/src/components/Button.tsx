@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useMemo } from 'react';
 import { TouchableOpacity, Text, TouchableOpacityProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
+
 import { tw } from '../lib/tw';
 
 const buttonVariants = cva('items-center justify-center rounded-md', {
@@ -57,22 +58,22 @@ export const Button: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const buttonClass = useMemo(
-    () => buttonVariants({ variant, size, disabled }),
+  const buttonStyle = useMemo(
+    () => tw.style(buttonVariants({ variant, size, disabled })),
     [variant, size, disabled]
   );
-  const textClass = useMemo(() => buttonTextVariants({ variant, size }), [variant, size]);
+  const textStyle = useMemo(() => tw.style(buttonTextVariants({ variant, size })), [variant, size]);
 
   return (
     <TouchableOpacity
-      style={[tw.style(buttonClass), style]}
+      style={[buttonStyle, style]}
       disabled={disabled}
       accessible={true}
       accessibilityRole="button"
       accessibilityState={{ disabled: !!disabled }}
       {...props}
     >
-      <Text style={tw.style(textClass)}>{children}</Text>
+      <Text style={textStyle}>{children}</Text>
     </TouchableOpacity>
   );
 };
