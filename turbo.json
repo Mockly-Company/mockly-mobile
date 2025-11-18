@@ -17,7 +17,11 @@
       "cache": false,
       "persistent": true
     },
-    "storybook": {
+    "storybook:web": {
+      "cache": false,
+      "persistent": true
+    },
+    "storybook:android": {
       "cache": false,
       "persistent": true
     },

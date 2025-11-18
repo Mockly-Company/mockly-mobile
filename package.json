@@ -6,7 +6,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run android --filter=mobile",
-    "storybook": "turbo run storybook --filter=@mockly/storybook",
+    "storybook": "turbo run storybook:android --filter=@mockly/storybook",
+    "storybook:web": "turbo run storybook:web --filter=@mockly/storybook",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "test": "turbo run test",
