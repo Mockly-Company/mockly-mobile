@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "storybook": "cross-env STORYBOOK_ENABLED='true' react-native start",
     "storybook:ios": "cross-env STORYBOOK_ENABLED='true' react-native run-ios",
