@@ -1,0 +1,40 @@
+name: Mockly 앱 테스트
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: 단위 테스트
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 코드 체크아웃
+        uses: actions/checkout@v4
+
+      - name: pnpm 설치
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: 의존성 설치
+        run: pnpm install
+
+      - name: 패키지 빌드
+        run: |
+          pnpm --filter @mockly/entities build
+          pnpm --filter @mockly/utils build
+          pnpm --filter @mockly/api build
+          pnpm --filter @mockly/design-system build
+
+      - name: 테스트 실행
+        run: pnpm test
