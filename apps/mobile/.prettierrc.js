@@ -1,6 +1,5 @@
-const confing = {
+module.exports = {
   arrowParens: 'avoid',
   singleQuote: true,
   trailingComma: 'all',
 };
-export default confing;
