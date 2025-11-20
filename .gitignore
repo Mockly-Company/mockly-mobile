@@ -60,4 +60,5 @@ DerivedData/
 *~
 
 .env.*
+!.env.test
 .npmrc

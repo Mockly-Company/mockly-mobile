@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "lint": "eslint .",
     "storybook": "cross-env STORYBOOK_ENABLED='true' react-native start",
     "storybook:ios": "cross-env STORYBOOK_ENABLED='true' react-native run-ios",
@@ -76,9 +76,6 @@
     "storybook": "^10.0.7",
     "typescript": "5.9.3",
     "vite": "^7.2.2"
-  },
-  "jest": {
-    "preset": "react-native"
   },
   "engines": {
     "node": ">=20"
