@@ -91,6 +91,10 @@ android {
                           "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
             }
         }
+        manifestPlaceholders = [
+        appAuthRedirectScheme: 'com.googleusercontent.apps.699084005649-tflbdqtj3k5bskivds520lr74s65jjnh'
+        // your url will look like com.googleusercontent.apps.12345678912-k50abcdefghijkabcdefghijkabcdefv
+        ]
     }
     signingConfigs {
         debug {
