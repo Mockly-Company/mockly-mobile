@@ -19,7 +19,11 @@ const config = {
         envName: 'APP_ENV',
         moduleName: '@env',
         path:
-          process.env.NODE_ENV === 'production' ? './.env.prod' : './.env.dev',
+          process.env.NODE_ENV === 'test'
+            ? './.env.test'
+            : process.env.NODE_ENV === 'production'
+              ? './.env.prod'
+              : './.env.dev',
         blocklist: null,
         allowlist: null,
         safe: false,
