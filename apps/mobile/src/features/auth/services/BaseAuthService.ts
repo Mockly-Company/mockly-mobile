@@ -3,13 +3,8 @@
  * Provider별로 이 클래스를 상속받아 구현
  */
 
-import type {
-  AuthConfig,
-  AuthorizationResult,
-  TokenResponse,
-  RefreshTokenResponse,
-  UserInfo,
-} from './types';
+import { AccessRefreshToken, AuthToken } from '@mockly/entities';
+import type { AuthConfig, AuthorizationResult } from '../types';
 
 export abstract class BaseAuthService {
   protected config: AuthConfig;
@@ -30,24 +25,19 @@ export abstract class BaseAuthService {
   abstract exchangeCodeForToken(
     authorizationCode: string,
     codeVerifier: string,
-  ): Promise<TokenResponse | null>;
+  ): Promise<AuthToken | null>;
 
   /**
    * Refresh Token으로 새 Access Token 발급
    */
   abstract refreshAccessToken(
     refreshToken: string,
-  ): Promise<RefreshTokenResponse | null>;
+  ): Promise<AccessRefreshToken | null>;
 
   /**
    * 토큰 폐기 (로그아웃)
    */
   abstract revokeToken(accessToken: string): Promise<boolean>;
-
-  /**
-   * ID Token 디코딩하여 사용자 정보 추출
-   */
-  abstract decodeIdToken(idToken: string): UserInfo | null;
 
   /**
    * 토큰 만료 여부 확인

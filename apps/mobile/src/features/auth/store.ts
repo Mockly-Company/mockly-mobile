@@ -4,7 +4,7 @@
 
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAuthService } from '@lib/app-auth';
+import { getAuthService } from './services';
 import type { AuthUser, AuthProvider } from './types';
 import { AUTH_STORAGE_KEY } from '@shared/constants/auth';
 import { AUTH_ERRORS } from './errors';
@@ -12,7 +12,11 @@ import { AUTH_ERRORS } from './errors';
 interface StoredAuthState {
   accessToken: string;
   refreshToken: string;
-  idToken: string;
+  user: {
+    id: string;
+    email: string;
+    name: string;
+  };
   expiresAt: number;
   provider: AuthProvider;
 }
@@ -33,24 +37,6 @@ interface AuthActions {
 }
 
 type AuthStore = AuthState & AuthActions;
-
-// ID Token을 AuthUser로 변환
-const convertIdTokenToAuthUser = (
-  idToken: string,
-  provider: AuthProvider,
-): AuthUser | null => {
-  const authService = getAuthService(provider);
-  const userInfo = authService.decodeIdToken(idToken);
-  if (!userInfo) return null;
-
-  return {
-    id: userInfo.id,
-    email: userInfo.email,
-    name: userInfo.name || null,
-    photo: userInfo.photo || null,
-    provider,
-  };
-};
 
 // 인증 상태 저장
 const saveAuthState = async (state: StoredAuthState | null): Promise<void> => {
@@ -87,8 +73,8 @@ const loadAuthState = async (): Promise<StoredAuthState | null> => {
         const newState: StoredAuthState = {
           accessToken: refreshed.accessToken,
           refreshToken: refreshed.refreshToken,
-          idToken: state.idToken,
-          expiresAt: Date.now() + refreshed.expiresIn * 1000,
+          user: state.user,
+          expiresAt: refreshed.expiresAt.getTime(),
           provider: state.provider,
         };
         await saveAuthState(newState);
@@ -121,14 +107,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const stored = await loadAuthState();
       if (stored) {
-        const authUser = convertIdTokenToAuthUser(
-          stored.idToken,
-          stored.provider,
-        );
+        const authUser: AuthUser = {
+          id: stored.user.id,
+          email: stored.user.email,
+          name: stored.user.name,
+          photo: null,
+          provider: stored.provider,
+        };
         set({
           user: authUser,
           authState: stored,
-          isAuthenticated: authUser !== null,
+          isAuthenticated: true,
           isLoading: false,
         });
       } else {
@@ -156,19 +145,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const authService = getAuthService(provider);
 
-      console.log('시작');
       // 1. PKCE를 사용하여 Authorization Code 획득
       const pkceResult = await authService.authorize();
       if (!pkceResult) {
         throw AUTH_ERRORS.CANCELLED();
       }
-      console.log('PKCE Authorization Code 획득 성공', pkceResult);
+
       // 2. 백엔드로 Code와 Code Verifier 전송하여 토큰 교환
       const tokens = await authService.exchangeCodeForToken(
         pkceResult.authorizationCode,
         pkceResult.codeVerifier,
       );
-      console.log('백엔드로부터 토큰 교환 성공', tokens);
       if (!tokens) {
         throw AUTH_ERRORS.TOKEN_EXCHANGE_FAILED();
       }
@@ -177,19 +164,26 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const newState: StoredAuthState = {
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
-        idToken: tokens.idToken,
-        expiresAt: Date.now() + tokens.expiresIn * 1000,
+        user: tokens.user,
+        expiresAt: tokens.expiresAt.getTime(),
         provider,
       };
 
       await saveAuthState(newState);
 
       // 4. 사용자 정보 설정
-      const authUser = convertIdTokenToAuthUser(tokens.idToken, provider);
+      const authUser: AuthUser = {
+        id: tokens.user.id,
+        email: tokens.user.email,
+        name: tokens.user.name,
+        photo: null,
+        provider,
+      };
+
       set({
         user: authUser,
         authState: newState,
-        isAuthenticated: authUser !== null,
+        isAuthenticated: true,
         isLoading: false,
       });
     } catch (error) {
@@ -229,14 +223,17 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const stored = await loadAuthState();
       if (stored) {
-        const authUser = convertIdTokenToAuthUser(
-          stored.idToken,
-          stored.provider,
-        );
+        const authUser: AuthUser = {
+          id: stored.user.id,
+          email: stored.user.email,
+          name: stored.user.name,
+          photo: null,
+          provider: stored.provider,
+        };
         set({
           user: authUser,
           authState: stored,
-          isAuthenticated: authUser !== null,
+          isAuthenticated: true,
         });
       } else {
         set({

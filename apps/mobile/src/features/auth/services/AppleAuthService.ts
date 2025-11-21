@@ -3,14 +3,9 @@
  * BaseAuthService를 상속받아 Apple 전용 로직 구현
  */
 
-import { BaseAuthService } from '../base/BaseAuthService';
-import type {
-  AuthConfig,
-  AuthorizationResult,
-  TokenResponse,
-  RefreshTokenResponse,
-  UserInfo,
-} from '../base/types';
+import { AccessRefreshToken, AuthToken } from '@mockly/entities';
+import { BaseAuthService } from './BaseAuthService';
+import type { AuthConfig, AuthorizationResult } from '../types';
 
 // TODO: AuthService 확장시 구현 필요
 export class AppleAuthService extends BaseAuthService {
@@ -32,25 +27,20 @@ export class AppleAuthService extends BaseAuthService {
   async exchangeCodeForToken(
     _authorizationCode: string,
     _codeVerifier: string,
-  ): Promise<TokenResponse | null> {
+  ): Promise<AuthToken | null> {
     // TODO: Apple token exchange 구현
     throw new Error('Apple Auth not implemented yet');
   }
 
   async refreshAccessToken(
     _refreshToken: string,
-  ): Promise<RefreshTokenResponse | null> {
+  ): Promise<AccessRefreshToken | null> {
     // TODO: Apple token refresh 구현
     throw new Error('Apple Auth not implemented yet');
   }
 
   async revokeToken(_accessToken: string): Promise<boolean> {
     // TODO: Apple token revoke 구현
-    throw new Error('Apple Auth not implemented yet');
-  }
-
-  decodeIdToken(_idToken: string): UserInfo | null {
-    // TODO: Apple ID Token decode 구현
     throw new Error('Apple Auth not implemented yet');
   }
 }

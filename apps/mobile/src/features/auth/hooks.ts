@@ -2,7 +2,6 @@
  * 인증 관련 커스텀 훅
  */
 
-import { useEffect } from 'react';
 import { useAuthStore } from './store';
 
 /**
@@ -26,12 +25,6 @@ export const useAuth = () => {
   const signIn = useAuthStore(state => state.signIn);
   const signOut = useAuthStore(state => state.signOut);
   const refreshUser = useAuthStore(state => state.refreshUser);
-  const initialize = useAuthStore(state => state.initialize);
-
-  // 컴포넌트 마운트 시 초기화
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
 
   return {
     user,

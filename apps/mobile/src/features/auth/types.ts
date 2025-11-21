@@ -5,6 +5,18 @@
 
 export type AuthProvider = 'google' | 'apple' | 'naver' | 'kakao';
 
+export interface AuthConfig {
+  issuer: string;
+  clientId: string;
+  redirectUrl: string;
+  scopes: string[];
+}
+
+export interface AuthorizationResult {
+  authorizationCode: string;
+  codeVerifier: string;
+}
+
 export interface AuthUser {
   id: string;
   email: string;

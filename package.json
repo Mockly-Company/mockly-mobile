@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run android --filter=mobile",
+    "dev": "turbo run dev --filter=!@mockly/storybook",
     "storybook": "turbo run storybook:android --filter=@mockly/storybook",
     "storybook:web": "turbo run storybook:web --filter=@mockly/storybook",
     "lint": "turbo run lint",

@@ -3,10 +3,10 @@
  * Provider에 따라 적절한 AuthService 인스턴스 반환
  */
 
-import type { AuthProvider } from '@features/auth/types';
-import { BaseAuthService } from './base/BaseAuthService';
-import { GoogleAuthService } from './providers/GoogleAuthService';
-import { AppleAuthService } from './providers/AppleAuthService';
+import type { AuthProvider } from '../types';
+import { BaseAuthService } from './BaseAuthService';
+import { GoogleAuthService } from './GoogleAuthService';
+import { AppleAuthService } from './AppleAuthService';
 
 // Provider별 AuthService 싱글톤 인스턴스
 const authServiceInstances = new Map<AuthProvider, BaseAuthService>();
@@ -51,12 +51,6 @@ export function clearAuthServiceCache(): void {
   authServiceInstances.clear();
 }
 
-// 타입 및 클래스 re-export (편의성)
-export { BaseAuthService } from './base/BaseAuthService';
-export type {
-  AuthConfig,
-  AuthorizationResult,
-  TokenResponse,
-  RefreshTokenResponse,
-  UserInfo,
-} from './base/types';
+export { BaseAuthService } from './BaseAuthService';
+export { GoogleAuthService } from './GoogleAuthService';
+export { AppleAuthService } from './AppleAuthService';
