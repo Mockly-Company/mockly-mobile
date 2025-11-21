@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import { ApiResponse } from '../types';
 
 export interface ApiClientConfig {
   baseURL: string;
@@ -59,28 +60,40 @@ export class ApiClient {
     // Implement unauthorized handling logic
   }
 
-  public async get<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    const response = await this.client.get<T>(url, config);
+  public async get<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    const response = await this.client.get<ApiResponse<T>>(url, config);
     return response.data;
   }
 
-  public async post<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    const response = await this.client.post<T>(url, data, config);
+  public async post<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<ApiResponse<T>> {
+    const response = await this.client.post<ApiResponse<T>>(url, data, config);
     return response.data;
   }
 
-  public async put<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    const response = await this.client.put<T>(url, data, config);
+  public async put<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<ApiResponse<T>> {
+    const response = await this.client.put<ApiResponse<T>>(url, data, config);
     return response.data;
   }
 
-  public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
-    const response = await this.client.delete<T>(url, config);
+  public async delete<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
+    const response = await this.client.delete<ApiResponse<T>>(url, config);
     return response.data;
   }
 
-  public async patch<T>(url: string, data?: unknown, config?: AxiosRequestConfig): Promise<T> {
-    const response = await this.client.patch<T>(url, data, config);
+  public async patch<T>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<ApiResponse<T>> {
+    const response = await this.client.patch<ApiResponse<T>>(url, data, config);
     return response.data;
   }
 }
