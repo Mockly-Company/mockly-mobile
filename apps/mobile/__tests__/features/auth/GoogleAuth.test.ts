@@ -10,6 +10,12 @@ import { auth } from '@mockly/api';
 // react-native-app-auth 모킹
 jest.mock('react-native-app-auth');
 
+// 환경 변수 모킹
+jest.mock('@env', () => ({
+  GOOGLE_ANDROID_CLIENT_ID: 'mock-client-id',
+  GOOGLE_REDIRECT_URI: 'com.mockly.app:/oauth2redirect',
+}));
+
 // @mockly/api 모킹
 jest.mock('@mockly/api', () => ({
   auth: {
@@ -82,11 +88,12 @@ describe('GoogleAuthService 단위 테스트', () => {
       );
 
       expect(result).toEqual(mockResponse);
-      expect(auth.loginGoogleCode).toHaveBeenCalledWith({
-        code: 'mock-auth-code',
-        codeVerifier: 'mock-code-verifier',
-        redirectUri: expect.any(String),
-      });
+      expect(auth.loginGoogleCode).toHaveBeenCalledWith(
+        expect.objectContaining({
+          code: 'mock-auth-code',
+          codeVerifier: 'mock-code-verifier',
+        }),
+      );
     });
 
     it('네트워크 오류 시 null을 반환해야 함', async () => {

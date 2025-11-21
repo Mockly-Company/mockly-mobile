@@ -105,6 +105,11 @@ const mockSuccessfulRefresh = () => {
   });
 };
 
+// 테스트 헬퍼: initialize 호출
+const initializeStore = async () => {
+  await useAuthStore.getState().initialize();
+};
+
 describe('AuthStore - Provider 패턴 기반 인증', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -122,6 +127,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
   describe('로그인 플로우', () => {
     it('Google 로그인이 성공해야 함', async () => {
       mockSuccessfulLogin();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -144,6 +150,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('Authorization 실패 시 에러를 던져야 함', async () => {
       mockGoogleAuthService.authorize.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -163,8 +170,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         authorizationCode: 'mock-auth-code',
         codeVerifier: 'mock-code-verifier',
       });
-
       mockGoogleAuthService.exchangeCodeForToken.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -185,9 +192,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
       mockGoogleAuthService.revokeToken.mockResolvedValue(true);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -212,6 +219,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('로그인하지 않은 상태에서 로그아웃해도 정상 동작해야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -234,8 +242,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -249,6 +257,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('저장된 토큰이 없으면 로그인 안된 상태여야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -264,9 +273,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiredTokenMocks();
       mockSuccessfulRefresh();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -284,9 +293,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiredTokenMocks();
       mockGoogleAuthService.refreshAccessToken.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -302,9 +311,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiringSoonTokenMocks();
       mockSuccessfulRefresh();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -323,8 +332,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -341,6 +350,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('refreshUser 호출 시 저장된 토큰이 없으면 null로 설정해야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -363,8 +373,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
         new Error('Storage error'),
       );
-
       mockSuccessfulLogin();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -390,6 +400,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockRejectedValue(
         new Error('Storage error'),
       );
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -412,11 +423,11 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
       mockGoogleAuthService.revokeToken.mockRejectedValue(
         new Error('Revoke failed'),
       );
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
