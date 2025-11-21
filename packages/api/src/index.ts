@@ -1,4 +1,6 @@
-// Export API client and services
+// Export API client and domain modules
 export * from './client';
-export * from './services/userService';
-export * from './services/mockService';
+export * from './types';
+export * as auth from './auth';
+export * as user from './user';
+export * as mock from './mock';
