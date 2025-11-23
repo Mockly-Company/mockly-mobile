@@ -1,5 +1,5 @@
 {
-  "extends": "@mockly/typescript-config/react-native.json",
+  "extends": "@mockly/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
