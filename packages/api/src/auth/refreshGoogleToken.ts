@@ -1,5 +1,6 @@
 import { AccessRefreshToken } from '@mockly/entities';
 import { apiClient } from '../client';
+import { calculateExpiresAt } from './utils';
 
 interface RefreshTokenResDTO {
   accessToken: string;
@@ -8,11 +9,12 @@ interface RefreshTokenResDTO {
 }
 
 export async function refreshGoogleToken(refreshToken: string): Promise<AccessRefreshToken> {
-  const res = await apiClient.post<RefreshTokenResDTO>('/auth/google/refresh', {
+  const res = await apiClient.post<RefreshTokenResDTO>('/api/auth/google/refresh', {
     refreshToken,
   });
   return {
-    ...res.data,
-    expiresAt: new Date(res.timestamp * 1000 + res.data.expiresIn * 1000),
+    accessToken: res.data.accessToken,
+    refreshToken: res.data.refreshToken,
+    expiresAt: calculateExpiresAt(res.timestamp, res.data.expiresIn),
   };
 }

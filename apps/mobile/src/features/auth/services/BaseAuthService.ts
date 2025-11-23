@@ -35,9 +35,9 @@ export abstract class BaseAuthService {
   ): Promise<AccessRefreshToken | null>;
 
   /**
-   * 토큰 폐기 (로그아웃)
+   * 로그아웃 및 토큰 폐기
    */
-  abstract revokeToken(accessToken: string): Promise<boolean>;
+  abstract logout(accessToken: string): Promise<boolean>;
 
   /**
    * 토큰 만료 여부 확인

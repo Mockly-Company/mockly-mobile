@@ -5,10 +5,12 @@ export interface ApiClientConfig {
   baseURL: string;
   timeout?: number;
   headers?: Record<string, string>;
+  getAuthToken: () => string | null;
 }
 
 export class ApiClient {
   private client: AxiosInstance;
+  private getAuthToken: () => string | null;
 
   constructor(config: ApiClientConfig) {
     this.client = axios.create({
@@ -19,7 +21,7 @@ export class ApiClient {
         ...config.headers,
       },
     });
-
+    this.getAuthToken = config.getAuthToken;
     this.setupInterceptors();
   }
 
@@ -49,11 +51,6 @@ export class ApiClient {
         return Promise.reject(error);
       }
     );
-  }
-
-  private getAuthToken(): string | null {
-    // Implement token retrieval logic
-    return null;
   }
 
   private handleUnauthorized() {

@@ -52,7 +52,7 @@ const mockGoogleAuthService = {
     Promise<AccessRefreshToken | null>,
     [refreshToken: string]
   >(),
-  revokeToken: jest.fn<Promise<boolean>, [accessToken: string]>(),
+  logout: jest.fn<Promise<boolean>, [accessToken: string]>(),
   isTokenExpired: jest.fn<boolean, [expiresAt: number]>(),
   isTokenExpiringSoon: jest.fn<boolean, [expiresAt: number]>(),
 };
@@ -193,7 +193,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         JSON.stringify(mockStoredAuthState),
       );
       setupValidTokenMocks();
-      mockGoogleAuthService.revokeToken.mockResolvedValue(true);
+      mockGoogleAuthService.logout.mockResolvedValue(true);
       await initializeStore();
 
       const { result } = renderHook(() => useAuth());
@@ -207,7 +207,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         await result.current.signOut();
       });
 
-      expect(mockGoogleAuthService.revokeToken).toHaveBeenCalledWith(
+      expect(mockGoogleAuthService.logout).toHaveBeenCalledWith(
         'mock-access-token',
       );
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith(
@@ -231,7 +231,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         await result.current.signOut();
       });
 
-      expect(mockGoogleAuthService.revokeToken).not.toHaveBeenCalled();
+      expect(mockGoogleAuthService.logout).not.toHaveBeenCalled();
       expect(result.current.user).toBeNull();
       expect(result.current.isAuthenticated).toBe(false);
     });
@@ -417,15 +417,15 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       consoleErrorSpy.mockRestore();
     });
 
-    it('로그아웃 시 revokeToken 실패해도 에러가 발생해야 함', async () => {
+    it('로그아웃 시 logout 실패해도 에러가 발생해야 함', async () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
       setupValidTokenMocks();
-      mockGoogleAuthService.revokeToken.mockRejectedValue(
-        new Error('Revoke failed'),
+      mockGoogleAuthService.logout.mockRejectedValue(
+        new Error('Logout failed'),
       );
       await initializeStore();
 
@@ -440,7 +440,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         act(async () => {
           await result.current.signOut();
         }),
-      ).rejects.toThrow('Revoke failed');
+      ).rejects.toThrow('Logout failed');
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         '로그아웃 실패:',

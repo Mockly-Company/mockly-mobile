@@ -39,8 +39,8 @@ export class AppleAuthService extends BaseAuthService {
     throw new Error('Apple Auth not implemented yet');
   }
 
-  async revokeToken(_accessToken: string): Promise<boolean> {
-    // TODO: Apple token revoke 구현
+  async logout(_accessToken: string): Promise<boolean> {
+    // TODO: Apple 로그아웃 구현
     throw new Error('Apple Auth not implemented yet');
   }
 }

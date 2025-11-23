@@ -1,5 +1,6 @@
 import { AuthToken } from '@mockly/entities';
 import { apiClient } from '../client';
+import { calculateExpiresAt } from './utils';
 
 interface GoogleLoginReqDTO {
   code: string;
@@ -21,7 +22,9 @@ interface TokenResDTO {
 export async function loginGoogleCode(data: GoogleLoginReqDTO): Promise<AuthToken> {
   const res = await apiClient.post<TokenResDTO>('/api/auth/login/google/code', data);
   return {
-    ...res.data,
-    expiresAt: new Date(res.timestamp * 1000 + res.data.expiresIn * 1000),
+    accessToken: res.data.accessToken,
+    refreshToken: res.data.refreshToken,
+    user: res.data.user,
+    expiresAt: calculateExpiresAt(res.timestamp, res.data.expiresIn),
   };
 }

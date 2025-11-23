@@ -201,7 +201,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (user?.provider && authState?.accessToken) {
         const authService = getAuthService(user.provider);
-        await authService.revokeToken(authState.accessToken);
+        await authService.logout(authState.accessToken);
       }
 
       await saveAuthState(null);

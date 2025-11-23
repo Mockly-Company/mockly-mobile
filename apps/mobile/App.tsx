@@ -12,6 +12,9 @@ import { API_BASE_URL } from '@env';
 initializeApiClient({
   baseURL: API_BASE_URL || 'http://localhost:8080',
   timeout: 30000,
+  getAuthToken: () => {
+    return useAuthStore.getState().authState?.accessToken || null;
+  },
 });
 
 function App() {

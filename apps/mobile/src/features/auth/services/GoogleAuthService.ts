@@ -42,15 +42,13 @@ export class GoogleAuthService extends BaseAuthService {
       });
 
       if (!result.authorizationCode || !result.codeVerifier) {
-        console.log('⚠️ Authorization result incomplete');
         return null;
       }
       return {
         authorizationCode: result.authorizationCode,
         codeVerifier: result.codeVerifier,
       };
-    } catch (error) {
-      console.error('PKCE 인증 에러', error);
+    } catch {
       return null;
     }
   }
@@ -93,12 +91,12 @@ export class GoogleAuthService extends BaseAuthService {
   /**
    * 로그아웃 및 토큰 폐기 (백엔드 API 사용)
    */
-  async revokeToken(_accessToken: string): Promise<boolean> {
+  async logout(_accessToken: string): Promise<boolean> {
     try {
-      await auth.revokeGoogleToken();
+      await auth.logout();
       return true;
     } catch (error) {
-      console.error('토큰 폐기에 실패했습니다:', error);
+      console.error('로그아웃에 실패했습니다:', error);
       return false;
     }
   }
