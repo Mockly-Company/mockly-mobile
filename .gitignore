@@ -36,6 +36,8 @@ dist/
 android/app/build/
 android/.gradle/
 android/local.properties
+**/android/app/debug.keystore
+**/android/gradle/wrapper/gradle-wrapper.jar
 
 # iOS
 ios/Pods/
@@ -49,9 +51,14 @@ DerivedData/
 # Metro
 .metro-health-check*
 
+# Bundler
+**/.bundle/
+
 # Temporary files
 *.swp
 *.swo
 *~
 
 .env.*
+!.env.test
+.npmrc

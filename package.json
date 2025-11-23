@@ -5,11 +5,16 @@
   "type": "module",
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --filter=mobile",
-    "dev:storybook": "turbo run dev --filter=@mockly/storybook",
+    "dev": "turbo run dev --filter=!@mockly/storybook",
+    "storybook": "turbo run storybook:android --filter=@mockly/storybook",
+    "storybook:web": "turbo run storybook:web --filter=@mockly/storybook",
     "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
-    "test": "turbo run test",
+    "lint:fix": "turbo run lint -- --fix",
+    "test": "turbo run test --output-logs=errors-only",
+    "test:verbose": "turbo run test",
+    "test:mobile": "turbo run test --filter=mobile --output-logs=errors-only",
+    "test:watch": "turbo run test:watch --filter=mobile",
+    "test:coverage": "turbo run test:coverage --filter=mobile",
     "type-check": "turbo run type-check",
     "clean": "turbo run clean && rm -rf node_modules",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
@@ -37,6 +42,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "7.0.1",
     "eslint-plugin-react-native": "5.0.0",
+    "eslint-plugin-jest": "29.1.0",
     "husky": "9.1.7",
     "lint-staged": "16.2.6",
     "prettier": "3.6.2",
@@ -47,5 +53,13 @@
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "patchedDependencies": {
+      "@gorhom/bottom-sheet@5.2.6": "patches/@gorhom__bottom-sheet.patch"
+    }
+  },
+  "dependencies": {
+    "globals": "^16.5.0"
+  }
 }

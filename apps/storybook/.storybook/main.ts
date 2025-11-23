@@ -1,37 +1,68 @@
-import type { StorybookConfig } from '@storybook/react-native-web-vite';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import type {StorybookConfig} from '@storybook/react-native-web-vite';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const config: StorybookConfig = {
+const main: StorybookConfig = {
   stories: [
-    '../src/**/*.mdx',
-    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+    '../components/**/*.stories.?(ts|tsx|js|jsx)',
     '../../../packages/design-system/src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
   ],
   addons: [
-    // '@storybook/addon-onboarding',
-    // '@storybook/addon-themes',
-    // '@storybook/addon-links',
     '@storybook/addon-docs',
-    '@storybook/addon-react-native-web',
+    '@storybook/addon-links',
+    '@storybook/addon-onboarding',
+    // {
+    //   name: '@storybook/addon-react-native-web',
+    //   options: {
+    //     modulesToTranspile: [
+    //       '@mockly/storybook',
+    //       '@mockly/design-system',
+    //       'mobile',
+    //     ],
+    //     modulesToAlias: {
+    //       // 'react-native-package-name': 'react-native-web-package-name',
+    //     },
+    //   },
+    // },
   ],
   framework: {
     name: '@storybook/react-native-web-vite',
     options: {
       pluginReactOptions: {
-        jsxImportSource: 'nativewind',
+        babel: {
+          plugins: ['react-native-reanimated/plugin'],
+        },
       },
+      modulesToTranspile: [
+        '@mockly/design-system',
+        '@mockly/typescript-config',
+        '@mockly/storybook',
+      ],
     },
   },
-  core: {
-    builder: '@storybook/builder-vite',
-  },
+
   typescript: {
     reactDocgen: 'react-docgen-typescript',
   },
+  babel: {
+    presets: ['module:@react-native/babel-preset'],
+    plugins: [
+      'transform-inline-environment-variables',
+      ['babel-plugin-react-docgen-typescript', {exclude: 'node_modules'}],
+      'react-native-reanimated/plugin',
+    ],
+  },
+  viteFinal: async config => {
+    config.resolve = config.resolve || {};
+    // 모노레포라서 외부 패키지 transpile하도록 optimize
+    config.optimizeDeps = {
+      include: ['react-native-web', 'react-native'],
+    };
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      'react-native': 'react-native-web',
+    };
+
+    return config;
+  },
 };
 
-export default config;
+export default main;
