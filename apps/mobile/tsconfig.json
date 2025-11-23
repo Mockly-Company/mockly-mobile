@@ -6,10 +6,15 @@
       "@mockly/entities": ["../../packages/entities/src"],
       "@mockly/design-system": ["../../packages/design-system/src"],
       "@mockly/api": ["../../packages/api/src"],
-      "@mockly/config": ["../../packages/config/src"]
+      "@mockly/config": ["../../packages/config/src"],
+      "@app/*": ["src/app/*"],
+      "@features/*": ["src/features/*"],
+      "@lib/*": ["src/lib/*"],
+      "@shared/*": ["src/shared/*"]
     },
-    "types": ["jest", "react-native"]
+    "types": ["jest", "react-native", "node"],
+    "lib": ["ES2015", "DOM"]
   },
-  "include": ["src/**/*", "nativewind-env.d.ts", "__tests__/**/*"],
+  "include": ["**/*.ts", "**/*.tsx", "src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "android", "ios", "**/Pods"]
 }
