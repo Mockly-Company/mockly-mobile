@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 patchedDependencies:
-  '@gorhom/bottom-sheet':
+  '@gorhom/bottom-sheet@5.2.6':
     hash: 2laayd4iqwjt2wht23f2angjiq
     path: patches/@gorhom__bottom-sheet.patch
 

@@ -5,7 +5,10 @@
     "rootDir": "./src",
     "target": "ES2019",
     "lib": ["ES2019", "DOM"],
-    "strict": true
+    "strict": true,
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
