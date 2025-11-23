@@ -11,6 +11,18 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigator } from '@app/navigation/BottomTabNavigator';
 
+// useAuth 훅 모킹
+jest.mock('@features/auth/hooks', () => ({
+  useAuth: () => ({
+    user: null,
+    isLoading: false,
+    isAuthenticated: false,
+    signIn: jest.fn(),
+    signOut: jest.fn(),
+    refreshUser: jest.fn(),
+  }),
+}));
+
 const renderNavigator = () => {
   return render(
     <NavigationContainer>

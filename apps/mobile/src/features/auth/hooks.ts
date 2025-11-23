@@ -2,9 +2,8 @@
  * 인증 관련 커스텀 훅
  */
 
-import { useEffect } from 'react';
 import { useAuthStore } from './store';
-
+import { useShallow } from 'zustand/react/shallow';
 /**
  * 인증 상태 및 기능을 사용하기 위한 훅
  *
@@ -20,25 +19,15 @@ import { useAuthStore } from './store';
  * ```
  */
 export const useAuth = () => {
-  const user = useAuthStore(state => state.user);
-  const isLoading = useAuthStore(state => state.isLoading);
-  const isAuthenticated = useAuthStore(state => state.isAuthenticated);
-  const signIn = useAuthStore(state => state.signIn);
-  const signOut = useAuthStore(state => state.signOut);
-  const refreshUser = useAuthStore(state => state.refreshUser);
-  const initialize = useAuthStore(state => state.initialize);
-
-  // 컴포넌트 마운트 시 초기화
-  useEffect(() => {
-    initialize();
-  }, [initialize]);
-
-  return {
-    user,
-    isLoading,
-    isAuthenticated,
-    signIn,
-    signOut,
-    refreshUser,
-  };
+  const AuthContext = useAuthStore(
+    useShallow(state => ({
+      user: state.user,
+      isLoading: state.isLoading,
+      isAuthenticated: state.isAuthenticated,
+      signIn: state.signIn,
+      signOut: state.signOut,
+      refreshUser: state.refreshUser,
+    })),
+  );
+  return AuthContext;
 };

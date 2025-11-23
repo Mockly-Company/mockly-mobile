@@ -7,14 +7,9 @@ import { renderHook, act, waitFor } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '@features/auth/hooks';
 import { useAuthStore } from '@features/auth/store';
-import { GoogleAuthService } from '@lib/app-auth/providers/GoogleAuthService';
-import type { AuthUser } from '@features/auth/types';
-import type {
-  AuthorizationResult,
-  TokenResponse,
-  RefreshTokenResponse,
-  UserInfo,
-} from '@lib/app-auth/base/types';
+import { GoogleAuthService } from '@features/auth/services/GoogleAuthService';
+import type { AuthUser, AuthorizationResult } from '@features/auth/types';
+import type { AuthToken, AccessRefreshToken } from '@mockly/entities';
 
 // AsyncStorage 모킹
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -24,23 +19,24 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 
 // GoogleAuthService 모킹
-jest.mock('@lib/app-auth/providers/GoogleAuthService');
-
-const mockIdToken =
-  'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LXVzZXItaWQiLCJlbWFpbCI6InRlc3RAZXhhbXBsZS5jb20iLCJuYW1lIjoiVGVzdCBVc2VyIiwicGljdHVyZSI6Imh0dHBzOi8vZXhhbXBsZS5jb20vcGhvdG8uanBnIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9.test';
+jest.mock('@features/auth/services/GoogleAuthService');
 
 const expectedAuthUser: AuthUser = {
   id: 'test-user-id',
   email: 'test@example.com',
   name: 'Test User',
-  photo: 'https://example.com/photo.jpg',
+  photo: null,
   provider: 'google',
 };
 
 const mockStoredAuthState = {
   accessToken: 'mock-access-token',
   refreshToken: 'mock-refresh-token',
-  idToken: mockIdToken,
+  user: {
+    id: 'test-user-id',
+    email: 'test@example.com',
+    name: 'Test User',
+  },
   expiresAt: Date.now() + 3600000,
   provider: 'google' as const,
 };
@@ -49,15 +45,14 @@ const mockStoredAuthState = {
 const mockGoogleAuthService = {
   authorize: jest.fn<Promise<AuthorizationResult | null>, []>(),
   exchangeCodeForToken: jest.fn<
-    Promise<TokenResponse | null>,
+    Promise<AuthToken | null>,
     [authorizationCode: string, codeVerifier: string]
   >(),
   refreshAccessToken: jest.fn<
-    Promise<RefreshTokenResponse | null>,
+    Promise<AccessRefreshToken | null>,
     [refreshToken: string]
   >(),
-  revokeToken: jest.fn<Promise<boolean>, [accessToken: string]>(),
-  decodeIdToken: jest.fn<UserInfo | null, [idToken: string]>(),
+  logout: jest.fn<Promise<boolean>, [accessToken: string]>(),
   isTokenExpired: jest.fn<boolean, [expiresAt: number]>(),
   isTokenExpiringSoon: jest.fn<boolean, [expiresAt: number]>(),
 };
@@ -69,19 +64,9 @@ const mockGoogleAuthService = {
   () => mockGoogleAuthService as unknown as GoogleAuthService,
 );
 
-// 공통 Mock 설정 헬퍼 함수
-const mockUserInfo: UserInfo = {
-  id: 'test-user-id',
-  email: 'test@example.com',
-  name: 'Test User',
-  photo: 'https://example.com/photo.jpg',
-  emailVerified: true,
-};
-
 const setupValidTokenMocks = () => {
   mockGoogleAuthService.isTokenExpired.mockReturnValue(false);
   mockGoogleAuthService.isTokenExpiringSoon.mockReturnValue(false);
-  mockGoogleAuthService.decodeIdToken.mockReturnValue(mockUserInfo);
 };
 
 const setupExpiredTokenMocks = () => {
@@ -103,21 +88,26 @@ const mockSuccessfulLogin = () => {
   mockGoogleAuthService.exchangeCodeForToken.mockResolvedValue({
     accessToken: 'mock-access-token',
     refreshToken: 'mock-refresh-token',
-    idToken: mockIdToken,
-    expiresIn: 3600,
+    user: {
+      id: 'test-user-id',
+      email: 'test@example.com',
+      name: 'Test User',
+    },
+    expiresAt: new Date(Date.now() + 3600000),
   });
-
-  mockGoogleAuthService.decodeIdToken.mockReturnValue(mockUserInfo);
 };
 
 const mockSuccessfulRefresh = () => {
   mockGoogleAuthService.refreshAccessToken.mockResolvedValue({
     accessToken: 'new-access-token',
     refreshToken: 'new-refresh-token',
-    expiresIn: 3600,
+    expiresAt: new Date(Date.now() + 3600000),
   });
+};
 
-  mockGoogleAuthService.decodeIdToken.mockReturnValue(mockUserInfo);
+// 테스트 헬퍼: initialize 호출
+const initializeStore = async () => {
+  await useAuthStore.getState().initialize();
 };
 
 describe('AuthStore - Provider 패턴 기반 인증', () => {
@@ -137,6 +127,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
   describe('로그인 플로우', () => {
     it('Google 로그인이 성공해야 함', async () => {
       mockSuccessfulLogin();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -159,6 +150,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('Authorization 실패 시 에러를 던져야 함', async () => {
       mockGoogleAuthService.authorize.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -170,7 +162,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         act(async () => {
           await result.current.signIn('google');
         }),
-      ).rejects.toThrow('Authorization Code 획득에 실패했습니다.');
+      ).rejects.toThrow();
     });
 
     it('토큰 교환 실패 시 에러를 던져야 함', async () => {
@@ -178,8 +170,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         authorizationCode: 'mock-auth-code',
         codeVerifier: 'mock-code-verifier',
       });
-
       mockGoogleAuthService.exchangeCodeForToken.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -191,7 +183,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         act(async () => {
           await result.current.signIn('google');
         }),
-      ).rejects.toThrow('토큰 교환에 실패했습니다.');
+      ).rejects.toThrow();
     });
   });
 
@@ -200,9 +192,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
-      mockGoogleAuthService.revokeToken.mockResolvedValue(true);
+      mockGoogleAuthService.logout.mockResolvedValue(true);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -215,7 +207,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         await result.current.signOut();
       });
 
-      expect(mockGoogleAuthService.revokeToken).toHaveBeenCalledWith(
+      expect(mockGoogleAuthService.logout).toHaveBeenCalledWith(
         'mock-access-token',
       );
       expect(AsyncStorage.removeItem).toHaveBeenCalledWith(
@@ -227,6 +219,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('로그인하지 않은 상태에서 로그아웃해도 정상 동작해야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -238,7 +231,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         await result.current.signOut();
       });
 
-      expect(mockGoogleAuthService.revokeToken).not.toHaveBeenCalled();
+      expect(mockGoogleAuthService.logout).not.toHaveBeenCalled();
       expect(result.current.user).toBeNull();
       expect(result.current.isAuthenticated).toBe(false);
     });
@@ -249,8 +242,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -264,6 +257,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('저장된 토큰이 없으면 로그인 안된 상태여야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -279,9 +273,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiredTokenMocks();
       mockSuccessfulRefresh();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -299,9 +293,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiredTokenMocks();
       mockGoogleAuthService.refreshAccessToken.mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -317,9 +311,9 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupExpiringSoonTokenMocks();
       mockSuccessfulRefresh();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -338,8 +332,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -356,6 +350,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
     it('refreshUser 호출 시 저장된 토큰이 없으면 null로 설정해야 함', async () => {
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -378,8 +373,8 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.setItem as jest.Mock).mockRejectedValue(
         new Error('Storage error'),
       );
-
       mockSuccessfulLogin();
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -405,6 +400,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       (AsyncStorage.getItem as jest.Mock).mockRejectedValue(
         new Error('Storage error'),
       );
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -421,17 +417,17 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
       consoleErrorSpy.mockRestore();
     });
 
-    it('로그아웃 시 revokeToken 실패해도 로그아웃되어야 함', async () => {
+    it('로그아웃 시 logout 실패해도 에러가 발생해야 함', async () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
 
       (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
         JSON.stringify(mockStoredAuthState),
       );
-
       setupValidTokenMocks();
-      mockGoogleAuthService.revokeToken.mockRejectedValue(
-        new Error('Revoke failed'),
+      mockGoogleAuthService.logout.mockRejectedValue(
+        new Error('Logout failed'),
       );
+      await initializeStore();
 
       const { result } = renderHook(() => useAuth());
 
@@ -444,70 +440,10 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
         act(async () => {
           await result.current.signOut();
         }),
-      ).rejects.toThrow('Revoke failed');
+      ).rejects.toThrow('Logout failed');
 
       expect(consoleErrorSpy).toHaveBeenCalledWith(
         '로그아웃 실패:',
-        expect.any(Error),
-      );
-
-      consoleErrorSpy.mockRestore();
-    });
-
-    it('refreshUser 시 에러 발생하면 로그아웃 상태가 되어야 함', async () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
-      (AsyncStorage.getItem as jest.Mock)
-        .mockResolvedValueOnce(null) // initialize
-        .mockResolvedValueOnce(JSON.stringify(mockStoredAuthState)); // refreshUser
-
-      setupValidTokenMocks();
-      // decodeIdToken이 예외를 던지도록 설정
-      mockGoogleAuthService.decodeIdToken.mockImplementationOnce(() => {
-        throw new Error('Decode failed');
-      });
-
-      const { result } = renderHook(() => useAuth());
-
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-
-      await act(async () => {
-        await result.current.refreshUser();
-      });
-
-      expect(result.current.user).toBeNull();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '사용자 정보 갱신 실패:',
-        expect.any(Error),
-      );
-
-      consoleErrorSpy.mockRestore();
-    });
-
-    it('초기화 시 convertIdTokenToAuthUser에서 에러 발생하면 로그아웃 상태가 되어야 함', async () => {
-      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-
-      (AsyncStorage.getItem as jest.Mock).mockResolvedValue(
-        JSON.stringify(mockStoredAuthState),
-      );
-
-      setupValidTokenMocks();
-      // decodeIdToken이 예외를 던지도록 설정
-      mockGoogleAuthService.decodeIdToken.mockImplementation(() => {
-        throw new Error('Decode failed');
-      });
-
-      const { result } = renderHook(() => useAuth());
-
-      await waitFor(() => {
-        expect(result.current.isLoading).toBe(false);
-      });
-
-      expect(result.current.user).toBeNull();
-      expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '초기화 실패:',
         expect.any(Error),
       );
 

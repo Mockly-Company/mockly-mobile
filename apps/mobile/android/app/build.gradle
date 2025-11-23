@@ -92,7 +92,7 @@ android {
             }
         }
         manifestPlaceholders = [
-        appAuthRedirectScheme: 'com.googleusercontent.apps.699084005649-tflbdqtj3k5bskivds520lr74s65jjnh'
+        appAuthRedirectScheme: 'com.mockly.mobile'
         // your url will look like com.googleusercontent.apps.12345678912-k50abcdefghijkabcdefghijkabcdefv
         ]
     }
