@@ -24,6 +24,7 @@ const config = {
     'subject-full-stop': [2, 'never', '.'],
     'subject-case': [0], // subject case 체크 비활성화 (한글, 고유명사 허용)
     'header-max-length': [2, 'always', 100],
+    'body-max-line-length': [0, 'never'],
   },
   parserPreset: {
     parserOpts: {
