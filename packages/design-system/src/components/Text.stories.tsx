@@ -22,7 +22,7 @@ const meta = {
     },
     weight: {
       control: 'select',
-      options: ['regular', 'medium', 'semibold', 'bold'],
+      options: ['normal', 'medium', 'semibold', 'bold'],
       description: 'Font weight',
     },
     children: {
@@ -92,7 +92,7 @@ export const ColorVariants: Story = {
 export const WeightVariants: Story = {
   render: () => (
     <View style={{ gap: 10 }}>
-      <Text weight="regular">Regular weight</Text>
+      <Text weight="normal">normal weight</Text>
       <Text weight="medium">Medium weight</Text>
       <Text weight="semibold">Semibold weight</Text>
       <Text weight="bold">Bold weight</Text>
