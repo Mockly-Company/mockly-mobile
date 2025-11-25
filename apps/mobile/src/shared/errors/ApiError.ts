@@ -35,6 +35,19 @@ export const ERROR_CODES = {
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];
 
 /**
+ * 에러 응답 타입 가드
+ */
+interface ErrorResponse {
+  code?: string;
+  message?: string;
+  error?: string;
+}
+
+const isErrorResponse = (data: unknown): data is ErrorResponse => {
+  return typeof data === 'object' && data !== null;
+};
+
+/**
  * HTTP Status Code별 에러 메시지 매핑
  */
 const ERROR_MESSAGES: Record<number, string> = {
@@ -128,10 +141,14 @@ export class ApiError extends Error {
     if (error.response) {
       const { status, data } = error.response;
       const serverMessage = data?.message || data?.error || null;
-      // errorCode는 response data에서 추출
-      const errorCode = (data as unknown as Record<string, unknown>)?.code as
-        | ErrorCode
-        | undefined;
+
+      // errorCode는 response data에서 타입 가드를 사용하여 안전하게 추출
+      const errorCode =
+        isErrorResponse(data) && data.code
+          ? (data.code as ErrorCode)
+          : undefined;
+
+      // 사용자에게 보여줄 메시지 결정
       const message =
         serverMessage ||
         ERROR_MESSAGES[status] ||

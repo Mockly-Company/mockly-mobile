@@ -6,20 +6,23 @@ import {
   AxiosRequestConfig,
 } from '@mockly/api';
 import { ApiError } from '@shared/errors/ApiError';
+import { AppState } from 'react-native';
 
 // 15초: 모바일 네트워크 환경 고려한 타임아웃
 const API_TIMEOUT = 15000;
+// 토큰 갱신 타임아웃 (10초)
+const TOKEN_REFRESH_TIMEOUT = 10000;
 // 최대 토큰 갱신 재시도 횟수
 const MAX_RETRY_COUNT = 3;
 
-// 재시도 플래그가 추가된 요청 config 타입
+// 재시도 플래그 및 카운터가 추가된 요청 config 타입
 interface RetryableRequestConfig extends AxiosRequestConfig {
   _retry?: boolean;
+  _retryCount?: number;
 }
 
 // 토큰 갱신 중 여부를 추적
 let isRefreshing = false;
-let retryCount = 0;
 let failedQueue: Array<{
   resolve: (value: unknown) => void;
   reject: (reason?: unknown) => void;
@@ -37,6 +40,16 @@ const processQueue = (error: Error | null) => {
   });
   failedQueue = [];
 };
+
+// AppState 변경 시 대기열 정리 (메모리 누수 방지)
+AppState.addEventListener('change', nextAppState => {
+  if (nextAppState === 'background' || nextAppState === 'inactive') {
+    if (failedQueue.length > 0) {
+      processQueue(new Error('앱이 백그라운드로 전환되었습니다'));
+      isRefreshing = false;
+    }
+  }
+});
 
 export const initializeApiClient = () =>
   initializeAxiosApiClient({
@@ -70,12 +83,19 @@ export const initializeApiClient = () =>
 
       // 토큰 갱신이 필요한 경우
       if (isRefreshing) {
-        // 최대 재시도 횟수 초과 시 로그아웃
-        if (retryCount >= MAX_RETRY_COUNT) {
+        // 요청별 재시도 횟수 확인
+        const currentRetryCount = (originalRequest._retryCount || 0) + 1;
+
+        // 최대 재시도 횟수 초과 시
+        if (currentRetryCount > MAX_RETRY_COUNT) {
+          processQueue(new Error('최대 재시도 횟수를 초과했습니다'));
           await useAuthStore.getState().signOut();
           throw new Error('최대 재시도 횟수를 초과했습니다');
         }
-        retryCount++;
+
+        // 요청별 재시도 카운터 증가
+        originalRequest._retryCount = currentRetryCount;
+
         // 이미 갱신 중이면 대기열에 추가
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
@@ -83,8 +103,10 @@ export const initializeApiClient = () =>
           .then(() => {
             // 갱신 완료 후 재시도
             const newToken = useAuthStore.getState().authState?.accessToken;
-            if (originalRequest && originalRequest.headers && newToken) {
-              originalRequest.headers.Authorization = `Bearer ${newToken}`;
+            if (originalRequest?.headers && newToken) {
+              (
+                originalRequest.headers as Record<string, string>
+              ).Authorization = `Bearer ${newToken}`;
             }
             return apiClient.client(originalRequest!);
           })
@@ -95,11 +117,20 @@ export const initializeApiClient = () =>
 
       // 재시도 플래그 설정
       originalRequest._retry = true;
+      originalRequest._retryCount = 0;
       isRefreshing = true;
 
       try {
-        // 토큰 갱신 시도
-        const success = await useAuthStore.getState().refreshToken();
+        // 토큰 갱신 시도 (타임아웃 포함)
+        const refreshPromise = useAuthStore.getState().refreshToken();
+        const timeoutPromise = new Promise<boolean>((_, reject) =>
+          setTimeout(
+            () => reject(new Error('토큰 갱신 타임아웃')),
+            TOKEN_REFRESH_TIMEOUT,
+          ),
+        );
+
+        const success = await Promise.race([refreshPromise, timeoutPromise]);
 
         if (!success) {
           // 갱신 실패
@@ -118,8 +149,9 @@ export const initializeApiClient = () =>
         processQueue(null);
 
         // 원래 요청에 새 토큰 적용하여 재시도
-        if (originalRequest && originalRequest.headers) {
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+        if (originalRequest?.headers) {
+          (originalRequest.headers as Record<string, string>).Authorization =
+            `Bearer ${newToken}`;
         }
 
         return apiClient.client(originalRequest!);
@@ -128,7 +160,6 @@ export const initializeApiClient = () =>
         throw refreshError;
       } finally {
         isRefreshing = false;
-        retryCount = 0; // 재시도 카운터 초기화
       }
     },
   });

@@ -52,6 +52,20 @@ const saveAuthState = async (state: StoredAuthState | null): Promise<void> => {
   }
 };
 
+// 인증 상태 초기화 헬퍼 함수
+const clearAuthState = async (
+  set: (
+    partial: Partial<AuthStore> | ((state: AuthStore) => Partial<AuthStore>),
+  ) => void,
+): Promise<void> => {
+  await saveAuthState(null);
+  set({
+    user: null,
+    authState: null,
+    isAuthenticated: false,
+  });
+};
+
 // 인증 상태 불러오기
 const loadAuthState = async (): Promise<StoredAuthState | null> => {
   try {
@@ -268,12 +282,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (!refreshed) {
         // 갱신 실패 시 로그아웃 처리
-        await saveAuthState(null);
-        set({
-          user: null,
-          authState: null,
-          isAuthenticated: false,
-        });
+        await clearAuthState(set);
         return false;
       }
 
@@ -291,12 +300,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       return true;
     } catch {
       // 갱신 실패 시 로그아웃 처리
-      await saveAuthState(null);
-      set({
-        user: null,
-        authState: null,
-        isAuthenticated: false,
-      });
+      await clearAuthState(set);
       return false;
     }
   },
