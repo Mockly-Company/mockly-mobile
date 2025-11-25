@@ -5,21 +5,14 @@ import { StatusBar, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { BottomTabNavigator } from './src/app/navigation/BottomTabNavigator';
-import { initializeApiClient } from '@mockly/api';
+import { initializeApiClient } from './src/shared/api/initializeApiClient';
 import { useAuthStore } from './src/features/auth/store';
-import { API_BASE_URL } from '@env';
 import Toast, {
   BaseToast,
   type BaseToastProps,
 } from 'react-native-toast-message';
 
-initializeApiClient({
-  baseURL: API_BASE_URL || 'http://localhost:8080',
-  timeout: 30000,
-  getAuthToken: () => {
-    return useAuthStore.getState().authState?.accessToken || null;
-  },
-});
+initializeApiClient();
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
