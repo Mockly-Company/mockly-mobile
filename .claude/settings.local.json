@@ -1,6 +1,11 @@
 {
   "permissions": {
-    "allow": ["Bash(npm install:*)"],
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(git reset:*)",
+      "Skill(commit-message-formatter)",
+      "Bash(git commit:*)"
+    ],
     "deny": [],
     "ask": []
   }
