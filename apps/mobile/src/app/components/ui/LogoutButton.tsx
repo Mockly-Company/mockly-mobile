@@ -1,6 +1,7 @@
 import { useAuth } from '@features/auth/hooks';
 import { tw } from '@mockly/design-system';
-import { Alert, Text, TouchableOpacity } from 'react-native';
+import { showToast } from '@shared/utils/toast';
+import { Text, TouchableOpacity } from 'react-native';
 const styles = {
   logoutButton: tw`bg-red-500 px-8 py-3 rounded-lg`,
   logoutButtonText: tw`text-white text-base font-semibold`,
@@ -9,17 +10,13 @@ export const LogoutButton = () => {
   const { signOut } = useAuth();
 
   const handleLogout = async () => {
-    try {
-      await signOut();
-    } catch (error) {
-      // TODO: TOAST 공통 컴포넌트 개발시 수정
-      Alert.alert(
-        '로그아웃 실패',
-        '로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.',
-        [{ text: '확인' }],
-      );
-      console.error('로그아웃 실패:', error);
-    }
+    await signOut()
+      .then(() => {
+        showToast.success('로그아웃 되었습니다.', '다시 만나요~!');
+      })
+      .catch(() => {
+        showToast.error('로그아웃에 실패했습니다.', '다시 시도해주세요.');
+      });
   };
   return (
     <TouchableOpacity

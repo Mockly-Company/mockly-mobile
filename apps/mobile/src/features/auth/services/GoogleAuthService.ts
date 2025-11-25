@@ -4,12 +4,13 @@
  */
 
 import { authorize } from 'react-native-app-auth';
-import { auth } from '@mockly/api';
+import { loginGoogleCode, logout, refreshGoogleToken } from '@mockly/api';
 import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_REDIRECT_URI } from '@env';
 import { TOKEN_EXPIRY_BUFFER_MS } from '@shared/constants/auth';
 import { BaseAuthService } from './BaseAuthService';
 import type { AuthConfig, AuthorizationResult } from '../types';
 import { AccessRefreshToken, AuthToken } from '@mockly/entities';
+import { AppError, ErrorCoverage } from '@shared/errors';
 
 // 환경 변수 검증
 if (!GOOGLE_ANDROID_CLIENT_ID) {
@@ -48,8 +49,12 @@ export class GoogleAuthService extends BaseAuthService {
         authorizationCode: result.authorizationCode,
         codeVerifier: result.codeVerifier,
       };
-    } catch {
-      return null;
+    } catch (err) {
+      throw AppError.fromUnknownError(
+        err,
+        ErrorCoverage.LOGGING,
+        'Google 인증 실패',
+      );
     }
   }
 
@@ -61,15 +66,18 @@ export class GoogleAuthService extends BaseAuthService {
     codeVerifier: string,
   ): Promise<AuthToken | null> {
     try {
-      const data = await auth.loginGoogleCode({
+      const data = await loginGoogleCode({
         code: authorizationCode,
         codeVerifier,
         redirectUri: this.config.redirectUrl,
       });
       return data;
-    } catch (error) {
-      console.error('토큰 교환에 실패했습니다:', error);
-      return null;
+    } catch (err) {
+      throw AppError.fromUnknownError(
+        err,
+        ErrorCoverage.LOGGING,
+        '토큰 교환 실패',
+      );
     }
   }
 
@@ -80,11 +88,14 @@ export class GoogleAuthService extends BaseAuthService {
     refreshToken: string,
   ): Promise<AccessRefreshToken | null> {
     try {
-      const data = await auth.refreshGoogleToken(refreshToken);
+      const data = await refreshGoogleToken(refreshToken);
       return data;
-    } catch (error) {
-      console.error('토큰 갱신에 실패했습니다:', error);
-      return null;
+    } catch (err) {
+      throw AppError.fromUnknownError(
+        err,
+        ErrorCoverage.LOGGING,
+        '토큰 갱신 실패',
+      );
     }
   }
 
@@ -93,11 +104,14 @@ export class GoogleAuthService extends BaseAuthService {
    */
   async logout(_accessToken: string): Promise<boolean> {
     try {
-      await auth.logout();
+      await logout();
       return true;
-    } catch (error) {
-      console.error('로그아웃에 실패했습니다:', error);
-      return false;
+    } catch (err) {
+      throw AppError.fromUnknownError(
+        err,
+        ErrorCoverage.LOGGING,
+        '로그아웃 실패',
+      );
     }
   }
 

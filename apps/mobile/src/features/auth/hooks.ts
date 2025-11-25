@@ -27,6 +27,9 @@ export const useAuth = () => {
       signIn: state.signIn,
       signOut: state.signOut,
       refreshUser: state.refreshUser,
+      error: state.error,
+      clearError: state.clearError,
+      setError: state.setError,
     })),
   );
   return AuthContext;

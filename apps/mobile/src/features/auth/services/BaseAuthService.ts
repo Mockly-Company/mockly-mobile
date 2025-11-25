@@ -8,7 +8,7 @@ import type { AuthConfig, AuthorizationResult } from '../types';
 
 export abstract class BaseAuthService {
   protected config: AuthConfig;
-
+  public error: Error | null = null;
   constructor(config: AuthConfig) {
     this.config = config;
   }
