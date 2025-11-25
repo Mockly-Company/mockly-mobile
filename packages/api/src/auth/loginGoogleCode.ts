@@ -21,6 +21,7 @@ interface TokenResDTO {
 
 export async function loginGoogleCode(data: GoogleLoginReqDTO): Promise<AuthToken> {
   const res = await apiClient.post<TokenResDTO>('/api/auth/login/google/code', data);
+
   return {
     accessToken: res.data.accessToken,
     refreshToken: res.data.refreshToken,

@@ -1,16 +1,31 @@
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, {
+  AxiosInstance,
+  AxiosRequestConfig,
+  InternalAxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+} from 'axios';
 import { ApiResponse } from '../types';
+
+// axios 관련 타입들 재export
+export { AxiosError };
+export type { AxiosResponse, AxiosRequestConfig };
 
 export interface ApiClientConfig {
   baseURL: string;
   timeout?: number;
   headers?: Record<string, string>;
-  getAuthToken: () => string | null;
+  requestInterceptor?: (
+    config: InternalAxiosRequestConfig
+  ) => InternalAxiosRequestConfig | Promise<InternalAxiosRequestConfig>;
+  requestErrorInterceptor?: (error: AxiosError) => Promise<AxiosError>;
+  responseInterceptor?: (response: AxiosResponse) => AxiosResponse | Promise<AxiosResponse>;
+  responseErrorInterceptor?: (error: AxiosError) => Promise<AxiosError>;
 }
 
 export class ApiClient {
   private client: AxiosInstance;
-  private getAuthToken: () => string | null;
+  private config: ApiClientConfig;
 
   constructor(config: ApiClientConfig) {
     this.client = axios.create({
@@ -21,40 +36,22 @@ export class ApiClient {
         ...config.headers,
       },
     });
-    this.getAuthToken = config.getAuthToken;
+    this.config = config;
     this.setupInterceptors();
   }
 
   private setupInterceptors() {
     // Request interceptor
     this.client.interceptors.request.use(
-      config => {
-        // Add auth token if available
-        const token = this.getAuthToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      error => Promise.reject(error)
+      this.config.requestInterceptor,
+      this.config.requestErrorInterceptor
     );
 
     // Response interceptor
     this.client.interceptors.response.use(
-      response => response,
-      error => {
-        // Handle errors globally
-        if (error.response?.status === 401) {
-          // Handle unauthorized
-          this.handleUnauthorized();
-        }
-        return Promise.reject(error);
-      }
+      this.config.responseInterceptor,
+      this.config.responseErrorInterceptor
     );
-  }
-
-  private handleUnauthorized() {
-    // Implement unauthorized handling logic
   }
 
   public async get<T>(url: string, config?: AxiosRequestConfig): Promise<ApiResponse<T>> {
@@ -94,3 +91,18 @@ export class ApiClient {
     return response.data;
   }
 }
+
+let _apiClient: ApiClient | null = null;
+
+export function initializeApiClient(config: ApiClientConfig): void {
+  _apiClient = new ApiClient(config);
+}
+
+export const apiClient = new Proxy({} as ApiClient, {
+  get(_target, prop) {
+    if (!_apiClient) {
+      throw new Error('ApiClient not initialized. Call initializeApiClient first.');
+    }
+    return _apiClient[prop as keyof ApiClient];
+  },
+});
