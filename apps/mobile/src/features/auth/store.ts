@@ -32,6 +32,7 @@ interface AuthActions {
   signIn: (provider: AuthProvider) => Promise<void>;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  refreshToken: () => Promise<boolean>;
   initialize: () => Promise<void>;
   setLoading: (isLoading: boolean) => void;
 }
@@ -249,6 +250,54 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         authState: null,
         isAuthenticated: false,
       });
+    }
+  },
+
+  // 토큰 갱신
+  refreshToken: async (): Promise<boolean> => {
+    try {
+      const { authState } = get();
+      if (!authState) {
+        return false;
+      }
+
+      const authService = getAuthService(authState.provider);
+      const refreshed = await authService.refreshAccessToken(
+        authState.refreshToken,
+      );
+
+      if (!refreshed) {
+        // 갱신 실패 시 로그아웃 처리
+        await saveAuthState(null);
+        set({
+          user: null,
+          authState: null,
+          isAuthenticated: false,
+        });
+        return false;
+      }
+
+      // 갱신된 토큰으로 상태 업데이트
+      const newState: StoredAuthState = {
+        accessToken: refreshed.accessToken,
+        refreshToken: refreshed.refreshToken,
+        user: authState.user,
+        expiresAt: refreshed.expiresAt.getTime(),
+        provider: authState.provider,
+      };
+
+      await saveAuthState(newState);
+      set({ authState: newState });
+      return true;
+    } catch {
+      // 갱신 실패 시 로그아웃 처리
+      await saveAuthState(null);
+      set({
+        user: null,
+        authState: null,
+        isAuthenticated: false,
+      });
+      return false;
     }
   },
 }));
