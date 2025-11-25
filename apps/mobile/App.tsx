@@ -8,6 +8,7 @@ import { BottomTabNavigator } from './src/app/navigation/BottomTabNavigator';
 import { initializeApiClient } from '@mockly/api';
 import { useAuthStore } from './src/features/auth/store';
 import { API_BASE_URL } from '@env';
+import Toast from 'react-native-toast-message';
 
 initializeApiClient({
   baseURL: API_BASE_URL || 'http://localhost:8080',
@@ -34,6 +35,7 @@ function App() {
         <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
         <BottomTabNavigator />
       </NavigationContainer>
+      <Toast />
     </SafeAreaProvider>
   );
 }
