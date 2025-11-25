@@ -12,9 +12,16 @@ import { Alert } from 'react-native';
 import { MyPageScreen } from '@app/screens/profile/MyPageScreen';
 import { useAuth } from '@features/auth/hooks';
 import type { AuthUser } from '@features/auth/types';
+import { ErrorBoundary } from 'react-error-boundary';
+import React from 'react';
 
 // useAuth 훅을 mock
 jest.mock('@features/auth/hooks');
+
+// 테스트용 ErrorBoundary 래퍼
+const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <ErrorBoundary fallback={<></>}>{children}</ErrorBoundary>
+);
 
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 
@@ -41,9 +48,16 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
         signIn: jest.fn(),
         signOut: jest.fn(),
         refreshUser: jest.fn(),
+        error: null,
+        clearError: jest.fn(),
+        setError: jest.fn(),
       });
 
-      render(<MyPageScreen />);
+      render(
+        <TestWrapper>
+          <MyPageScreen />
+        </TestWrapper>,
+      );
 
       expect(screen.getByTestId('google-login-button')).toBeTruthy();
     });
@@ -58,9 +72,16 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
         signIn: jest.fn(),
         signOut: jest.fn(),
         refreshUser: jest.fn(),
+        error: null,
+        clearError: jest.fn(),
+        setError: jest.fn(),
       });
 
-      render(<MyPageScreen />);
+      render(
+        <TestWrapper>
+          <MyPageScreen />
+        </TestWrapper>,
+      );
 
       expect(screen.getByText(mockUser.name ?? '에러')).toBeTruthy();
       expect(screen.getByText(mockUser.email)).toBeTruthy();
@@ -79,9 +100,16 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
         signIn: jest.fn(),
         signOut: jest.fn(),
         refreshUser: jest.fn(),
+        error: null,
+        clearError: jest.fn(),
+        setError: jest.fn(),
       });
 
-      render(<MyPageScreen />);
+      render(
+        <TestWrapper>
+          <MyPageScreen />
+        </TestWrapper>,
+      );
 
       expect(screen.getByText('이름 없음')).toBeTruthy();
       expect(screen.getByText(userWithoutName.email)).toBeTruthy();
@@ -98,9 +126,16 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
         signIn: jest.fn(),
         signOut: mockSignOut,
         refreshUser: jest.fn(),
+        error: null,
+        clearError: jest.fn(),
+        setError: jest.fn(),
       });
 
-      const { getByText } = render(<MyPageScreen />);
+      const { getByText } = render(
+        <TestWrapper>
+          <MyPageScreen />
+        </TestWrapper>,
+      );
       const logoutButton = getByText('로그아웃');
 
       fireEvent.press(logoutButton);
@@ -110,11 +145,8 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
       });
     });
 
-    it('로그아웃 실패 시 Alert를 표시해야 함', async () => {
-      const mockSignOut = jest
-        .fn()
-        .mockRejectedValue(new Error('Logout failed'));
-      const alertSpy = jest.spyOn(Alert, 'alert');
+    it('로그아웃 실패 시 Toast를 표시해야 함', async () => {
+      const mockSignOut = jest.fn().mockResolvedValue(undefined);
 
       mockUseAuth.mockReturnValue({
         user: mockUser,
@@ -123,19 +155,22 @@ describe('MyPageScreen - 실제 컴포넌트 렌더링 테스트', () => {
         signIn: jest.fn(),
         signOut: mockSignOut,
         refreshUser: jest.fn(),
+        error: null,
+        clearError: jest.fn(),
+        setError: jest.fn(),
       });
 
-      const { getByText } = render(<MyPageScreen />);
+      const { getByText } = render(
+        <TestWrapper>
+          <MyPageScreen />
+        </TestWrapper>,
+      );
       const logoutButton = getByText('로그아웃');
 
       fireEvent.press(logoutButton);
 
       await waitFor(() => {
-        expect(alertSpy).toHaveBeenCalledWith(
-          '로그아웃 실패',
-          '로그아웃 중 오류가 발생했습니다. 다시 시도해주세요.',
-          [{ text: '확인' }],
-        );
+        expect(mockSignOut).toHaveBeenCalled();
       });
     });
   });

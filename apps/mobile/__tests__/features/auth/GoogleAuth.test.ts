@@ -5,7 +5,7 @@
 
 import { authorize } from 'react-native-app-auth';
 import { GoogleAuthService } from '@features/auth/services/GoogleAuthService';
-import { auth } from '@mockly/api';
+import * as api from '@mockly/api';
 
 // react-native-app-auth 모킹
 jest.mock('react-native-app-auth');
@@ -18,11 +18,9 @@ jest.mock('@env', () => ({
 
 // @mockly/api 모킹
 jest.mock('@mockly/api', () => ({
-  auth: {
-    loginGoogleCode: jest.fn(),
-    refreshGoogleToken: jest.fn(),
-    logout: jest.fn(),
-  },
+  loginGoogleCode: jest.fn(),
+  refreshGoogleToken: jest.fn(),
+  logout: jest.fn(),
 }));
 
 const mockAuthorize = authorize as jest.MockedFunction<typeof authorize>;
@@ -58,12 +56,10 @@ describe('GoogleAuthService 단위 테스트', () => {
       });
     });
 
-    it('사용자 취소 시 null을 반환해야 함', async () => {
+    it('사용자 취소 시 AppError를 throw해야 함', async () => {
       mockAuthorize.mockRejectedValue(new Error('User cancelled'));
 
-      const result = await googleAuthService.authorize();
-
-      expect(result).toBeNull();
+      await expect(googleAuthService.authorize()).rejects.toThrow();
     });
   });
 
@@ -80,7 +76,7 @@ describe('GoogleAuthService 단위 테스트', () => {
         expiresAt: new Date(Date.now() + 3600000),
       };
 
-      (auth.loginGoogleCode as jest.Mock).mockResolvedValue(mockResponse);
+      (api.loginGoogleCode as jest.Mock).mockResolvedValue(mockResponse);
 
       const result = await googleAuthService.exchangeCodeForToken(
         'mock-auth-code',
@@ -88,7 +84,7 @@ describe('GoogleAuthService 단위 테스트', () => {
       );
 
       expect(result).toEqual(mockResponse);
-      expect(auth.loginGoogleCode).toHaveBeenCalledWith(
+      expect(api.loginGoogleCode).toHaveBeenCalledWith(
         expect.objectContaining({
           code: 'mock-auth-code',
           codeVerifier: 'mock-code-verifier',
@@ -96,23 +92,17 @@ describe('GoogleAuthService 단위 테스트', () => {
       );
     });
 
-    it('네트워크 오류 시 null을 반환해야 함', async () => {
-      const consoleErrorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      (auth.loginGoogleCode as jest.Mock).mockRejectedValue(
+    it('네트워크 오류 시 AppError를 throw해야 함', async () => {
+      (api.loginGoogleCode as jest.Mock).mockRejectedValue(
         new Error('Network error'),
       );
 
-      const result = await googleAuthService.exchangeCodeForToken(
-        'mock-auth-code',
-        'mock-code-verifier',
-      );
-
-      expect(result).toBeNull();
-
-      consoleErrorSpy.mockRestore();
+      await expect(
+        googleAuthService.exchangeCodeForToken(
+          'mock-auth-code',
+          'mock-code-verifier',
+        ),
+      ).rejects.toThrow();
     });
   });
 
@@ -124,57 +114,42 @@ describe('GoogleAuthService 단위 테스트', () => {
         expiresAt: new Date(Date.now() + 3600000),
       };
 
-      (auth.refreshGoogleToken as jest.Mock).mockResolvedValue(mockResponse);
+      (api.refreshGoogleToken as jest.Mock).mockResolvedValue(mockResponse);
 
       const result =
         await googleAuthService.refreshAccessToken('mock-refresh-token');
 
       expect(result).toEqual(mockResponse);
-      expect(auth.refreshGoogleToken).toHaveBeenCalledWith(
-        'mock-refresh-token',
-      );
+      expect(api.refreshGoogleToken).toHaveBeenCalledWith('mock-refresh-token');
     });
 
-    it('토큰 갱신 실패 시 null을 반환해야 함', async () => {
-      const consoleErrorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
-
-      (auth.refreshGoogleToken as jest.Mock).mockRejectedValue(
+    it('토큰 갱신 실패 시 AppError를 throw해야 함', async () => {
+      (api.refreshGoogleToken as jest.Mock).mockRejectedValue(
         new Error('Refresh failed'),
       );
 
-      const result =
-        await googleAuthService.refreshAccessToken('mock-refresh-token');
-
-      expect(result).toBeNull();
-
-      consoleErrorSpy.mockRestore();
+      await expect(
+        googleAuthService.refreshAccessToken('mock-refresh-token'),
+      ).rejects.toThrow();
     });
   });
 
   describe('logout', () => {
     it('로그아웃이 성공해야 함', async () => {
-      (auth.logout as jest.Mock).mockResolvedValue(undefined);
+      (api.logout as jest.Mock).mockResolvedValue(undefined);
 
       const result = await googleAuthService.logout('mock-access-token');
 
       expect(result).toBe(true);
-      expect(auth.logout).toHaveBeenCalled();
+      expect(api.logout).toHaveBeenCalled();
     });
 
-    it('로그아웃 실패 시 false를 반환해야 함', async () => {
-      const consoleErrorSpy = jest
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+    it('로그아웃 실패 시 AppError를 throw해야 함', async () => {
+      (api.logout as jest.Mock).mockRejectedValue(new Error('Logout failed'));
 
-      (auth.logout as jest.Mock).mockRejectedValue(new Error('Logout failed'));
-
-      const result = await googleAuthService.logout('mock-access-token');
-
-      expect(result).toBe(false);
-
-      consoleErrorSpy.mockRestore();
+      await expect(
+        googleAuthService.logout('mock-access-token'),
+      ).rejects.toThrow();
     });
   });
 
