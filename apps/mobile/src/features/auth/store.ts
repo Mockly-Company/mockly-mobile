@@ -32,6 +32,7 @@ interface AuthActions {
   signIn: (provider: AuthProvider) => Promise<void>;
   signOut: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  refreshToken: () => Promise<boolean>;
   initialize: () => Promise<void>;
   setLoading: (isLoading: boolean) => void;
 }
@@ -49,6 +50,20 @@ const saveAuthState = async (state: StoredAuthState | null): Promise<void> => {
   } catch (error) {
     console.error('인증 상태 저장 실패:', error);
   }
+};
+
+// 인증 상태 초기화 헬퍼 함수
+const clearAuthState = async (
+  set: (
+    partial: Partial<AuthStore> | ((state: AuthStore) => Partial<AuthStore>),
+  ) => void,
+): Promise<void> => {
+  await saveAuthState(null);
+  set({
+    user: null,
+    authState: null,
+    isAuthenticated: false,
+  });
 };
 
 // 인증 상태 불러오기
@@ -249,6 +264,44 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         authState: null,
         isAuthenticated: false,
       });
+    }
+  },
+
+  // 토큰 갱신
+  refreshToken: async (): Promise<boolean> => {
+    try {
+      const { authState } = get();
+      if (!authState) {
+        return false;
+      }
+
+      const authService = getAuthService(authState.provider);
+      const refreshed = await authService.refreshAccessToken(
+        authState.refreshToken,
+      );
+
+      if (!refreshed) {
+        // 갱신 실패 시 로그아웃 처리
+        await clearAuthState(set);
+        return false;
+      }
+
+      // 갱신된 토큰으로 상태 업데이트
+      const newState: StoredAuthState = {
+        accessToken: refreshed.accessToken,
+        refreshToken: refreshed.refreshToken,
+        user: authState.user,
+        expiresAt: refreshed.expiresAt.getTime(),
+        provider: authState.provider,
+      };
+
+      await saveAuthState(newState);
+      set({ authState: newState });
+      return true;
+    } catch {
+      // 갱신 실패 시 로그아웃 처리
+      await clearAuthState(set);
+      return false;
     }
   },
 }));
