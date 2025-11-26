@@ -71,6 +71,7 @@ export default defineConfig([
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       'react-hooks/rules-of-hooks': 'off',
+      'no-undef': 'off', // TypeScript에서 타입 체크하므로 비활성화
     },
   },
   {

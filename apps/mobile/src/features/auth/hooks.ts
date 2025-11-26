@@ -2,6 +2,7 @@
  * 인증 관련 커스텀 훅
  */
 
+import { useEffect } from 'react';
 import { useAuthStore } from './store';
 import { useShallow } from 'zustand/react/shallow';
 /**
@@ -27,7 +28,21 @@ export const useAuth = () => {
       signIn: state.signIn,
       signOut: state.signOut,
       refreshUser: state.refreshUser,
+      error: state.error,
+      clearError: state.clearError,
+      setError: state.setError,
     })),
   );
   return AuthContext;
+};
+
+/** 초기 인증 상태를 설정하는 훅 */
+export const useInitializeAuth = () => {
+  const initializeAuth = useAuthStore(state => state.initialize);
+
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
+
+  return;
 };

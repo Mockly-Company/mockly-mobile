@@ -7,6 +7,7 @@ import type { AuthProvider } from '../types';
 import { BaseAuthService } from './BaseAuthService';
 import { GoogleAuthService } from './GoogleAuthService';
 import { AppleAuthService } from './AppleAuthService';
+import { AppError, ErrorCoverage } from '@shared/errors/AppError';
 
 // Provider별 AuthService 싱글톤 인스턴스
 const authServiceInstances = new Map<AuthProvider, BaseAuthService>();
@@ -32,11 +33,23 @@ export function getAuthService(provider: AuthProvider): BaseAuthService {
       service = new AppleAuthService();
       break;
     case 'naver':
-      throw new Error('Naver Auth not implemented yet');
+      throw new AppError(
+        'Naver Auth not implemented yet',
+        ErrorCoverage.SCREEN,
+        'Naver 로그인은 아직 지원되지 않습니다',
+      );
     case 'kakao':
-      throw new Error('Kakao Auth not implemented yet');
+      throw new AppError(
+        'Kakao Auth not implemented yet',
+        ErrorCoverage.SCREEN,
+        'Kakao 로그인은 아직 지원되지 않습니다',
+      );
     default:
-      throw new Error(`Unknown auth provider: ${provider}`);
+      throw new AppError(
+        `Unknown auth provider: ${provider}`,
+        ErrorCoverage.GLOBAL,
+        '지원되지 않는 로그인 방식입니다',
+      );
   }
 
   // 인스턴스 캐싱
