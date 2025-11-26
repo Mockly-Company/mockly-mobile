@@ -53,7 +53,9 @@ const TOAST_DURATION = {
 // 중복 메시지 방지를 위한 상태
 let lastToastMessage = '';
 let lastToastTime = 0;
+let resetTimer: ReturnType<typeof setTimeout> | null = null;
 
+const MEMORY_CLEANUP_TIME = 5000; // 5초
 /**
  * Toast 메시지를 표시하는 내부 함수
  */
@@ -71,6 +73,18 @@ const showToast = (
 
   lastToastMessage = message;
   lastToastTime = now;
+
+  // 이전 타이머 취소
+  if (resetTimer) {
+    clearTimeout(resetTimer);
+  }
+
+  // 메모리 정리 타이머 설정
+  resetTimer = setTimeout(() => {
+    lastToastMessage = '';
+    lastToastTime = 0;
+    resetTimer = null;
+  }, MEMORY_CLEANUP_TIME);
 
   const config = TOAST_CONFIGS[configKey];
   Toast.show({

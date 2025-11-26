@@ -4,33 +4,37 @@
  */
 
 export const logger = {
-  /**
-   * 에러 로깅 (메시지 기반)
-   */
   error: (message: string, error?: unknown) => {
-    // TODO: Sentry.captureException(error, { tags: { message } });
-    console.log(`[ERROR] ${message}`, error);
+    if (__DEV__) {
+      console.log(`[ERROR] ${message}`, error);
+    }
+    // TODO: 프로덕션에서는 Sentry로만 전송
+    // if (!isDevelopment) {
+    //   Sentry.captureMessage(message, { level: 'error', extra: { error } });
+    // }
   },
 
-  /**
-   * 에러 객체 로깅
-   */
   logException: (error: unknown, context?: Record<string, unknown>) => {
     const message =
       error instanceof Error ? error.message : String(error || 'Unknown error');
-    // TODO: Sentry.captureException(error, { extra: context });
-    console.log(`[EXCEPTION]`, message, {
-      error,
-      context,
-      stack: error instanceof Error ? error.stack : undefined,
-    });
+
+    if (__DEV__) {
+      console.log(`[EXCEPTION]`, message, {
+        error,
+        context,
+        stack: error instanceof Error ? error.stack : undefined,
+      });
+    }
+    // TODO: 프로덕션에서는 Sentry로만 전송
+    // if (!isDevelopment) {
+    //   Sentry.captureException(error, { extra: context });
+    // }
   },
 
-  /**
-   * 경고 로깅
-   */
   warn: (message: string, data?: unknown) => {
+    if (__DEV__) {
+      console.warn(`[WARN] ${message}`, data);
+    }
     // TODO: Sentry.captureMessage(message, 'warning');
-    console.warn(`[WARN] ${message}`, data);
   },
 };

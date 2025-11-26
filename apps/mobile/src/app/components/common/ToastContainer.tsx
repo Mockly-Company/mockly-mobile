@@ -9,7 +9,7 @@ const toastConfig = {
   success: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={tw`border-l-6 border-l-green-500`}
+      style={tw`border-l-8 border-l-green-500`}
       contentContainerStyle={tw`px-4`}
       text1Style={tw`text-base font-semibold text-green-600`}
       text2Style={tw`text-sm text-gray-700`}
@@ -18,7 +18,7 @@ const toastConfig = {
   error: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={tw`border-l-6 border-l-red-500`}
+      style={tw`border-l-8 border-l-red-500`}
       contentContainerStyle={tw`px-4`}
       text1Style={tw`text-base font-semibold text-red-600`}
       text2Style={tw`text-sm text-gray-700`}
@@ -27,7 +27,7 @@ const toastConfig = {
   info: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={tw`border-l-6 border-l-blue-500`}
+      style={tw`border-l-8 border-l-blue-500`}
       contentContainerStyle={tw`px-4`}
       text1Style={tw`text-base font-semibold text-blue-600`}
       text2Style={tw`text-sm text-gray-700`}

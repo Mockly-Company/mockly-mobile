@@ -190,7 +190,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const authService = getAuthService(user.provider);
       await authService.logout(authState.accessToken).catch(err => {
         // 로그아웃 실패 시에도 로컬 상태 정리는 진행
-        logger.logException('로그아웃 실패:', err);
+        logger.logException(err, { context: '로그아웃 실패' });
       });
       await saveAuthState(null);
       set(initialStoreState);

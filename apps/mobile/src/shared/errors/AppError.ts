@@ -61,8 +61,10 @@ export class AppError extends Error {
     statusCode?: number,
     isApiError: boolean = false,
   ) {
-    const message = error instanceof Error ? error.message : String(error);
-    super(message);
+    const sanitizeErrorMessage = AppError.sanitizeErrorMessage(
+      error instanceof Error ? error.message : String(error),
+    );
+    super(sanitizeErrorMessage);
     if (error instanceof Error) {
       this.name = error.name;
       this.stack = error.stack;
@@ -280,5 +282,12 @@ export class AppError extends Error {
    */
   static isApiError(error: unknown): error is AppError {
     return error instanceof AppError && error.isApiError;
+  }
+
+  // 토큰, API 키 등 제거
+  private static sanitizeErrorMessage(message: string): string {
+    return message
+      .replace(/Bearer\s+[A-Za-z0-9\-._~+/]+=*/g, 'Bearer [REDACTED]')
+      .replace(/api[_-]?key[:\s]*[A-Za-z0-9]+/gi, 'api_key: [REDACTED]');
   }
 }

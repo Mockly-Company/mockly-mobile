@@ -14,17 +14,16 @@ import { loginGoogleCode, logout, refreshGoogleToken } from '@mockly/api';
 import { logger } from '@shared/utils/logger';
 import { AppError, ErrorCoverage } from '@shared/errors/AppError';
 
-// 환경 변수 검증
-if (!GOOGLE_ANDROID_CLIENT_ID) {
-  throw new AppError(
-    'GOOGLE_ANDROID_CLIENT_ID가 없습니다. 환경 변수 설정을 확인하세요.',
-    ErrorCoverage.GLOBAL,
-    '환경 설정 오류',
-  );
-}
-
 export class GoogleAuthService extends BaseAuthService {
   constructor() {
+    // 환경 변수 검증
+    if (!GOOGLE_ANDROID_CLIENT_ID) {
+      throw new AppError(
+        'GOOGLE_ANDROID_CLIENT_ID가 없습니다. 환경 변수 설정을 확인하세요.',
+        ErrorCoverage.GLOBAL,
+        '환경 설정 오류',
+      );
+    }
     const config: AuthConfig = {
       issuer: 'https://accounts.google.com',
       clientId: GOOGLE_ANDROID_CLIENT_ID,

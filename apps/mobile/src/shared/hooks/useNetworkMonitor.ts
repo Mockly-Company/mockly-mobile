@@ -7,6 +7,8 @@ import { toast } from '@shared/utils/toast';
  */
 export const useNetworkMonitor = () => {
   const previouslyConnected = useRef<boolean | null>(null);
+  const lastNotificationTime = useRef<number>(0);
+  const NOTIFICATION_COOLDOWN = 2000; // 2초
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener(state => {
@@ -19,8 +21,11 @@ export const useNetworkMonitor = () => {
 
       const isNetworkConnectionChanged =
         previouslyConnected.current !== isConnected;
+      const now = Date.now();
+      const canNotify =
+        now - lastNotificationTime.current > NOTIFICATION_COOLDOWN;
 
-      if (isNetworkConnectionChanged) {
+      if (isNetworkConnectionChanged && canNotify) {
         if (isConnected) {
           toast.success(
             '네트워크 연결됨',
@@ -35,6 +40,7 @@ export const useNetworkMonitor = () => {
           );
         }
         previouslyConnected.current = isConnected;
+        lastNotificationTime.current = now;
       }
     });
 

@@ -14,7 +14,12 @@ export function ResourceNotFoundFallback({
   resourceType = '리소스',
 }: Props) {
   return (
-    <View style={styles.container}>
+    <View
+      style={styles.container}
+      accessible={true}
+      accessibilityRole="alert"
+      accessibilityLabel={`${resourceType}를 찾을 수 없습니다. ${message}`}
+    >
       <Text style={styles.icon}>🔍</Text>
       <Text style={styles.title}>찾을 수 없음</Text>
       <Text style={styles.message}>{message}</Text>

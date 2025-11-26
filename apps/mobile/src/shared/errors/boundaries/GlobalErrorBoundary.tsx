@@ -33,12 +33,10 @@ export function GlobalErrorBoundary({ children }: Props): React.ReactElement {
       onReset={handleRetry}
       onError={handleError}
       FallbackComponent={({ error }) => {
-        return (
-          <GlobalErrorFallback
-            title={error.name}
-            message={error.displayMessage || error.message}
-          />
-        );
+        const message = AppError.isAppError(error)
+          ? error.displayMessage || error.message
+          : error.message;
+        return <GlobalErrorFallback title={error.name} message={message} />;
       }}
     >
       {children}

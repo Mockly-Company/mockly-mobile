@@ -47,6 +47,11 @@ export default defineConfig([
       'react-native': reactNative,
       prettier: prettier,
     },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
     rules: {
       'react-native/no-inline-styles': 'warn',
       'react-native/no-color-literals': 'off',

@@ -3,6 +3,7 @@ import {
   initializeApiClient as initializeAxiosApiClient,
   apiClient,
   AxiosRequestConfig,
+  AxiosError,
 } from '@mockly/api';
 import { useAuthStore } from '@features/auth/store';
 import { AppError, ErrorCoverage } from '@shared/errors';
@@ -43,22 +44,31 @@ const processQueue = (error: AppError | null) => {
   failedQueue = [];
 };
 
-// AppState 변경 시 대기열 정리 (메모리 누수 방지)
-AppState.addEventListener('change', nextAppState => {
-  if (nextAppState === 'background' || nextAppState === 'inactive') {
-    if (failedQueue.length > 0) {
-      processQueue(
-        AppError.fromNetworkError(
-          '앱이 백그라운드로 전환되었습니다',
-          ErrorCoverage.NONE,
-        ),
-      );
-      isRefreshing = false;
-    }
-  }
-});
+// 모듈 최상단에서 구독 관리
+let appStateSubscription: ReturnType<typeof AppState.addEventListener> | null =
+  null;
 
 export const initializeApiClient = () => {
+  // 기존 구독 정리
+  if (appStateSubscription) {
+    appStateSubscription.remove();
+  }
+
+  // AppState 변경 시 대기열 정리 (메모리 누수 방지)
+  appStateSubscription = AppState.addEventListener('change', nextAppState => {
+    if (nextAppState === 'background' || nextAppState === 'inactive') {
+      if (failedQueue.length > 0) {
+        processQueue(
+          AppError.fromNetworkError(
+            '앱이 백그라운드로 전환되었습니다',
+            ErrorCoverage.NONE,
+          ),
+        );
+        isRefreshing = false;
+      }
+    }
+  });
+
   initializeAxiosApiClient({
     baseURL: API_BASE_URL || 'http://localhost:8080',
     timeout: API_TIMEOUT,
@@ -104,7 +114,6 @@ export const initializeApiClient = () => {
           type: 'permission-denied',
           statusCode: apiError.statusCode,
         });
-        toast.error(apiError.displayMessage || apiError.message);
         throw apiError;
       }
 
@@ -131,7 +140,6 @@ export const initializeApiClient = () => {
           type: 'server-error',
           statusCode: apiError.statusCode,
         });
-        toast.error(apiError.displayMessage || apiError.message);
         throw apiError;
       }
 
@@ -156,17 +164,15 @@ export const initializeApiClient = () => {
 
         // 최대 재시도 횟수 초과 시
         if (currentRetryCount > MAX_RETRY_COUNT) {
-          const error = AppError.fromAxiosError(
-            {
-              ...originalRequest,
-              message: '최대 재시도 횟수를 초과했습니다',
-            } as any,
+          const maxRetryError = new AppError(
+            new Error('최대 재시도 횟수를 초과했습니다'),
             ErrorCoverage.NONE,
             '최대 재시도 횟수를 초과했습니다',
           );
-          processQueue(error);
+
+          processQueue(maxRetryError);
           await useAuthStore.getState().signOut();
-          throw error;
+          throw maxRetryError;
         }
 
         // 요청별 재시도 카운터 증가
@@ -222,7 +228,7 @@ export const initializeApiClient = () => {
               ...originalRequest,
               message: '토큰 갱신에 실패했습니다',
               response: { status: 401 },
-            } as any,
+            } as AxiosError,
             ErrorCoverage.NONE,
             '토큰 갱신에 실패했습니다',
           );
@@ -238,7 +244,7 @@ export const initializeApiClient = () => {
               ...originalRequest,
               message: '새 토큰을 가져올 수 없습니다',
               response: { status: 401 },
-            } as any,
+            } as AxiosError,
             ErrorCoverage.NONE,
             '새 토큰을 가져올 수 없습니다',
           );
