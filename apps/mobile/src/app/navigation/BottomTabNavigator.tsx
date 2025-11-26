@@ -4,6 +4,7 @@ import { LocalInterviewScreen } from '../screens/localInterview/LocalInterviewSc
 import { InterviewScreen } from '../screens/interview/InterviewScreen';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { MyPageScreen } from '../screens/profile/MyPageScreen';
+import { withScreenErrorBoundary } from '../screens/withScreenErrorBoundary';
 import { theme } from '@mockly/design-system';
 
 export type BottomTabParamList = {
@@ -27,7 +28,7 @@ export const BottomTabNavigator = () => {
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={withScreenErrorBoundary(HomeScreen)}
         options={{
           title: '홈',
           tabBarLabel: '홈',
@@ -37,7 +38,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="LocalInterview"
-        component={LocalInterviewScreen}
+        component={withScreenErrorBoundary(LocalInterviewScreen)}
         options={{
           title: '동네면접',
           tabBarLabel: '동네면접',
@@ -47,7 +48,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Interview"
-        component={InterviewScreen}
+        component={withScreenErrorBoundary(InterviewScreen)}
         options={{
           title: '면접',
           tabBarLabel: '면접',
@@ -57,7 +58,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Chat"
-        component={ChatScreen}
+        component={withScreenErrorBoundary(ChatScreen)}
         options={{
           title: '채팅',
           tabBarLabel: '채팅',
@@ -67,7 +68,7 @@ export const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="MyPage"
-        component={MyPageScreen}
+        component={withScreenErrorBoundary(MyPageScreen)}
         options={{
           title: '마이페이지',
           tabBarLabel: '마이페이지',
