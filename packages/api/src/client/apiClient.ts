@@ -9,7 +9,7 @@ import { ApiResponse } from '../types';
 
 // axios 관련 타입들 재export
 export { AxiosError };
-export type { AxiosResponse, AxiosRequestConfig, AxiosInstance };
+export type { AxiosRequestConfig, AxiosInstance };
 
 export interface ApiClientConfig {
   baseURL: string;

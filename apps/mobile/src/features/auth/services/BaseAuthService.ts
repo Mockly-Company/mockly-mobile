@@ -8,7 +8,7 @@ import type { AuthConfig, AuthorizationResult } from '../types';
 
 export abstract class BaseAuthService {
   protected config: AuthConfig;
-
+  public error: Error | null = null;
   constructor(config: AuthConfig) {
     this.config = config;
   }
@@ -25,14 +25,14 @@ export abstract class BaseAuthService {
   abstract exchangeCodeForToken(
     authorizationCode: string,
     codeVerifier: string,
-  ): Promise<AuthToken | null>;
+  ): Promise<AuthToken>;
 
   /**
    * Refresh Token으로 새 Access Token 발급
    */
   abstract refreshAccessToken(
     refreshToken: string,
-  ): Promise<AccessRefreshToken | null>;
+  ): Promise<AccessRefreshToken>;
 
   /**
    * 로그아웃 및 토큰 폐기
