@@ -39,7 +39,10 @@ const config = {
   ],
   env: {
     test: {
-      plugins: ['@babel/plugin-transform-modules-commonjs'],
+      plugins: [
+        '@babel/plugin-transform-modules-commonjs',
+        'dynamic-import-node',
+      ],
     },
   },
 };
