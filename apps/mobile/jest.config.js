@@ -25,6 +25,10 @@ module.exports = {
     '^@env$': '<rootDir>/__mocks__/@env.js',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/__mocks__/fileMock.js',
+    '^@app/(.*)$': '<rootDir>/src/app/$1',
+    '^@features/(.*)$': '<rootDir>/src/features/$1',
+    '^@lib/(.*)$': '<rootDir>/src/lib/$1',
+    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
   },
   testMatch: ['**/__tests__/**/*.(test|spec).(ts|tsx|js)'],
   // react-native preset을 사용하지 않고 필요한 설정만 직접 구성
