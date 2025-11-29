@@ -29,6 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       launchOptions: launchOptions
     )
 
+    // Show splash screen
+    SplashScreen.showSplashScreen(in: window)
+
     return true
   }
 }
