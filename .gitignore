@@ -62,3 +62,4 @@ DerivedData/
 .env.*
 !.env.test
 .npmrc
+apps/mobile/android/nul
