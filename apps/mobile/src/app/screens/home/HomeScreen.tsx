@@ -1,17 +1,16 @@
 import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { tw, Text, Spacer, SectionHeader } from '@mockly/design-system';
-import { useAuth } from '@features/auth/hooks';
 import { useInterviewStore } from '@features/interview/store';
 import { InterviewCard } from '@app/screens/home/components/InterviewCard';
-import { FadeInDown, FadeInUp } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
 import { FeatureCard } from './components/FeatureCard';
 import { StatCard } from './components/StatCard';
 import { QuickStartAction } from './components/QuickStartAction';
 import { formatMinutesToHoursMinutes } from '@shared/utils/timeFormatter';
+import { FadeInUpAnimation } from '@shared/components/animations/FadeInUpAnimation';
+import { FadeInDownAnimation } from '@shared/components/animations/FadeInDownAnimation';
 
 export const HomeScreen = () => {
-  const { user: _ } = useAuth();
   const { recentLogs } = useInterviewStore();
 
   const sessions = recentLogs.length;
@@ -33,10 +32,7 @@ export const HomeScreen = () => {
         <Spacer size="lg" />
 
         {/* Greeting */}
-        <Animated.View
-          entering={FadeInDown.delay(60).springify()}
-          style={tw`mb-md`}
-        >
+        <FadeInDownAnimation delay={60} style={tw`mb-md`}>
           <Text variant="h2" style={tw`font-bold text-text dark:text-white`}>
             환영합니다!
           </Text>
@@ -46,13 +42,11 @@ export const HomeScreen = () => {
           >
             오늘도 면접 준비를 시작해볼까요?
           </Text>
-        </Animated.View>
+        </FadeInDownAnimation>
 
         {/* Stats Row */}
-        <Animated.View
-          entering={FadeInDown.delay(120).springify()}
-          style={tw`mb-xl`}
-        >
+
+        <FadeInDownAnimation delay={120} style={tw`mb-xl`}>
           <View style={tw`flex-row gap-md`}>
             <View style={tw`flex-1`}>
               <StatCard
@@ -76,13 +70,10 @@ export const HomeScreen = () => {
               />
             </View>
           </View>
-        </Animated.View>
+        </FadeInDownAnimation>
 
         {/* Quick Start */}
-        <Animated.View
-          entering={FadeInDown.delay(200).springify()}
-          style={tw`mb-xl`}
-        >
+        <FadeInDownAnimation delay={200} style={tw`mb-xl`}>
           <SectionHeader title="빠른 시작" />
           <View style={tw`gap-sm`}>
             <QuickStartAction
@@ -96,14 +87,11 @@ export const HomeScreen = () => {
               subtitle="피드백을 확인하고 개선하세요"
             />
           </View>
-        </Animated.View>
+        </FadeInDownAnimation>
 
         {/* Feature Sections */}
-        <Animated.View
-          entering={FadeInUp.delay(300).springify()}
-          style={tw`gap-md mb-xl`}
-        >
-          <SectionHeader title="기능 살펴보기" onPressAction={() => {}} />
+        <FadeInUpAnimation delay={300} style={tw`gap-md mb-xl`}>
+          <SectionHeader title="기능 살펴보기" />
           <FeatureCard
             icon="👥"
             title="스터디 파트너 찾기"
@@ -121,27 +109,24 @@ export const HomeScreen = () => {
               /* Find Coach */
             }}
           />
-        </Animated.View>
+        </FadeInUpAnimation>
 
         {/* Recent Activity */}
-        <Animated.View entering={FadeInUp.delay(400).springify()}>
+        <FadeInUpAnimation delay={400}>
           <SectionHeader
             title="최근 활동"
             actionLabel="모두 보기"
             onPressAction={() => {}}
           />
-        </Animated.View>
-
+        </FadeInUpAnimation>
         <View style={tw`gap-md`}>
           {recentLogs.map((item, index) => (
-            <Animated.View
+            <FadeInDownAnimation
               key={item.id}
-              entering={FadeInDown.delay(
-                Math.min(500 + index * 100, 1000),
-              ).springify()}
+              delay={Math.min(500 + index * 80, 900)}
             >
               <InterviewCard item={item} />
-            </Animated.View>
+            </FadeInDownAnimation>
           ))}
         </View>
       </Animated.ScrollView>

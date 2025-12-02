@@ -18,7 +18,10 @@ export type BottomTabParamList = {
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
-const TODO = () => undefined;
+const handleNotifications = () => {
+  // TODO: 알림 기능
+  console.log('Notifications feature coming soon');
+};
 
 export const BottomTabNavigator = () => {
   return (
@@ -27,7 +30,10 @@ export const BottomTabNavigator = () => {
         tabBarActiveTintColor: theme.colors.primary,
         tabBarInactiveTintColor: theme.colors.textSecondary,
         headerRight: () => (
-          <TouchableOpacity style={styles.headerRightButton} onPress={TODO}>
+          <TouchableOpacity
+            style={styles.headerRightButton}
+            onPress={handleNotifications}
+          >
             <Feather name="bell" size={20} style={styles.headerRightIcon} />
           </TouchableOpacity>
         ),

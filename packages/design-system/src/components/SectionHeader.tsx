@@ -17,22 +17,30 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   ...props
 }) => {
   return (
-    <View style={[tw`flex-row items-center justify-between mb-md`, style]} {...props}>
-      <Text variant="h4" style={tw`font-bold text-black dark:text-white`}>
+    <View style={[styles.container, style]} {...props}>
+      <Text variant="h4" style={styles.title}>
         {title}
       </Text>
       {actionLabel && (
-        <TouchableOpacity onPress={onPressAction} style={tw`px-sm`}>
-          <Text
-            variant={'h5'}
-            numberOfLines={1}
-            ellipsizeMode="tail"
-            style={tw`text-primary font-bold`}
-          >
+        <TouchableOpacity
+          onPress={onPressAction}
+          style={styles.actionButton}
+          accessibilityRole="button"
+          accessibilityLabel={`${actionLabel} 버튼`}
+          accessibilityHint={`${title} 섹션의 추가 옵션 보기`}
+        >
+          <Text variant={'h5'} numberOfLines={1} ellipsizeMode="tail" style={styles.actionLabel}>
             {actionLabel}
           </Text>
         </TouchableOpacity>
       )}
     </View>
   );
+};
+
+const styles = {
+  container: tw`flex-row items-center justify-between mb-md`,
+  title: tw`font-bold text-black dark:text-white`,
+  actionButton: tw`px-sm`,
+  actionLabel: tw`text-primary font-bold`,
 };

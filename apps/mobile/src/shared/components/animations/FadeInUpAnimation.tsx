@@ -1,10 +1,10 @@
-import { Style } from '@testing-library/react-native/build/matchers/to-have-style';
 import { PropsWithChildren } from 'react';
+import { ViewStyle } from 'react-native';
 import Animated, { FadeInUp } from 'react-native-reanimated';
 
 interface FadeInUpAnimationProps extends PropsWithChildren {
   delay?: number;
-  style?: Style;
+  style?: ViewStyle;
 }
 
 export const FadeInUpAnimation = ({

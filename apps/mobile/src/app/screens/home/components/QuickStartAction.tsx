@@ -23,7 +23,7 @@ const styles = {
     subtitle: tw`mt-xs text-text-secondary dark:text-text-secondary-dark`,
   },
 };
-
+const CARD_GRADIENT_COLORS = ['#8A4FFF', '#4A90E2'];
 export const QuickStartAction: React.FC<QuickStartActionProps> = ({
   title,
   subtitle,
@@ -44,7 +44,7 @@ export const QuickStartAction: React.FC<QuickStartActionProps> = ({
         padding="lg"
         style={styles[variant].card}
         gradientColors={
-          variant === 'primary' ? ['#8A4FFF', '#4A90E2'] : undefined
+          variant === 'primary' ? CARD_GRADIENT_COLORS : undefined
         }
       >
         <Text variant="h4" style={styles[variant].title}>

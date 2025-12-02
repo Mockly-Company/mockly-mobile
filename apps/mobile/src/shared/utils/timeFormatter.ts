@@ -11,7 +11,12 @@ dayjs.locale('ko');
  * @returns 한국어 상대 시간 문자열
  */
 export const relativeTimeFromNow = (date: Date | string | number): string => {
-  return dayjs(date).fromNow();
+  const parsed = dayjs(date);
+  if (!parsed.isValid()) {
+    console.warn('무효한 입력 값입니다.', date);
+    return '날짜 없음';
+  }
+  return parsed.fromNow();
 };
 
 /**

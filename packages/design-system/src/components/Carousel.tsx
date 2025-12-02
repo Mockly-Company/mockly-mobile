@@ -70,7 +70,7 @@ export function Carousel<T>({
           style={styles.pager}
         >
           {items.map((item, i) => (
-            <View key={i} style={[styles.itemContainer, { width, height: '100%' }]}>
+            <View key={`item-${i}`} style={[styles.itemContainer, { width, height: '100%' }]}>
               {renderItem(item)}
             </View>
           ))}
