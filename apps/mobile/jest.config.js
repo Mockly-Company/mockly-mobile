@@ -3,25 +3,30 @@ const path = require('path');
 module.exports = {
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
-  testEnvironment: 'node',
   rootDir: path.resolve(__dirname),
-  // Override setupFiles to avoid ESM import issues
-  setupFiles: ['<rootDir>/jest.setup.js'],
-  setupFilesAfterEnv: [],
+  setupFiles: ['./node_modules/react-native-gesture-handler/jestSetup.js'],
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': [
       'babel-jest',
       {
         configFile: path.resolve(__dirname, 'babel.config.js'),
+        plugins: [
+          '@babel/plugin-transform-modules-commonjs',
+          'babel-plugin-dynamic-import-node',
+        ],
       },
     ],
   },
-  // pnpm 환경에서는 모든 node_modules 변환 필요 (ESM 이슈)
-  // 속도는 Jest 캐시와 maxWorkers로 최적화
+  passWithNoTests: true,
+
+  // pnpm 이슈로 transformIgnorePatterns 비활성화
   transformIgnorePatterns: [],
   testPathIgnorePatterns: ['/node_modules/', '/android/', '/ios/'],
   // __mocks__
   moduleNameMapper: {
+    '^react-native-reanimated$':
+      '<rootDir>/__mocks__/react-native-reanimated.js',
     '^@env$': '<rootDir>/__mocks__/@env.js',
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       '<rootDir>/__mocks__/fileMock.js',
@@ -31,7 +36,6 @@ module.exports = {
     '^@shared/(.*)$': '<rootDir>/src/shared/$1',
   },
   testMatch: ['**/__tests__/**/*.(test|spec).(ts|tsx|js)'],
-  // react-native preset을 사용하지 않고 필요한 설정만 직접 구성
   haste: {
     defaultPlatform: 'android',
     platforms: ['android', 'ios', 'native'],
