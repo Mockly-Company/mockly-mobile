@@ -7,6 +7,8 @@ import prettier from 'eslint-plugin-prettier';
 import eslintConfig from '../../eslint.config.js';
 import { defineConfig } from 'eslint/config';
 import globals from 'globals';
+import testPlugin from 'eslint-plugin-testing-library';
+
 export default defineConfig([
   ...eslintConfig,
   {
@@ -55,6 +57,12 @@ export default defineConfig([
     rules: {
       'react-native/no-inline-styles': 'warn',
       'react-native/no-color-literals': 'off',
+    },
+  },
+  {
+    files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+    plugins: {
+      'testing-library': testPlugin,
     },
   },
 ]);

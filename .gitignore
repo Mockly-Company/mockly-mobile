@@ -53,6 +53,7 @@ DerivedData/
 
 # Bundler
 **/.bundle/
+*.bundle
 
 # Temporary files
 *.swp
@@ -63,3 +64,4 @@ DerivedData/
 !.env.test
 .npmrc
 apps/mobile/android/nul
+nul

@@ -194,11 +194,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       });
       await saveAuthState(null);
       set(initialStoreState);
-      // 로그아웃 후 홈 화면으로 이동
-      const { navigateToHome } = await import(
-        '@app/navigation/navigationService'
-      );
-      navigateToHome();
     } catch (error) {
       set({ isLoading: false, error });
       throw error;

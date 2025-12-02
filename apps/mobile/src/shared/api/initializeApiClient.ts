@@ -81,8 +81,11 @@ export const initializeApiClient = () => {
     },
     responseErrorInterceptor: async error => {
       const originalRequest = error.config as RetryableRequestConfig;
-      const apiError = AppError.fromAxiosError(error, ErrorCoverage.NONE);
-
+      const apiError = AppError.fromAxiosError(
+        error,
+        ErrorCoverage.NONE,
+        error.response?.data?.message || undefined,
+      );
       // 1. Network/Timeout 에러 → Toast로 처리 (Error Boundary에 도달하지 않음)
       if (apiError.isConnectionError) {
         logger.logException(apiError, {

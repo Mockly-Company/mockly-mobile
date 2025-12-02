@@ -75,6 +75,7 @@ export class AppError extends Error {
     this.coverage = coverage;
     this.timestamp = new Date();
     this.displayMessage = displayMessage;
+    this.message = displayMessage || sanitizeErrorMessage;
     this.code = code;
     this.statusCode = statusCode;
     this.isApiError = isApiError;

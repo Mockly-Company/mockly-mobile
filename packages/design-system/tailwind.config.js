@@ -16,6 +16,13 @@ const config = {
         text: colors.text,
         'text-secondary': colors.textSecondary,
         border: colors.border,
+        'surface-dark': colors.surfaceDark,
+        'background-dark': colors.backgroundDark,
+        'border-dark': colors.borderDark,
+        'primary-dark': colors.primaryDark,
+        'secondary-dark': colors.secondaryDark,
+        'text-secondary-dark': colors.textSecondaryDark,
+        'text-dark': colors.textDark,
       },
       spacing: {
         xs: `${spacing.xs}px`,
@@ -31,7 +38,8 @@ const config = {
         md: `${typography.fontSize.md}px`,
         lg: `${typography.fontSize.lg}px`,
         xl: `${typography.fontSize.xl}px`,
-        xxl: `${typography.fontSize.xxl}px`,
+        '2xl': `${typography.fontSize['2xl']}px`,
+        '3xl': `${typography.fontSize['3xl']}px`,
       },
       borderRadius: {
         sm: `${borderRadius.sm}px`,
@@ -42,7 +50,6 @@ const config = {
       },
     },
   },
-  plugins: [],
 };
 
 module.exports = config;

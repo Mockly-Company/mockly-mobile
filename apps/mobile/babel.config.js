@@ -34,7 +34,7 @@ const config = {
     ],
     [
       require.resolve('react-native-reanimated/plugin'),
-      { relativeSourceLocation: true },
+      // { relativeSourceLocation: true },
     ],
   ],
   env: {
