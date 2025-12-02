@@ -41,7 +41,7 @@
     "react-native-safe-area-context": "5.4.0",
     "react-native-svg": "15.15.0",
     "react-native-web": "^0.21.2",
-    "react-native-worklets": "^0.6.1",
+    "react-native-worklets": "0.6.1",
     "storybook-addon-deep-controls": "^0.10.0",
     "twrnc": "^4.11.1"
   },

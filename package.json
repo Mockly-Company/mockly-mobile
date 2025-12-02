@@ -57,7 +57,7 @@
   "packageManager": "pnpm@9.15.0",
   "pnpm": {
     "patchedDependencies": {
-      "@gorhom/bottom-sheet@5.2.6": "patches/@gorhom__bottom-sheet.patch"
+      "@react-navigation/stack@7.6.8": "patches/@react-navigation__stack@7.6.8.patch"
     }
   },
   "dependencies": {

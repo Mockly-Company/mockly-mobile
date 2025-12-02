@@ -130,8 +130,7 @@
                     android:valueFrom="1"
                     android:valueTo="0"
                     android:duration="600"           
-                    android:repeatCount="-1"    
-                    android:repeatMode="restart"
+                    android:repeatCount="0"
                 />
             </set>
         </aapt:attr>
