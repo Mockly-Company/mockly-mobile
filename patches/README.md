@@ -18,6 +18,22 @@
 
 **추후 조치**: [@gorhom/bottom-sheet 이슈 티켓](https://github.com/gorhom/react-native-bottom-sheet/pull/2561) 이슈 해결 시 업데이트
 
+### @react-navigation/stack
+
+**문제**: InteractionManager가 React Native의 새로운 아키텍처에서 성능 문제를 발생시킴
+
+**해결**: `lib/module/views/Stack/Card.js`에서 `InteractionManager` 대신 `requestIdleCallback`/`cancelIdleCallback` 사용
+
+**적용 파일**:
+
+- `lib/module/views/Stack/Card.js`
+  - `InteractionManager.createInteractionHandle()` → `requestIdleCallback(() => { return; })`
+  - `InteractionManager.clearInteractionHandle()` → `cancelIdleCallback()`
+
+**관련 이슈**: React Native 새로운 아키텍처에서 InteractionManager 성능 최적화
+
+**추후 조치**: @react-navigation/stack에서 공식적으로 지원될 때까지 유지
+
 ## 패치 사용 방법
 
 ### 패치 자동 적용

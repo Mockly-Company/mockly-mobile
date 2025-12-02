@@ -118,15 +118,13 @@
                 android:interpolator="@android:interpolator/decelerate_quad"
                 android:repeatCount="0"
                 />
-
-            <!-- 마지막 애니메이터에 repeatCount="infinite" -->
             <objectAnimator
                 android:propertyName="scaleY"
                 android:valueFrom="0.92"
                 android:valueTo="1"
                 android:duration="380"
                 android:interpolator="@android:interpolator/overshoot"
-                android:repeatCount="-1"
+                android:repeatCount="0"
                 android:repeatMode="restart"
                 />
         </set>

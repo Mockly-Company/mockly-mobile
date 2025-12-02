@@ -9,6 +9,8 @@ const textVariants = cva('', {
       h1: 'text-xxl font-bold',
       h2: 'text-xl font-bold',
       h3: 'text-lg font-semibold',
+      h4: 'text-md font-semibold',
+      h5: 'text-sm font-medium',
       body: 'text-md',
       caption: 'text-sm',
     },

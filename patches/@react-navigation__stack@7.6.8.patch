@@ -1,0 +1,30 @@
+diff --git a/lib/module/views/Stack/Card.js b/lib/module/views/Stack/Card.js
+index b680e64a31f75c230ce0332adf3593147308445d..2b557d9f9df4b5bbea74721a07465ace3bd45616 100644
+--- a/lib/module/views/Stack/Card.js
++++ b/lib/module/views/Stack/Card.js
+@@ -2,7 +2,7 @@
+ 
+ import Color from 'color';
+ import * as React from 'react';
+-import { Animated, InteractionManager, Platform, StyleSheet, View } from 'react-native';
++import { Animated, Platform, StyleSheet, View } from 'react-native';
+ import useLatestCallback from 'use-latest-callback';
+ import { CardAnimationContext } from "../../utils/CardAnimationContext.js";
+ import { gestureActivationCriteria } from "../../utils/gestureActivationCriteria.js";
+@@ -88,12 +88,14 @@ function Card({
+   const [isSwiping] = React.useState(() => new Animated.Value(FALSE));
+   const onStartInteraction = useLatestCallback(() => {
+     if (interactionHandleRef.current === undefined) {
+-      interactionHandleRef.current = InteractionManager.createInteractionHandle();
++      interactionHandleRef.current = requestIdleCallback(() => {
++        return;
++      });
+     }
+   });
+   const onEndInteraction = useLatestCallback(() => {
+     if (interactionHandleRef.current !== undefined) {
+-      InteractionManager.clearInteractionHandle(interactionHandleRef.current);
++      cancelIdleCallback(interactionHandleRef.current);
+       interactionHandleRef.current = undefined;
+     }
+   });
