@@ -42,7 +42,7 @@ export function ScreenErrorFallback({
 const styles = {
   container: tw`flex-1 items-center justify-center p-6 bg-white`,
   iconContainer: tw`w-20 h-20 bg-yellow-100 rounded-full items-center justify-center mb-4`,
-  iconText: tw`text-3xl`,
+  iconText: tw`text-xxl`,
   title: tw`text-xl font-bold text-gray-900 mb-2 text-center`,
   message: tw`text-base text-gray-600 text-center mb-1`,
   description: tw`text-sm text-gray-500 text-center mb-6`,
