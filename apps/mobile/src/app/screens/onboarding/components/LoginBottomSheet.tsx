@@ -5,11 +5,11 @@ import BottomSheet, {
   BottomSheetBackdropProps,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { Button, tw } from '@mockly/design-system';
+import { tw } from '@mockly/design-system';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { GoogleLoginButton } from '@app/components/ui/GoogleLoginButton';
 import { useAuth } from '@features/auth/hooks';
+import { SignInButton } from '@app/components/ui/SignInButton';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface LoginBottomSheetProps {}
@@ -51,7 +51,7 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
         index={-1}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
-        enablePanDownToClose
+        enablePanDownToClose={!isLoading}
         backgroundStyle={styles.background}
         handleIndicatorStyle={styles.indicator}
       >
@@ -60,11 +60,8 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
         >
           <Text style={styles.title}>로그인하고 계속하기</Text>
 
-          <GoogleLoginButton />
-
-          <Button size="large" style={styles.appleButton}>
-            <Text style={styles.appleButtonText}>Apple로 시작하기</Text>
-          </Button>
+          <SignInButton provider="google" />
+          <SignInButton provider="apple" />
 
           {isLoading && (
             <View style={styles.loadingOverlay}>
