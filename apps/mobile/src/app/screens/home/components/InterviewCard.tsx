@@ -16,18 +16,21 @@ export const InterviewCard = ({ item }: InterviewCardProps) => {
   return (
     <Card
       variant="elevated"
-      style={styles.card}
+      style={tw`bg-surface dark:bg-surface-dark`}
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}
       accessibilityHint="면접 기록 상세 화면으로 이동합니다"
     >
-      <View style={styles.container}>
+      <View style={tw`flex-row justify-between items-center py-sm px-md`}>
         <View>
-          <Text variant="body" style={styles.title}>
+          <Text variant="body" style={tw`font-bold text-text dark:text-white`}>
             {item.title}
           </Text>
-          <Text variant="caption" style={styles.date}>
+          <Text
+            variant="caption"
+            style={tw`text-text-secondary dark:text-text-secondary-dark`}
+          >
             {`${relative} · ${formattedDuration} 소요`}
           </Text>
         </View>
@@ -35,15 +38,6 @@ export const InterviewCard = ({ item }: InterviewCardProps) => {
       </View>
     </Card>
   );
-};
-
-const styles = {
-  card: tw`bg-surface dark:bg-surface-dark`,
-  container: tw`flex-row justify-between items-center py-sm px-md`,
-  title: tw`font-bold text-text dark:text-white`,
-  date: tw`text-text-secondary dark:text-text-secondary-dark`,
-  scoreContainer: tw`px-sm py-xs rounded-full bg-primary/10 border border-primary/20`,
-  scoreText: tw`text-primary font-bold`,
 };
 
 // 추후 점수별 색상 변경 로직이 생길 수 있어서 별도로 분리해둠.

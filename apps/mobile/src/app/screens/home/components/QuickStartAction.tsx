@@ -11,25 +11,27 @@ interface QuickStartActionProps {
   onPress?: () => void;
 }
 
-const styles = {
-  primary: {
-    card: tw`rounded-xl mb-sm`,
-    title: tw`font-bold text-white`,
-    subtitle: tw`mt-xs text-white/90`,
-  },
-  surface: {
-    card: tw`rounded-xl mb-sm bg-surface dark:bg-surface-dark border border-border dark:border-border-dark`,
-    title: tw`font-bold text-text dark:text-white`,
-    subtitle: tw`mt-xs text-text-secondary dark:text-text-secondary-dark`,
-  },
-};
 const CARD_GRADIENT_COLORS = ['#8A4FFF', '#4A90E2'];
+
 export const QuickStartAction: React.FC<QuickStartActionProps> = ({
   title,
   subtitle,
   variant = 'surface',
   onPress,
 }) => {
+  const cardStyle =
+    variant === 'primary'
+      ? tw`rounded-xl mb-sm`
+      : tw`rounded-xl mb-sm bg-surface dark:bg-surface-dark border border-border dark:border-border-dark`;
+  const titleStyle =
+    variant === 'primary'
+      ? tw`font-bold text-white`
+      : tw`font-bold text-text dark:text-white`;
+  const subtitleStyle =
+    variant === 'primary'
+      ? tw`mt-xs text-white/90`
+      : tw`mt-xs text-text-secondary dark:text-text-secondary-dark`;
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
@@ -42,15 +44,15 @@ export const QuickStartAction: React.FC<QuickStartActionProps> = ({
       <Card
         variant={variant === 'primary' ? 'gradient' : 'outlined'}
         padding="lg"
-        style={styles[variant].card}
+        style={cardStyle}
         gradientColors={
           variant === 'primary' ? CARD_GRADIENT_COLORS : undefined
         }
       >
-        <Text variant="h4" style={styles[variant].title}>
+        <Text variant="h4" style={titleStyle}>
           {title}
         </Text>
-        <Text variant="body" style={styles[variant].subtitle}>
+        <Text variant="body" style={subtitleStyle}>
           {subtitle}
         </Text>
       </Card>

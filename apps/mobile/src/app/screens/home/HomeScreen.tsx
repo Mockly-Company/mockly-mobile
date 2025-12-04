@@ -25,7 +25,7 @@ export const HomeScreen = () => {
   return (
     <View style={tw`flex-1`} testID="home-screen">
       <Animated.ScrollView
-        style={styles.container}
+        style={tw`flex-1 px-lg`}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={tw`pb-xl`}
       >
@@ -132,20 +132,4 @@ export const HomeScreen = () => {
       </Animated.ScrollView>
     </View>
   );
-};
-
-const styles = {
-  container: tw`flex-1 px-lg`,
-  content: {
-    card: tw`bg-primary/5 border-primary/20 border shadow-sm`,
-    container: tw`items-center py-lg px-md`,
-    title: tw`text-primary font-bold mb-sm text-2xl`,
-    subTitle: tw`text-center mb-lg text-text dark:text-gray-300`,
-    button: tw`w-full shadow-md`,
-  },
-  section: {
-    container: tw`mb-xl`,
-    title: tw`font-bold text-xl mb-md text-text dark:text-white`,
-  },
-  recentInterviews: {},
 };

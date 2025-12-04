@@ -15,12 +15,6 @@ const inputVariants = cva(
   }
 );
 
-const inputLabelStyle = tw.style('text-sm font-medium text-text mb-xs');
-
-const inputErrorStyle = tw.style('text-xs text-error mt-xs');
-
-const inputContainerStyle = tw.style('mb-md');
-
 export interface InputProps extends TextInputProps {
   label?: string;
   error?: string;
@@ -42,8 +36,8 @@ export const Input: React.FC<InputProps> = ({
   const labelId = `${inputId}-label`;
   const errorId = `${inputId}-error`;
   return (
-    <View style={[inputContainerStyle, containerStyle]}>
-      {label && <Text style={inputLabelStyle}>{label}</Text>}
+    <View style={[tw`mb-md`, containerStyle]}>
+      {label && <Text style={tw`text-sm font-medium text-text mb-xs`}>{label}</Text>}
       <TextInput
         style={[inputStyle, style]}
         placeholderTextColor={placeholderTextColor ?? colors.textSecondary}
@@ -54,7 +48,11 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       {error && (
-        <Text nativeID={errorId} style={inputErrorStyle} accessibilityLiveRegion="polite">
+        <Text
+          nativeID={errorId}
+          style={tw`text-xs text-error mt-xs`}
+          accessibilityLiveRegion="polite"
+        >
           {error}
         </Text>
       )}

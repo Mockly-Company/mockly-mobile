@@ -31,21 +31,29 @@ export const BottomTabNavigator = () => {
         tabBarInactiveTintColor: theme.colors.textSecondary,
         headerRight: () => (
           <TouchableOpacity
-            style={styles.headerRightButton}
+            style={tw`text-black dark:text-white`}
             onPress={handleNotifications}
           >
-            <Feather name="bell" size={20} style={styles.headerRightIcon} />
+            <Feather
+              name="bell"
+              size={20}
+              style={tw`text-black dark:text-white`}
+            />
           </TouchableOpacity>
         ),
-        headerStyle: styles.headerStyle,
-        headerRightContainerStyle: styles.headerRightContainer,
+        headerStyle: tw`h-20`,
+        headerRightContainerStyle: tw`pr-md`,
       }}
     >
       <Tab.Screen
         name="Home"
         component={withScreenErrorBoundary(HomeScreen)}
         options={{
-          headerTitle: () => <Text style={styles.headerTitleText}>Mockly</Text>,
+          headerTitle: () => (
+            <Text style={tw`font-bold text-xl text-zinc-900 dark:text-white`}>
+              Mockly
+            </Text>
+          ),
           headerTitleAlign: 'left',
           tabBarLabel: '홈',
           tabBarAccessibilityLabel: '홈 화면으로 이동',
@@ -109,12 +117,4 @@ export const BottomTabNavigator = () => {
       />
     </Tab.Navigator>
   );
-};
-
-const styles = {
-  headerRightButton: tw`text-black dark:text-white`,
-  headerRightIcon: tw`text-black dark:text-white`,
-  headerStyle: tw`h-20`,
-  headerRightContainer: tw`pr-md`,
-  headerTitleText: tw`font-bold text-xl text-zinc-900 dark:text-white`,
 };

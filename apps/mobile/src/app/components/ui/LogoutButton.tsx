@@ -2,11 +2,7 @@ import { useLoggedInAuth } from '@features/auth/hooks';
 import { tw } from '@mockly/design-system';
 import { toast } from '@shared/utils/toast';
 import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
-const styles = {
-  logoutButton: tw`bg-red-500 px-8 py-3 rounded-lg`,
-  logoutButtonText: tw`text-white text-base font-semibold`,
-  disabledButton: tw`opacity-50`,
-};
+
 export const LogoutButton = () => {
   const { signOut, isLoading } = useLoggedInAuth();
 
@@ -21,7 +17,7 @@ export const LogoutButton = () => {
   };
   return (
     <TouchableOpacity
-      style={[styles.logoutButton, isLoading && styles.disabledButton]}
+      style={[tw`bg-red-500 px-8 py-3 rounded-lg`, isLoading && tw`opacity-50`]}
       onPress={handleLogout}
       disabled={isLoading}
       accessible={true}
@@ -32,7 +28,7 @@ export const LogoutButton = () => {
       {isLoading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
-        <Text style={styles.logoutButtonText}>로그아웃</Text>
+        <Text style={tw`text-white text-base font-semibold`}>로그아웃</Text>
       )}
     </TouchableOpacity>
   );

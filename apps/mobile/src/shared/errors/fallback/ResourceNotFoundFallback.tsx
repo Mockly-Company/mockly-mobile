@@ -15,24 +15,21 @@ export function ResourceNotFoundFallback({
 }: Props) {
   return (
     <View
-      style={styles.container}
+      style={tw`flex-1 justify-center items-center p-5 bg-gray-100`}
       accessible={true}
       accessibilityRole="alert"
       accessibilityLabel={`${resourceType}를 찾을 수 없습니다. ${message}`}
     >
-      <Text style={styles.icon}>🔍</Text>
-      <Text style={styles.title}>찾을 수 없음</Text>
-      <Text style={styles.message}>{message}</Text>
-      <Text style={styles.description}>
-        {resourceType}가 삭제되었거나 존재하지 않습니다.
+      <Text style={tw`text-6xl mb-4`}>🔍</Text>
+      <Text style={tw`text-2xl font-bold text-gray-800 mb-2`}>
+        찾을 수 없음
+      </Text>
+      <Text style={tw`text-base text-gray-600 text-center mb-2`}>
+        {message}
+      </Text>
+      <Text style={tw`text-sm text-gray-500 text-center`}>
+        {resourceType}가 삭제됐거나 존재하지 않습니다.
       </Text>
     </View>
   );
 }
-const styles = {
-  container: tw`flex-1 justify-center items-center p-5 bg-gray-100`,
-  icon: tw`text-6xl mb-4`,
-  title: tw`text-2xl font-bold text-gray-800 mb-2`,
-  message: tw`text-base text-gray-600 text-center mb-2`,
-  description: tw`text-sm text-gray-500 text-center`,
-};
