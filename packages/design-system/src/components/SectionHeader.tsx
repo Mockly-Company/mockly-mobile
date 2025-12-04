@@ -18,7 +18,8 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 }) => {
   return (
     <View style={[styles.container, style]} {...props}>
-      <Text variant="h4" style={styles.title}>
+      {/* TODO: tw 함수는 컴포넌트 내부에서 사용으로 변경. */}
+      <Text variant="h4" style={tw`font-bold text-black dark:text-white`}>
         {title}
       </Text>
       {actionLabel && (
@@ -40,7 +41,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
 
 const styles = {
   container: tw`flex-row items-center justify-between mb-md`,
-  title: tw`font-bold text-black dark:text-white`,
   actionButton: tw`px-sm`,
   actionLabel: tw`text-primary font-bold`,
 };
