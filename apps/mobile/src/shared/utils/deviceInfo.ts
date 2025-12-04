@@ -1,16 +1,13 @@
 import * as Keychain from 'react-native-keychain';
 import { getDeviceName as getDeviceNameFromLib } from 'react-native-device-info';
+import { v4 as uuidv4 } from 'uuid';
 const DEVICE_ID_KEY = 'mockly.device_id';
 
 /**
  * UUID v4 생성 (간단한 구현)
  */
 const generateUUID = (): string => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-    const r = (Math.random() * 16) | 0;
-    const v = c === 'x' ? r : (r & 0x3) | 0x8;
-    return v.toString(16);
-  });
+  return uuidv4();
 };
 let DEVICE_ID = '';
 /**

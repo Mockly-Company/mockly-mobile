@@ -2,8 +2,10 @@
  * 인증 관련 커스텀 훅
  */
 
+import { AppError, ErrorCoverage } from '@shared/errors';
 import { useAuthStore } from './store';
 import { useShallow } from 'zustand/react/shallow';
+import { AuthUser } from '@mockly/entities';
 /**
  * 인증 상태 및 기능을 사용하기 위한 훅
  *
@@ -51,16 +53,17 @@ export const useLoggedInAuth = () => {
       setError: state.setError,
     })),
   );
-  const user = authenticatedContext.user;
-  // TODO: 타입 가드 활용하거나, 더 좋은 방법 생각.
-  if (!user) {
-    throw new Error(
-      '사용자가 인증되지 않았습니다. 이 훅은 로그인된 사용자만 사용할 수 있습니다.',
+
+  if (!authenticatedContext.user) {
+    throw new AppError(
+      '사용자가 인증되지 않았습니다.',
+      ErrorCoverage.COMPONENT,
+      '로그인이 필요합니다',
     );
   }
 
-  return authenticatedContext as typeof authenticatedContext & {
-    user: NonNullable<typeof user>;
+  return authenticatedContext as Omit<typeof authenticatedContext, 'user'> & {
+    user: NonNullable<AuthUser>;
   };
 };
 
