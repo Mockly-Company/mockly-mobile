@@ -10,6 +10,7 @@ import { AppError, ErrorCoverage } from '@shared/errors';
 import { AppState } from 'react-native';
 import { toast } from '@shared/utils/toast';
 import { logger } from '@shared/utils/logger';
+import { localStorage } from '@features/auth/localStorage';
 
 // 15초: 모바일 네트워크 환경 고려한 타임아웃
 const API_TIMEOUT = 15000;
@@ -48,7 +49,7 @@ const processQueue = (error: AppError | null) => {
 let appStateSubscription: ReturnType<typeof AppState.addEventListener> | null =
   null;
 
-export const initializeApiClient = () => {
+export const initializeApiClient = async (deviceId: string) => {
   // 기존 구독 정리
   if (appStateSubscription) {
     appStateSubscription.remove();
@@ -72,8 +73,14 @@ export const initializeApiClient = () => {
   initializeAxiosApiClient({
     baseURL: API_BASE_URL || 'http://localhost:8080',
     timeout: API_TIMEOUT,
+    headers: {
+      'X-Device-Id': deviceId,
+    },
     requestInterceptor: async config => {
-      const accessToken = useAuthStore.getState().authState?.accessToken;
+      // Device ID 헤더 추가 (메모리 캐시에서 가져오기)
+
+      // Access Token 추가
+      const accessToken = localStorage.getAccessToken();
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }
@@ -185,9 +192,9 @@ export const initializeApiClient = () => {
         return new Promise((resolve, reject) => {
           failedQueue.push({ resolve, reject });
         })
-          .then(() => {
+          .then(async () => {
             // 갱신 완료 후 재시도
-            const newToken = useAuthStore.getState().authState?.accessToken;
+            const newToken = await useAuthStore.getState().getAccessToken();
             if (originalRequest?.headers && newToken) {
               (
                 originalRequest.headers as Record<string, string>
@@ -207,7 +214,7 @@ export const initializeApiClient = () => {
 
       try {
         // 토큰 갱신 시도 (타임아웃 포함)
-        const refreshPromise = useAuthStore.getState().refreshToken();
+        const refreshPromise = localStorage.getRefreshToken();
         const timeoutPromise = new Promise<boolean>((_, reject) =>
           setTimeout(
             () =>
@@ -240,7 +247,7 @@ export const initializeApiClient = () => {
         }
 
         // 갱신 성공
-        const newToken = useAuthStore.getState().authState?.accessToken;
+        const newToken = await useAuthStore.getState().getAccessToken();
         if (!newToken) {
           const error = AppError.fromAxiosError(
             {
