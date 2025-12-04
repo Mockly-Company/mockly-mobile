@@ -22,5 +22,7 @@
     "@mockly/typescript-config": "workspace:*",
     "typescript": "5.9.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "zod": "^4.1.13"
+  }
 }

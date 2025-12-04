@@ -16,6 +16,7 @@ dist/
 *.pem
 .idea/
 .vscode/
+!.vscode/settings.json
 *.log
 
 # Environment variables

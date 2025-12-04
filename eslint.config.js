@@ -1,4 +1,3 @@
-import js from '@eslint/js';
 import typescript from '@typescript-eslint/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import prettier from 'eslint-plugin-prettier';
@@ -10,7 +9,6 @@ import globals from 'globals';
 import eslintJest from 'eslint-plugin-jest';
 
 export default defineConfig([
-  js.configs.recommended,
   {
     ignores: [
       'node_modules/',
