@@ -8,13 +8,6 @@ import { AppError } from '@shared/errors';
 import { AuthProvider } from '@features/auth/types';
 import { capitalize } from '@shared/utils/stringUtils';
 
-const styles = {
-  buttonContent: tw`flex-row items-center justify-center w-full`,
-  imageContainer: tw`absolute left-0`,
-  textContainer: tw`items-center`,
-  logo: tw`w-5 h-5`,
-};
-
 type SignInButtonProps = {
   provider: AuthProvider;
 };
@@ -123,15 +116,15 @@ export const SignInButton = ({ provider }: SignInButtonProps) => {
       accessibilityHint="탭하여 로그인 절차를 시작합니다"
       accessibilityRole="button"
     >
-      <View style={styles.buttonContent}>
-        <View style={styles.imageContainer}>
+      <View style={tw`flex-row items-center justify-center w-full`}>
+        <View style={tw`absolute left-0`}>
           <Image
             source={config.imageSource}
-            style={styles.logo}
+            style={tw`w-5 h-5`}
             tintColor={config.imageTintColor}
           />
         </View>
-        <View style={styles.textContainer}>
+        <View style={tw`items-center`}>
           {isLoading ? (
             <ActivityIndicator size="small" color={config.indicatorColor} />
           ) : (

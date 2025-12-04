@@ -36,19 +36,19 @@ const slides: Slide[] = [
 const SlideContent = ({ item }: { item: Slide }) => {
   return (
     <View
-      style={slideStyles.container}
+      style={tw`flex-1 items-center justify-center px-6`}
       accessible={true}
       accessibilityLabel={`onboarding-slide-${item.id}`}
     >
       <Animated.Text
         entering={FadeInDown.delay(200).springify()}
-        style={slideStyles.title}
+        style={tw`text-4xl font-extrabold text-zinc-900 dark:text-white text-center`}
       >
         {item.title}
       </Animated.Text>
       <Animated.Text
         entering={FadeInDown.delay(300).springify()}
-        style={slideStyles.description}
+        style={tw`mt-3 text-lg text-zinc-600 dark:text-zinc-300 text-center`}
       >
         {item.description}
       </Animated.Text>
@@ -66,7 +66,7 @@ export const OnboardingScreen = () => {
   }, []);
 
   return (
-    <View style={[styles.container]}>
+    <View style={tw`flex-1 bg-white dark:bg-zinc-950`}>
       <OnboardingIndicator
         pageCount={slides.length}
         currentIndex={currentSlideIndex}
@@ -87,14 +87,4 @@ export const OnboardingScreen = () => {
       <LoginBottomSheet ref={bottomSheetRef} />
     </View>
   );
-};
-
-const styles = {
-  container: tw`flex-1 bg-white dark:bg-zinc-950`,
-};
-
-const slideStyles = {
-  container: tw`flex-1 items-center justify-center px-6`,
-  title: tw`text-4xl font-extrabold text-zinc-900 dark:text-white text-center`,
-  description: tw`mt-3 text-lg text-zinc-600 dark:text-zinc-300 text-center`,
 };

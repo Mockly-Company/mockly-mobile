@@ -37,11 +37,6 @@ const valueVariants = cva('font-bold', {
   },
 });
 
-const styles = {
-  container: tw`gap-xs`,
-  label: tw`text-text-secondary dark:text-gray-400`,
-};
-
 export const StatCard: React.FC<StatCardProps> = ({
   label,
   value,
@@ -52,8 +47,11 @@ export const StatCard: React.FC<StatCardProps> = ({
 
   return (
     <Card variant="filled" style={cardStyle}>
-      <View style={styles.container}>
-        <Text variant="caption" style={styles.label}>
+      <View style={tw`gap-xs`}>
+        <Text
+          variant="caption"
+          style={tw`text-text-secondary dark:text-gray-400`}
+        >
           {label}
         </Text>
         <Text variant="h2" style={valueStyle}>

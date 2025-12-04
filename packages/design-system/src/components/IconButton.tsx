@@ -43,11 +43,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   );
   return (
     <TouchableOpacity style={[containerStyle, style]} accessibilityRole="button" {...props}>
-      {children ? children : icon ? <Text style={styles.icon}>{icon}</Text> : null}
+      {children ? children : icon ? <Text style={tw`text-lg`}>{icon}</Text> : null}
     </TouchableOpacity>
   );
-};
-
-const styles = {
-  icon: tw`text-lg`,
 };

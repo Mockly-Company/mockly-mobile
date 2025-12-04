@@ -13,12 +13,8 @@ export const OnboardingIndicator: React.FC<OnboardingIndicatorProps> = ({
   pageCount,
   currentIndex,
 }) => {
-  const styles = {
-    container: tw`absolute top-30 left-6 w-1/3`,
-  };
-
   return (
-    <View style={styles.container}>
+    <View style={tw`absolute top-30 left-6 w-1/3`}>
       <PageIndicator pageCount={pageCount} currentIndex={currentIndex} />
     </View>
   );

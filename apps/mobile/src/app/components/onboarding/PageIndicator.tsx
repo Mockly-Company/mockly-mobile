@@ -1,6 +1,6 @@
 import { tw } from '@mockly/design-system';
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   SharedValue,
@@ -22,7 +22,7 @@ export const PageIndicator: React.FC<PageIndicatorProps> = ({
   currentIndex,
 }) => {
   return (
-    <View style={styles.container}>
+    <View style={tw`flex-row items-center justify-start gap-1.5`}>
       {Array.from({ length: pageCount }).map((_, index) => (
         <Bar
           key={index}
@@ -34,17 +34,6 @@ export const PageIndicator: React.FC<PageIndicatorProps> = ({
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    gap: 6,
-  },
-  barContainer: {
-    flex: 1,
-  },
-});
 
 interface BarProps {
   index: number;
@@ -71,12 +60,10 @@ const Bar: React.FC<BarProps> = ({ index, currentIndex }) => {
   });
 
   return (
-    <View style={styles.barContainer}>
-      <Animated.View style={[barStyles.bar, animatedStyle]} />
+    <View style={tw`flex-1`}>
+      <Animated.View
+        style={[tw`h-2 rounded-full bg-primary dark:bg-primary`, animatedStyle]}
+      />
     </View>
   );
-};
-
-const barStyles = {
-  bar: tw`h-2 rounded-full bg-primary dark:bg-primary`,
 };
