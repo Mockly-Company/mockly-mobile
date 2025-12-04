@@ -52,9 +52,9 @@ export function Carousel<T>({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={tw`flex-1`}>
       <Pressable
-        style={styles.pressableContainer}
+        style={tw`flex-1`}
         onPress={handlePress}
         accessibilityRole="button"
         accessibilityHint="다음 슬라이드로 이동"
@@ -67,10 +67,13 @@ export function Carousel<T>({
           showsHorizontalScrollIndicator={false}
           scrollEnabled={canSwipe}
           bounces={false}
-          style={styles.pager}
+          style={tw`flex-1`}
         >
           {items.map((item, i) => (
-            <View key={`item-${i}`} style={[styles.itemContainer, { width, height: '100%' }]}>
+            <View
+              key={`item-${i}`}
+              style={[tw`flex-1 items-center justify-center px-6`, { width, height: '100%' }]}
+            >
               {renderItem(item)}
             </View>
           ))}
@@ -79,12 +82,3 @@ export function Carousel<T>({
     </View>
   );
 }
-
-const styles = {
-  container: tw`flex-1`,
-  pressableContainer: tw`flex-1`,
-  animatedContainer: tw`flex-1`,
-  pager: tw`flex-1`,
-  itemContainer: tw`flex-1 items-center justify-center px-6`,
-  indicator: tw`items-center mt-sm`,
-};
