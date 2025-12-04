@@ -94,7 +94,7 @@ export const SignInButton = ({ provider }: SignInButtonProps) => {
       .then(userName => {
         const isUserCanceled = userName === null;
         if (isUserCanceled) return;
-        toast.success('로그인 성공', `${userName}님 환영합니다!`);
+        toast.success(`${provider} 로그인 성공`, `${userName}님 환영합니다!`);
       })
       .catch(err => {
         toast.error('로그인 실패', err.message || '다시 시도해주세요.');
@@ -118,6 +118,10 @@ export const SignInButton = ({ provider }: SignInButtonProps) => {
       onPress={handleLogin}
       disabled={isLoading}
       testID={`${provider}-login-button`}
+      accessible={true}
+      accessibilityLabel={`${capitalize(provider)}로 로그인`}
+      accessibilityHint="탭하여 로그인 절차를 시작합니다"
+      accessibilityRole="button"
     >
       <View style={styles.buttonContent}>
         <View style={styles.imageContainer}>

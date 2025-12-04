@@ -78,13 +78,9 @@ export async function checkLocationPermissionAndGet(options?: {
           longitude: position.coords.longitude,
         });
       },
-      error => {
-        logger.logException(error, {
-          context: 'checkLocationPermissionAndGet',
-          message: 'GPS 위치 가져오기 실패',
-        });
-        // 위치 정보 실패 시 기본값 반환
+      () => {
         resolve({ latitude: 0, longitude: 0 });
+        // 위치 정보 실패 시 기본값 반환
       },
       {
         enableHighAccuracy,

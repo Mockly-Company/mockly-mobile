@@ -120,6 +120,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
       });
+      await localStorage.saveUser({
+        ...tokens.user,
+        photo: null,
+        provider,
+      });
 
       // 4. 사용자 정보 상태 업데이트
       const authUser: AuthUser = {
