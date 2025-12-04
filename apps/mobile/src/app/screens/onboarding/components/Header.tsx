@@ -9,15 +9,18 @@ type HeaderProps = {
 };
 
 export const Header: React.FC<HeaderProps> = ({ title, subtitle }) => {
-  const styles = {
-    container: tw`px-md pt-lg`,
-    title: tw`text-xl font-bold text-zinc-900 dark:text-white`,
-    subtitle: tw`text-md text-text-secondary dark:text-text-secondary-dark mt-xs`,
-  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      {subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+    <View style={tw`px-md pt-lg`}>
+      <Text style={tw`text-xl font-bold text-zinc-900 dark:text-white`}>
+        {title}
+      </Text>
+      {subtitle ? (
+        <Text
+          style={tw`text-md text-text-secondary dark:text-text-secondary-dark mt-xs`}
+        >
+          {subtitle}
+        </Text>
+      ) : null}
     </View>
   );
 };

@@ -24,29 +24,32 @@ export const FeatureCard = ({
       accessibilityLabel={`${title}. ${description}`}
       accessibilityHint="기능 상세 화면으로 이동합니다"
     >
-      <Card variant="transparent" padding="md" style={styles.card}>
-        <View style={styles.container}>
-          <View style={styles.iconContainer}>
-            <Text style={styles.icon}>{icon}</Text>
+      <Card
+        variant="transparent"
+        padding="md"
+        style={tw`rounded-xl bg-surface border border-border dark:bg-surface-dark dark:border-border-dark`}
+      >
+        <View style={tw`flex-row items-center gap-md`}>
+          <View
+            style={tw`w-12 h-12 rounded-full bg-primary/10 items-center justify-center`}
+          >
+            <Text style={tw`text-2xl`}>{icon}</Text>
           </View>
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>{title}</Text>
-            <Text style={styles.description}>{description}</Text>
+          <View style={tw`flex-1`}>
+            <Text style={tw`font-bold text-lg mb-xs text-text dark:text-white`}>
+              {title}
+            </Text>
+            <Text style={tw`text-sm text-text-secondary dark:text-gray-400`}>
+              {description}
+            </Text>
           </View>
-          <Feather name={'arrow-right'} size={24} style={styles.arrow} />
+          <Feather
+            name={'arrow-right'}
+            size={24}
+            style={tw`text-primary text-lg`}
+          />
         </View>
       </Card>
     </TouchableOpacity>
   );
-};
-
-const styles = {
-  card: tw`rounded-xl bg-surface border border-border dark:bg-surface-dark dark:border-border-dark`,
-  container: tw`flex-row items-center gap-md`,
-  iconContainer: tw`w-12 h-12 rounded-full bg-primary/10 items-center justify-center`,
-  icon: tw`text-2xl`,
-  textContainer: tw`flex-1`,
-  title: tw`font-bold text-lg mb-xs text-text dark:text-white`,
-  description: tw`text-sm text-text-secondary dark:text-gray-400`,
-  arrow: tw`text-primary text-lg`,
 };

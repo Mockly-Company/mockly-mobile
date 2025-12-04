@@ -31,7 +31,7 @@ export const Avatar: React.FC<AvatarProps> = ({ size = 'md', style, uri, fallbac
   return (
     <View style={[containerStyle, style]}>
       {uri ? (
-        <Image source={{ uri }} style={styles.image} />
+        <Image source={{ uri }} style={tw`w-full h-full`} />
       ) : (
         <DefaultAvatarImage fallbackText={fallbackText} />
       )}
@@ -39,19 +39,10 @@ export const Avatar: React.FC<AvatarProps> = ({ size = 'md', style, uri, fallbac
   );
 };
 
-const styles = {
-  image: tw`w-full h-full`,
-};
-
 const DefaultAvatarImage = ({ fallbackText }: { fallbackText?: string }) => {
   return (
-    <View style={defaultAvatarStyles.container}>
-      <Text style={defaultAvatarStyles.text}>{fallbackText ?? '🙂'}</Text>
+    <View style={tw`w-10 h-10 rounded-full items-center justify-center bg-primary/10`}>
+      <Text style={tw`text-primary`}>{fallbackText ?? '🙂'}</Text>
     </View>
   );
-};
-
-const defaultAvatarStyles = {
-  container: tw`w-10 h-10 rounded-full items-center justify-center bg-primary/10`,
-  text: tw`text-primary`,
 };
