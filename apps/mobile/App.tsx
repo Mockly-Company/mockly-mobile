@@ -9,24 +9,33 @@ import { ToastContainer } from './src/app/components/common/ToastContainer';
 import { useDeviceColorScheme } from '@shared/hooks/useDeviceColorScheme';
 import { useInitializeAuth } from '@features/auth/hooks';
 import { hideNativeSplashScreen } from '@shared/utils/NativeSplashScreen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { RootNavigator } from '@app/navigation/RootNavigator';
-initializeApiClient();
+import { deviceInfo } from '@shared/utils/deviceInfo';
 
 function App() {
+  const [isReady, setIsReady] = useState(false);
   // 다크 모드 감지, tw theme 설정 반영
   const { isDarkMode, naviTheme } = useDeviceColorScheme();
-  // Auth 인증 초기화 함수
+
   const initializeAuth = useInitializeAuth();
-  // 네트워크 상태 체크
+
   useNetworkMonitor();
+
   useEffect(() => {
     const initialize = async () => {
+      // Device ID 초기화 (없으면 keychain에 생성!)
+      const deviceId = await deviceInfo.initializeDevice();
+      await initializeApiClient(deviceId);
       await initializeAuth();
+      setIsReady(true);
     };
     initialize();
   }, [initializeAuth]);
 
+  if (!isReady) {
+    return null;
+  }
   return (
     <GlobalErrorBoundary>
       <SafeAreaProvider>
