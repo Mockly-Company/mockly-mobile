@@ -1,45 +1,52 @@
 /**
  * Zustand를 사용한 인증 상태 관리
+ * - 토큰은 별도 storage.ts에서 관리 (MMKV + Keychain)
+ * - Store는 사용자 정보, 인증 상태, 로딩 상태만 관리
  */
 
 import { create } from 'zustand';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { getAuthService } from './services';
-import type { AuthUser, AuthProvider } from './types';
-import { AUTH_STORAGE_KEY } from '@shared/constants/auth';
-import { AccessRefreshToken, AuthToken } from '@mockly/entities';
+import type { AuthProvider } from './types';
 import { AppError, ErrorCoverage } from '@shared/errors';
 import { logger } from '@shared/utils/logger';
+import { localStorage } from './localStorage';
+import { logout, renewalToken } from '@mockly/api';
+import { AccessRefreshToken, AuthUser } from '@mockly/entities';
 
-interface StoredAuthState {
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-  };
-  expiresAt: number;
-  provider: AuthProvider;
-}
-
-interface AuthState {
-  user: AuthUser | null;
+type AuthState = LoginAuthState | LogoutAuthState;
+type LoginAuthState = {
+  user: AuthUser;
   isLoading: boolean;
-  isAuthenticated: boolean;
-  authState: StoredAuthState | null;
+  isAuthenticated: true;
   error?: Error | null | unknown;
-}
+};
+
+type LogoutAuthState = {
+  user: null;
+  isLoading: boolean;
+  isAuthenticated: false;
+  error?: Error | null | unknown;
+};
 
 interface AuthActions {
   signIn: (provider: AuthProvider) => Promise<string | null>;
   signOut: () => Promise<void>;
-  refreshUser: () => Promise<void>;
   initialize: () => Promise<void>;
   setLoading: (isLoading: boolean) => void;
   clearError: () => void;
   setError: (error: Error | null | unknown) => void;
   refreshToken: () => Promise<boolean>;
+  getAccessToken: () => string | null;
+  getRefreshToken: () => Promise<string | null>;
+  saveTokens: ({
+    accessToken,
+    refreshToken,
+  }: {
+    accessToken: string;
+    refreshToken: string;
+  }) => Promise<void>;
+  clearTokens: () => Promise<void>;
 }
 
 type AuthStore = AuthState & AuthActions;
@@ -48,76 +55,6 @@ const initialStoreState: AuthState = {
   user: null,
   isLoading: false,
   isAuthenticated: false,
-  authState: null,
-};
-
-// 인증 상태 저장
-const saveAuthState = async (state: StoredAuthState | null): Promise<void> => {
-  if (state) {
-    await AsyncStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(state)).catch(
-      err => {
-        throw new AppError(err, ErrorCoverage.NONE, '인증 정보 저장 실패');
-      },
-    );
-    return;
-  }
-  await AsyncStorage.removeItem(AUTH_STORAGE_KEY).catch(err => {
-    throw new AppError(err, ErrorCoverage.NONE, '인증 상태 삭제 실패');
-  });
-};
-
-// AsyncStorage에서 인증 상태 불러오기
-const loadStoredAuthState = async (): Promise<StoredAuthState | null> => {
-  const stored = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
-  return stored ? JSON.parse(stored) : null;
-};
-
-// 토큰 만료 확인 및 갱신
-const refreshIfNeeded = async (
-  state: StoredAuthState,
-): Promise<StoredAuthState | null> => {
-  const authService = getAuthService(state.provider);
-
-  // 토큰이 만료되지 않았으면 그대로 반환
-  const shouldRefresh =
-    authService.isTokenExpired(state.expiresAt) ||
-    authService.isTokenExpiringSoon(state.expiresAt);
-
-  if (!shouldRefresh) {
-    return state;
-  }
-
-  // 토큰 갱신 시도
-  const refreshed = await authService.refreshAccessToken(state.refreshToken);
-  if (!refreshed) {
-    return null; // 갱신 실패
-  }
-
-  return {
-    ...state,
-    accessToken: refreshed.accessToken,
-    refreshToken: refreshed.refreshToken,
-    expiresAt: refreshed.expiresAt.getTime(),
-  };
-};
-
-// 인증 상태 불러오기 (토큰 갱신 포함)
-const loadAuthState = async (): Promise<StoredAuthState | null> => {
-  const stored = await loadStoredAuthState();
-  if (!stored) {
-    return null;
-  }
-
-  const refreshedState = await refreshIfNeeded(stored);
-  // 갱신된 경우에만 저장
-  if (refreshedState && refreshedState !== stored) {
-    await saveAuthState(refreshedState);
-  } else if (!refreshedState) {
-    // 갱신 실패 시 저장소 정리
-    await saveAuthState(null);
-  }
-
-  return refreshedState;
 };
 
 // Third Party 인증 서비스 때문에 에러 직접 관리 필요. 에러 관련 상태 관리 수정시 주의.
@@ -126,7 +63,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   user: null,
   isLoading: true,
   isAuthenticated: false,
-  authState: null,
   error: null,
 
   // 로딩 상태 설정
@@ -134,13 +70,27 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   // 초기화 (앱 시작 시 호출)
   initialize: async () => {
-    const storedAuthState = await loadAuthState();
-    if (storedAuthState) {
-      const loginStoreState = authStateToLoginStoreState(storedAuthState);
-      set(loginStoreState);
-      return;
+    try {
+      const { accessToken, refreshToken } = await localStorage.getTokens();
+      // 토큰이 없으면 로그아웃 상태
+      if (!accessToken || !refreshToken) {
+        set(initialStoreState);
+        return;
+      }
+      const user = localStorage.getUser();
+      if (!user) {
+        set(initialStoreState);
+        return;
+      }
+      set({
+        isAuthenticated: true,
+        isLoading: false,
+        user,
+      });
+    } catch (err) {
+      logger.logException(err, { context: '초기화 실패' });
+      set(initialStoreState);
     }
-    set(initialStoreState);
   },
 
   // 로그인
@@ -162,17 +112,36 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       const tokens = await authService.exchangeCodeForToken(
         pkceResult.authorizationCode,
         pkceResult.codeVerifier,
+        provider,
       );
 
-      // 3. 인증 상태 디바이스 저장
-      const authState = tokenToAuthState(tokens, provider);
-      await saveAuthState(authState);
+      // 3. 토큰 저장 (MMKV + Keychain)
+      await localStorage.saveTokens({
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+      });
+      await localStorage.saveUser({
+        ...tokens.user,
+        photo: null,
+        provider,
+      });
 
-      // 4. 사용자 정보 로컬 상태 업데이트
-      const loginStoreState = authStateToLoginStoreState(authState);
-      set(loginStoreState);
+      // 4. 사용자 정보 상태 업데이트
+      const authUser: AuthUser = {
+        id: tokens.user.id,
+        email: tokens.user.email,
+        name: tokens.user.name,
+        photo: null,
+        provider,
+      };
 
-      return loginStoreState.user?.name || '고객';
+      set({
+        user: authUser,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+
+      return authUser.name || '고객';
     } catch (error) {
       set({ isLoading: false, error });
       throw error;
@@ -182,59 +151,38 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   // 로그아웃
   signOut: async () => {
     try {
-      set({ isLoading: true, error: null });
-      const { user, authState, isAuthenticated } = get();
-      const isLogout = !isAuthenticated || !user || !authState;
-      if (isLogout) return;
-
-      const authService = getAuthService(user.provider);
-      await authService.logout(authState.accessToken).catch(err => {
-        // 로그아웃 실패 시에도 로컬 상태 정리는 진행
-        logger.logException(err, { context: '로그아웃 실패' });
-      });
-      await saveAuthState(null);
+      const { user, isAuthenticated } = get();
+      if (!isAuthenticated || !user) {
+        return;
+      }
+      const refreshToken = await get().getRefreshToken();
+      if (!refreshToken)
+        throw new AppError('리프레시 토큰이 없습니다.', ErrorCoverage.NONE);
+      await logout(refreshToken).catch();
+    } finally {
+      await get().clearTokens();
       set(initialStoreState);
-    } catch (error) {
-      set({ isLoading: false, error });
-      throw error;
     }
   },
 
-  // 사용자 정보 갱신
-  refreshUser: async () => {
-    set({ error: null });
-    const authState = await loadAuthState();
-    const isLogout = !authState;
-    if (isLogout) {
-      set(initialStoreState);
-      return;
-    }
-    const loginStoreState = authStateToLoginStoreState(authState);
-    set(loginStoreState);
-  },
   clearError: () => set({ error: null }),
   setError: error => set({ error }),
+
+  // 토큰 갱신
   refreshToken: async (): Promise<boolean> => {
     try {
-      const { authState } = get();
-      if (!authState) {
-        return false;
-      }
-      const authService = getAuthService(authState.provider);
-      const accessRefreshToken = await authService.refreshAccessToken(
-        authState.refreshToken,
-      );
+      const refreshToken = await get().getRefreshToken();
 
-      const newAuthState = accessRefreshTokenToAuthState(
-        accessRefreshToken,
-        authState,
-      );
-      await saveAuthState(newAuthState);
-      set({ authState: newAuthState });
+      if (!refreshToken)
+        throw new AppError('리프레시 토큰이 없습니다.', ErrorCoverage.NONE);
+      // TODO: 위치 정보 수집 로직 삭제 예정
+      const locationInfo = { latitude: 0, longitude: 0 };
+      const newTokens = await renewalToken(refreshToken, locationInfo);
+      await get().saveTokens(newTokens);
+
       return true;
     } catch (err) {
-      // 갱신 실패 시 로그아웃 처리 후 에러 반환
-      await saveAuthState(null);
+      await get().clearTokens();
       set(initialStoreState);
       throw new AppError(
         err,
@@ -243,52 +191,20 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       );
     }
   },
+
+  // Access Token 가져오기 (API 호출 시 사용)
+  getAccessToken: (): string | null => {
+    const accessToken = localStorage.getAccessToken();
+    return accessToken;
+  },
+  getRefreshToken: async (): Promise<string | null> => {
+    const refreshToken = await localStorage.getRefreshToken();
+    return refreshToken;
+  },
+  saveTokens: async (tokens: AccessRefreshToken): Promise<void> => {
+    await localStorage.saveTokens(tokens);
+  },
+  clearTokens: async (): Promise<void> => {
+    await localStorage.clear();
+  },
 }));
-
-function authStateToLoginStoreState(
-  authState: StoredAuthState,
-): Partial<AuthStore> {
-  const authUser = {
-    id: authState.user.id,
-    email: authState.user.email,
-    name: authState.user.name,
-    photo: null,
-    provider: authState.provider,
-  };
-  return {
-    user: authUser,
-    authState: authState,
-    isAuthenticated: true,
-    isLoading: false,
-  };
-}
-
-function tokenToAuthState(
-  token: AuthToken,
-  provider: AuthProvider,
-): StoredAuthState {
-  return {
-    accessToken: token.accessToken,
-    refreshToken: token.refreshToken,
-    user: {
-      id: token.user.id,
-      email: token.user.email,
-      name: token.user.name,
-    },
-    expiresAt: token.expiresAt.getTime(),
-    provider,
-  };
-}
-
-function accessRefreshTokenToAuthState(
-  token: AccessRefreshToken,
-  authState: StoredAuthState,
-): StoredAuthState {
-  return {
-    accessToken: token.accessToken,
-    refreshToken: token.refreshToken,
-    expiresAt: token.expiresAt.getTime(),
-    provider: authState.provider,
-    user: authState.user,
-  };
-}

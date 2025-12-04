@@ -1,12 +1,20 @@
 // Must be set before any imports that require __DEV__
 global.__DEV__ = true;
 
-// Mock React Native core to prevent preset from calling requireActual
 jest.mock('react-native', () => {
   const RN = jest.requireActual('react-native');
 
   return RN;
 });
+jest.mock('react-native-nitro-modules', () => {
+  return {
+    NitroModules: () => {
+      return {};
+    },
+  };
+});
+const mockRNDeviceInfo = require('react-native-device-info/jest/react-native-device-info-mock.js');
+jest.mock('react-native-device-info', () => mockRNDeviceInfo);
 
 // Custom native modules
 const mockRNCNetInfo = require('@react-native-community/netinfo/jest/netinfo-mock.js');

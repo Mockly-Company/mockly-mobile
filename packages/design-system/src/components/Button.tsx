@@ -12,7 +12,7 @@ const buttonVariants = cva('items-center justify-center rounded-md', {
       outline: 'bg-transparent border border-primary',
     },
     size: {
-      small: 'py-sm px-md',
+      small: 'py-sm px-sm',
       medium: 'py-md px-lg',
       large: 'py-md px-xl',
     },

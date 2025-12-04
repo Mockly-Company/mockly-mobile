@@ -18,8 +18,7 @@ const slides: Slide[] = [
   {
     id: '1',
     title: 'AI 면접 코치',
-    description:
-      '무료로 AI 면접 코치와 함께 \n 실전 같은 면접 연습을 경험해보세요',
+    description: '무료로 AI 면접 코치와 함께 \n 면접을 경험해보세요',
   },
   {
     id: '2',

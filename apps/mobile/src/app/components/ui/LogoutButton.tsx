@@ -1,4 +1,4 @@
-import { useAuth } from '@features/auth/hooks';
+import { useLoggedInAuth } from '@features/auth/hooks';
 import { tw } from '@mockly/design-system';
 import { toast } from '@shared/utils/toast';
 import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
@@ -8,7 +8,7 @@ const styles = {
   disabledButton: tw`opacity-50`,
 };
 export const LogoutButton = () => {
-  const { signOut, isLoading } = useAuth();
+  const { signOut, isLoading } = useLoggedInAuth();
 
   const handleLogout = async () => {
     await signOut()

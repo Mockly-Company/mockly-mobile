@@ -16,6 +16,8 @@ const config = {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(workspaceRoot, 'node_modules'),
+      path.resolve(workspaceRoot, 'packages/design-system/node_modules'),
+      path.resolve(workspaceRoot, 'packages/api/node_modules'),
     ],
     extraNodeModules: {
       '@mockly/entities': path.resolve(workspaceRoot, 'packages/entities'),
@@ -28,6 +30,7 @@ const config = {
         workspaceRoot,
         'packages/typescript-config',
       ),
+      '@mockly/utils': path.resolve(workspaceRoot, 'packages/utils'),
     },
     unstable_enablePackageExports: true,
     unstable_enableSymlinks: true,
