@@ -1,8 +1,8 @@
 import React, { useId, useMemo } from 'react';
 import { TextInput, View, Text, TextInputProps, ViewStyle } from 'react-native';
 import { cva } from 'cva';
-import { tw } from '../lib/tw';
-import { colors } from '../theme';
+import { tw } from '../../lib/tw';
+import { colors } from '../../theme';
 
 const inputVariants = cva(
   'bg-surface border border-border rounded-md px-md py-md text-md text-text',

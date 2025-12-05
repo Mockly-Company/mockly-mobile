@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Text } from './Text';
 import { View } from 'react-native';
+import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Design System/Text',
+  title: 'Components/Text',
   component: Text,
   parameters: {
     layout: 'centered',
@@ -32,7 +33,7 @@ const meta = {
   },
   decorators: [
     Story => (
-      <View style={{ padding: 20 }}>
+      <View style={tw`p-5 bg-white dark:bg-gray-900`}>
         <Story />
       </View>
     ),
@@ -79,7 +80,7 @@ export const Caption: Story = {
 
 export const ColorVariants: Story = {
   render: () => (
-    <View style={{ gap: 10 }}>
+    <View style={tw`gap-2.5`}>
       <Text color="text">Default text color</Text>
       <Text color="textSecondary">Secondary text color</Text>
       <Text color="primary">Primary color</Text>
@@ -91,7 +92,7 @@ export const ColorVariants: Story = {
 
 export const WeightVariants: Story = {
   render: () => (
-    <View style={{ gap: 10 }}>
+    <View style={tw`gap-2.5`}>
       <Text weight="normal">normal weight</Text>
       <Text weight="medium">Medium weight</Text>
       <Text weight="semibold">Semibold weight</Text>

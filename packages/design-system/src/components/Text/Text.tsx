@@ -1,12 +1,12 @@
 import React, { useMemo } from 'react';
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
-import { tw } from '../lib/tw';
+import { tw } from '../../lib/tw';
 
 const textVariants = cva('', {
   variants: {
     variant: {
-      h1: 'text-xxl font-bold',
+      h1: 'text-2xl font-bold',
       h2: 'text-xl font-bold',
       h3: 'text-lg font-semibold',
       h4: 'text-md font-semibold',

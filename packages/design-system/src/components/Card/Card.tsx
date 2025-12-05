@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import LinearGradient from 'react-native-linear-gradient';
-import { tw } from '../lib/tw';
+import { tw } from '../../lib/tw';
 
 const cardVariants = cva('rounded-lg', {
   variants: {
@@ -19,7 +19,7 @@ const cardVariants = cva('rounded-lg', {
       md: 'p-md',
       lg: 'p-lg',
       xl: 'p-xl',
-      xxl: 'p-xxl',
+      '2xl': 'p-2xl',
     },
   },
   defaultVariants: {
