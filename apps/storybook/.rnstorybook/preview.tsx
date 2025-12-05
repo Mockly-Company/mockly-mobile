@@ -17,9 +17,31 @@ const preview: Preview = {
       default: 'plain',
       values: [
         {name: 'plain', value: 'white'},
-        {name: 'warm', value: 'hotpink'},
-        {name: 'cool', value: 'deepskyblue'},
+        {name: 'dark', value: 'black'},
       ],
+    },
+    actions: {argTypesRegex: '^on[A-Z].*'},
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
+    },
+    options: {
+      storySort: {
+        order: [
+          'Welcome',
+          ['디자인 시스템'],
+          'Foundation',
+          ['파운데이션 소개'],
+          'Components',
+          ['컴포넌트 소개'],
+          'Layout',
+          ['레이아웃 소개'],
+          'Animations',
+          ['애니메이션 소개'],
+        ],
+      },
     },
   },
 };
