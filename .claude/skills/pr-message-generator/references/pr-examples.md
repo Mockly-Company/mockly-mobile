@@ -63,7 +63,7 @@ fontSize: { xs, sm, md, lg, xl, 2xl }
 **Card**
 
 - variant: elevated, outlined, filled
-- padding: xs, sm, md, lg, xl, xxl
+- padding: xs, sm, md, lg, xl, 2xl
 
 #### 레이아웃 컴포넌트
 

@@ -1,14 +1,13 @@
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { tw, Text, Spacer, SectionHeader } from '@mockly/design-system';
+import { tw, Text, Spacer, FadeInAnimation } from '@mockly/design-system';
 import { useInterviewStore } from '@features/interview/store';
 import { InterviewCard } from '@app/screens/home/components/InterviewCard';
 import { FeatureCard } from './components/FeatureCard';
 import { StatCard } from './components/StatCard';
 import { QuickStartAction } from './components/QuickStartAction';
 import { formatMinutesToHoursMinutes } from '@shared/utils/timeFormatter';
-import { FadeInUpAnimation } from '@shared/components/animations/FadeInUpAnimation';
-import { FadeInDownAnimation } from '@shared/components/animations/FadeInDownAnimation';
+import { SectionHeader } from './components/SectionHeader';
 
 export const HomeScreen = () => {
   const { recentLogs } = useInterviewStore();
@@ -32,7 +31,12 @@ export const HomeScreen = () => {
         <Spacer size="lg" />
 
         {/* Greeting */}
-        <FadeInDownAnimation delay={60} style={tw`mb-md`}>
+        <FadeInAnimation
+          direction={'down'}
+          delay={60}
+          style={tw`mb-md`}
+          useSpring={true}
+        >
           <Text variant="h2" style={tw`font-bold text-text dark:text-white`}>
             환영합니다!
           </Text>
@@ -42,11 +46,16 @@ export const HomeScreen = () => {
           >
             오늘도 면접 준비를 시작해볼까요?
           </Text>
-        </FadeInDownAnimation>
+        </FadeInAnimation>
 
         {/* Stats Row */}
 
-        <FadeInDownAnimation delay={120} style={tw`mb-xl`}>
+        <FadeInAnimation
+          direction={'down'}
+          delay={120}
+          style={tw`mb-xl`}
+          useSpring={true}
+        >
           <View style={tw`flex-row gap-md`}>
             <View style={tw`flex-1`}>
               <StatCard
@@ -70,10 +79,15 @@ export const HomeScreen = () => {
               />
             </View>
           </View>
-        </FadeInDownAnimation>
+        </FadeInAnimation>
 
         {/* Quick Start */}
-        <FadeInDownAnimation delay={200} style={tw`mb-xl`}>
+        <FadeInAnimation
+          direction={'down'}
+          delay={200}
+          style={tw`mb-xl`}
+          useSpring={true}
+        >
           <SectionHeader title="빠른 시작" />
           <View style={tw`gap-sm`}>
             <QuickStartAction
@@ -87,10 +101,15 @@ export const HomeScreen = () => {
               subtitle="피드백을 확인하고 개선하세요"
             />
           </View>
-        </FadeInDownAnimation>
+        </FadeInAnimation>
 
         {/* Feature Sections */}
-        <FadeInUpAnimation delay={300} style={tw`gap-md mb-xl`}>
+        <FadeInAnimation
+          direction={'up'}
+          delay={300}
+          style={tw`gap-md mb-xl`}
+          useSpring={true}
+        >
           <SectionHeader title="기능 살펴보기" />
           <FeatureCard
             icon="👥"
@@ -109,24 +128,25 @@ export const HomeScreen = () => {
               /* Find Coach */
             }}
           />
-        </FadeInUpAnimation>
+        </FadeInAnimation>
 
         {/* Recent Activity */}
-        <FadeInUpAnimation delay={400}>
+        <FadeInAnimation direction={'up'} delay={400} useSpring={true}>
           <SectionHeader
             title="최근 활동"
             actionLabel="모두 보기"
             onPressAction={() => {}}
           />
-        </FadeInUpAnimation>
+        </FadeInAnimation>
         <View style={tw`gap-md`}>
           {recentLogs.map((item, index) => (
-            <FadeInDownAnimation
+            <FadeInAnimation
               key={item.id}
+              direction={'down'}
               delay={Math.min(500 + index * 80, 900)}
             >
               <InterviewCard item={item} />
-            </FadeInDownAnimation>
+            </FadeInAnimation>
           ))}
         </View>
       </Animated.ScrollView>

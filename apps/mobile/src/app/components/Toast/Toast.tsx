@@ -1,5 +1,6 @@
 import React from 'react';
-import Toast, { BaseToast, BaseToastProps } from 'react-native-toast-message';
+import { BaseToast, BaseToastProps } from 'react-native-toast-message';
+import RNToast from 'react-native-toast-message';
 import { tw } from '@mockly/design-system';
 
 /**
@@ -40,6 +41,6 @@ const toastConfig = {
  * - toastConfig를 포함한 Toast 메시지 표시 컴포넌트
  * - App.tsx에서 한 번만 렌더링
  */
-export const ToastContainer: React.FC = () => {
-  return <Toast config={toastConfig} topOffset={60} />;
+export const Toast: React.FC = () => {
+  return <RNToast config={toastConfig} topOffset={60} />;
 };

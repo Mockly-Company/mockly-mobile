@@ -1,6 +1,6 @@
 import { createNavigationContainerRef } from '@react-navigation/native';
-import type { BottomTabParamList } from './BottomTabNavigator';
-import { LandingStackParamList } from './LandingNavigator';
+import type { BottomTabParamList } from '../BottomTabNavigator';
+import { LandingStackParamList } from '../LandingNavigator';
 
 /**
  * 앱 전역에서 사용 가능한 Navigation Reference

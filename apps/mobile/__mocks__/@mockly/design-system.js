@@ -15,9 +15,9 @@ const theme = {
     textSecondary: '#8E8E93',
     border: '#C6C6C8',
   },
-  spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 32, xxl: 48 },
+  spacing: { xs: 4, sm: 8, md: 16, lg: 24, xl: 32, '2xl': 48 },
   typography: {
-    fontSize: { xs: 12, sm: 14, md: 16, lg: 18, xl: 24, xxl: 32 },
+    fontSize: { xs: 12, sm: 14, md: 16, lg: 18, xl: 24, '2xl': 32 },
     fontWeight: {
       regular: '400',
       medium: '500',
@@ -40,15 +40,6 @@ const Spacer = ({ size }) =>
     style: { height: theme.spacing[size] || 16 },
   });
 
-const SectionHeader = ({ title, actionLabel, onPressAction }) =>
-  React.createElement(
-    RN.View,
-    {},
-    React.createElement(RN.Text, {}, title),
-    actionLabel &&
-      React.createElement(RN.Text, { onPress: onPressAction }, actionLabel),
-  );
-
 const Card = ({ children, _variant, style, ...props }) =>
   React.createElement(RN.View, { style, ...props }, children);
 
@@ -64,7 +55,6 @@ module.exports = {
   theme,
   Text,
   Spacer,
-  SectionHeader,
   Card,
   Badge,
   default: theme,
