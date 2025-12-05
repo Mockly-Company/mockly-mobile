@@ -2,7 +2,7 @@ import { View, Text, Image } from 'react-native';
 import { tw } from '@mockly/design-system';
 import { useLoggedInAuth } from '@features/auth/hooks';
 import { capitalize } from '@shared/utils/stringUtils';
-import { LogoutButton } from '@app/components/ui/LogoutButton';
+import { LogoutButton } from '@features/auth/components/LogoutButton';
 
 export const MyPageScreen = () => {
   const { user } = useLoggedInAuth();
