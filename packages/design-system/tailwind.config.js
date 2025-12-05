@@ -30,7 +30,7 @@ const config = {
         md: `${spacing.md}px`,
         lg: `${spacing.lg}px`,
         xl: `${spacing.xl}px`,
-        xxl: `${spacing.xxl}px`,
+        '2xl': `${spacing['2xl']}px`,
       },
       fontSize: {
         xs: `${typography.fontSize.xs}px`,
