@@ -2,9 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
 import { View } from 'react-native';
 import { useState } from 'react';
+import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Design System/Input',
+  title: 'Components/Input',
   component: Input,
   parameters: {
     layout: 'centered',
@@ -30,7 +31,7 @@ const meta = {
   },
   decorators: [
     Story => (
-      <View style={{ padding: 20, width: 300 }}>
+      <View style={tw`p-5 w-75 bg-white dark:bg-gray-900`}>
         <Story />
       </View>
     ),

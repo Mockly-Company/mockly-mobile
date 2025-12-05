@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { View, Image, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
-import { tw } from '../lib/tw';
-import { Text } from './Text';
+import { tw } from '../../lib/tw';
+import { Text } from '../Text/Text';
 
 const avatarVariants = cva('items-center justify-center overflow-hidden', {
   variants: {

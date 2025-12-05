@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useMemo } from 'react';
 import { View, Text as RNText, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
-import { tw } from '../lib/tw';
+import { tw } from '../../lib/tw';
 
 const badgeContainer = cva('items-center justify-center rounded-full border', {
   variants: {

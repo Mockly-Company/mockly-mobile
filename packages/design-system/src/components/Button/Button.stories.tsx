@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
 import { View } from 'react-native';
+import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Design System/Button',
+  title: 'Components/Button',
   component: Button,
   parameters: {
     layout: 'centered',
@@ -11,12 +12,12 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     variant: {
-      control: 'select',
+      control: { type: 'radio' },
       options: ['primary', 'secondary', 'outline'],
       description: 'Button variant style',
     },
     size: {
-      control: 'select',
+      control: { type: 'radio' },
       options: ['small', 'medium', 'large'],
       description: 'Button size',
     },
@@ -31,7 +32,7 @@ const meta = {
   },
   decorators: [
     Story => (
-      <View style={{ padding: 20 }}>
+      <View style={tw`p-5 bg-white dark:bg-gray-900`}>
         <Story />
       </View>
     ),
