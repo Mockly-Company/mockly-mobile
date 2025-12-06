@@ -1,10 +1,9 @@
-// Basic UI Components
+export * from './Avatar';
+export * from './Badge';
 export * from './Button';
-export * from './Text';
-export * from './Input';
 export * from './Card';
-
-// Layout Components
-export * from './Stack';
-export * from './Grid';
-export * from './Spacer';
+export * from './Carousel';
+export * from './Indicator';
+export * from './Input';
+export * from './Text';
+export * from './Icon';

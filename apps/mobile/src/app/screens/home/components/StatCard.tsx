@@ -11,7 +11,8 @@ interface StatCardProps {
   color?: StatColor;
 }
 
-const cardVariants = cva('p-md rounded-xl border', {
+const cardVariants = cva({
+  base: 'p-md rounded-xl border',
   variants: {
     color: {
       primary: 'bg-primary/10 border-primary/20',
@@ -24,7 +25,8 @@ const cardVariants = cva('p-md rounded-xl border', {
   },
 });
 
-const valueVariants = cva('font-bold', {
+const valueVariants = cva({
+  base: 'font-bold',
   variants: {
     color: {
       primary: 'text-primary',

@@ -1,0 +1,30 @@
+@font-face {
+  src: url('@react-native-vector-icons/feather/fonts/Feather.ttf');
+  font-family: 'Feather';
+}
+
+.sb-show-main {
+  flex: 1;
+  background-color: #f8f9fc;
+}
+.dark {
+  .sb-show-main {
+    flex: 1;
+    background-color: #1a1a1a;
+  }
+}
+
+#preview-loader {
+  display: none;
+}
+
+.sb-preparing-docs {
+  background-color: #f8f9fc;
+  display: none;
+}
+.dark {
+  .sb-preparing-docs {
+    display: none;
+    background-color: #1a1a1a;
+  }
+}

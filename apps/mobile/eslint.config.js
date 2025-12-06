@@ -1,16 +1,14 @@
-import typescript from '@typescript-eslint/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactNative from 'eslint-plugin-react-native';
-import prettier from 'eslint-plugin-prettier';
-import eslintConfig from '../../eslint.config.js';
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
-import testPlugin from 'eslint-plugin-testing-library';
+const typescript = require('@typescript-eslint/eslint-plugin');
+const typescriptParser = require('@typescript-eslint/parser');
+const react = require('eslint-plugin-react');
+const reactHooks = require('eslint-plugin-react-hooks');
+const reactNative = require('eslint-plugin-react-native');
+const prettier = require('eslint-plugin-prettier');
 
-export default defineConfig([
-  ...eslintConfig,
+const globals = require('globals');
+const testPlugin = require('eslint-plugin-testing-library');
+
+module.exports = [
   {
     ignores: [
       'node_modules/',
@@ -65,4 +63,4 @@ export default defineConfig([
       'testing-library': testPlugin,
     },
   },
-]);
+];

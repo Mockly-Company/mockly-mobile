@@ -25,6 +25,13 @@
       "cache": false,
       "persistent": true
     },
+    "storybook:ios": {
+      "cache": false,
+      "persistent": true
+    },
+    "chromatic": {
+      "cache": false
+    },
     "android": {
       "cache": false,
       "persistent": true
