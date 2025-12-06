@@ -19,7 +19,7 @@ export function ScreenErrorFallback({
       <View
         style={tw`w-20 h-20 bg-yellow-100 rounded-full items-center justify-center mb-4`}
       >
-        <Text style={tw`text-xxl`}>😔</Text>
+        <Text style={tw`text-2xl`}>😔</Text>
       </View>
 
       <Text style={tw`text-xl font-bold text-gray-900 mb-2 text-center`}>

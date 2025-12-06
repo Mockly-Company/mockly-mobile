@@ -33,6 +33,45 @@ const normalizedStories = [
       /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(js|jsx|mjs|ts|tsx))$/,
     ),
   },
+  {
+    titlePrefix: '',
+    directory: '../../packages/design-system/src',
+    files: '**/*.mdx',
+    importPathMatcher:
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.mdx)$/,
+    // @ts-ignore
+    req: require.context(
+      '../../../packages/design-system/src',
+      true,
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.mdx)$/,
+    ),
+  },
+  {
+    titlePrefix: '',
+    directory: './src',
+    files: '**/*.stories.?(ts|tsx|js|jsx)',
+    importPathMatcher:
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    // @ts-ignore
+    req: require.context(
+      '../src',
+      true,
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    ),
+  },
+  {
+    titlePrefix: '',
+    directory: './storyForMobile',
+    files: '**/*.stories.?(ts|tsx|js|jsx)',
+    importPathMatcher:
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    // @ts-ignore
+    req: require.context(
+      '../storyForMobile',
+      true,
+      /^\.(?:(?:^|[\\/]|(?:(?:(?!(?:^|[\\/])\.).)*?)[\\/])(?!\.)(?=.)[^\\/]*?\.stories\.(?:ts|tsx|js|jsx)?)$/,
+    ),
+  },
 ];
 
 declare global {
@@ -43,6 +82,7 @@ declare global {
 const annotations = [
   require('./preview'),
   require('@storybook/react-native/preview'),
+  require('@storybook/addon-docs/preview'),
 ];
 
 global.STORIES = normalizedStories;

@@ -256,7 +256,8 @@ useAuth (Custom Hook)
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../lib/tw';
 
-const buttonVariants = cva('items-center justify-center rounded-md', {
+const buttonVariants = cva({
+  cva: 'items-center justify-center rounded-md',
   variants: {
     variant: {
       primary: 'bg-primary',
