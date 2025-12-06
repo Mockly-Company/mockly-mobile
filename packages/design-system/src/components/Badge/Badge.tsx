@@ -3,7 +3,8 @@ import { View, Text as RNText, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
 
-const badgeContainer = cva('items-center justify-center rounded-full border', {
+const badgeContainer = cva({
+  base: 'items-center justify-center rounded-full border',
   variants: {
     variant: {
       soft: '',
@@ -45,7 +46,8 @@ const badgeContainer = cva('items-center justify-center rounded-full border', {
   },
 });
 
-const badgeText = cva('font-bold', {
+const badgeText = cva({
+  base: 'font-bold',
   variants: {
     variant: {
       soft: '',

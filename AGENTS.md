@@ -201,7 +201,8 @@ import { cva, type VariantProps } from 'cva';
 
 import { tw } from '../lib/tw';
 
-const buttonVariants = cva('items-center justify-center rounded-md', {
+const buttonVariants = cva({
+  base: 'items-center justify-center rounded-md',
   variants: {
     variant: {
       primary: 'bg-primary',
@@ -223,7 +224,8 @@ const buttonVariants = cva('items-center justify-center rounded-md', {
   },
 });
 
-const buttonTextVariants = cva('font-semibold', {
+const buttonTextVariants = cva({
+  base: 'font-semibold',
   variants: {
     variant: {
       primary: 'text-white',

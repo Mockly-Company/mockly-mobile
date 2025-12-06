@@ -32,7 +32,7 @@ export const FadeOutTextAnimation = ({
   style,
   useSpring = true,
 }: FadeOutTextAnimationProps) => {
-  const Animation = fadeOutMap[direction] || fadeOutMap.default;
+  const Animation = fadeOutMap[direction];
   const exiting = useSpring ? Animation.delay(delay).springify() : Animation.delay(delay);
   return (
     <Animated.Text exiting={exiting} style={style}>

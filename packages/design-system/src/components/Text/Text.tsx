@@ -3,7 +3,8 @@ import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
 
-const textVariants = cva('', {
+const textVariants = cva({
+  base: '',
   variants: {
     variant: {
       h1: 'text-2xl font-bold',

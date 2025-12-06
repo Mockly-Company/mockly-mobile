@@ -4,16 +4,14 @@ import { cva } from 'cva';
 import { tw } from '../../lib/tw';
 import { colors } from '../../theme';
 
-const inputVariants = cva(
-  'bg-surface border border-border rounded-md px-md py-md text-md text-text',
-  {
-    variants: {
-      hasError: {
-        true: 'border-error',
-      },
+const inputVariants = cva({
+  base: 'bg-surface border border-border rounded-md px-md py-md text-md text-text',
+  variants: {
+    hasError: {
+      true: 'border-error',
     },
-  }
-);
+  },
+});
 
 export interface InputProps extends TextInputProps {
   label?: string;

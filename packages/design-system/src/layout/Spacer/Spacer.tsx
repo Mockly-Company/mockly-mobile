@@ -3,7 +3,8 @@ import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
 
-const spacerVariants = cva('', {
+const spacerVariants = cva({
+  base: '',
   variants: {
     direction: {
       vertical: '',

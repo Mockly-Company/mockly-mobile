@@ -72,8 +72,6 @@ const IndicatorBar: React.FC<IndicatorBarProps> = ({ index, active, style, ...pr
   const context = useContext(IndicatorContext);
 
   const animatedStyle = useAnimatedStyle(() => {
-    'worklet';
-
     // Context 없이 직접 사용하는 경우
     if (!context || index === undefined) {
       return {
@@ -117,8 +115,6 @@ const IndicatorDot: React.FC<IndicatorDotProps> = ({ index, active, style, ...pr
   const context = useContext(IndicatorContext);
 
   const animatedStyle = useAnimatedStyle(() => {
-    'worklet';
-
     // Context 없이 직접 사용하는 경우
     if (!context || index === undefined) {
       return {

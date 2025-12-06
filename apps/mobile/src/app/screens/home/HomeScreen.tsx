@@ -143,7 +143,7 @@ export const HomeScreen = () => {
             <FadeInAnimation
               key={item.id}
               direction={'down'}
-              delay={Math.min(500 + index * 80, 900)}
+              delay={Math.min(300 + index * 50, 600)}
             >
               <InterviewCard item={item} />
             </FadeInAnimation>
