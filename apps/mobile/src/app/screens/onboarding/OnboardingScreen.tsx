@@ -98,6 +98,9 @@ const Footer = ({
   isButtonVisible: SharedValue<boolean>;
   onCTAPress: () => void;
 }) => {
+  const textStyle = useAnimatedStyle(() => ({
+    display: isButtonVisible.value ? 'none' : 'flex',
+  }));
   return (
     <FadeInAnimation
       direction={'up'}
@@ -110,9 +113,7 @@ const Footer = ({
       <Animated.Text
         style={[
           tw`text-center text-zinc-500 dark:text-zinc-400 text-sm font-medium`,
-          useAnimatedStyle(() => ({
-            display: isButtonVisible.value ? 'none' : 'flex',
-          })),
+          textStyle,
         ]}
       >
         탭해서 계속하기

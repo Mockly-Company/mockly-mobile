@@ -21,6 +21,10 @@ export type CarouselProps<T = unknown> = {
   loop?: boolean;
 };
 
+// NOTE: item 순서 변경의 소지가 있는 경우 key값 개선이 필요. 아래 예시 방법들 참고.
+// 1. Key extractor prop 추가 -> 사용자가 key를 직접 지적하는 props 추가
+// 2. items 타입에 고유 id 속성 추가하게 사용도록 만들기 -> 도메인에 데이터 처리를 귀찮게할 수 있음.
+// 3. Headless 컴포넌트로 Carousel.Item 분리 -> 사용자가 List 출력 로직과 key 지정을 직접 하도록 유도
 export function Carousel<T>({
   items,
   renderItem,
@@ -53,10 +57,8 @@ export function Carousel<T>({
     };
   });
   useDerivedValue(() => {
-    if (scrollRef) {
-      scrollTo(scrollRef, (currentIndex?.value || 0) * width.value, 0, true);
-    }
-  });
+    scrollTo(scrollRef, (currentIndex?.value || 0) * width.value, 0, true);
+  }, [currentIndex, width]);
 
   const handlePress = () => {
     if (currentIndex) {

@@ -35,7 +35,8 @@ const useButtonContext = () => {
 // Variants
 // ========================================
 
-const buttonFrameVariants = cva('flex-row items-center justify-center rounded-md', {
+const buttonFrameVariants = cva({
+  base: 'flex-row items-center justify-center rounded-md',
   variants: {
     variant: {
       primary: 'bg-primary',
@@ -57,7 +58,8 @@ const buttonFrameVariants = cva('flex-row items-center justify-center rounded-md
   },
 });
 
-const buttonTextVariants = cva('font-semibold', {
+const buttonTextVariants = cva({
+  base: 'font-semibold',
   variants: {
     variant: {
       primary: 'text-white',
@@ -76,7 +78,8 @@ const buttonTextVariants = cva('font-semibold', {
   },
 });
 
-const buttonIconVariants = cva('', {
+const buttonIconVariants = cva({
+  base: '',
   variants: {
     size: {
       small: 'w-4 h-4',
@@ -106,19 +109,15 @@ const ButtonRoot: React.FC<ButtonProps> = ({
   disabled,
   ...props
 }) => {
-  const buttonStyle = useMemo(
-    () => tw.style(buttonFrameVariants({ variant, size, disabled })),
-    [variant, size, disabled]
-  );
-
   const contextValue = useMemo(
     () => ({
-      variant: variant ?? 'primary',
-      size: size ?? 'medium',
+      variant,
+      size,
       disabled,
     }),
     [variant, size, disabled]
   );
+  const buttonStyle = useMemo(() => tw.style(buttonFrameVariants(contextValue)), [contextValue]);
 
   return (
     <ButtonContext.Provider value={contextValue}>

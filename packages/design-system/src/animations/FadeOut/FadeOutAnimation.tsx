@@ -32,7 +32,7 @@ export const FadeOutAnimation = ({
   style,
   useSpring = true,
 }: FadeOutAnimationProps) => {
-  const Animation = fadeOutMap[direction] || fadeOutMap.default;
+  const Animation = fadeOutMap[direction];
   const exiting = useSpring ? Animation.delay(delay).springify() : Animation.delay(delay);
   return (
     <Animated.View exiting={exiting} style={style}>

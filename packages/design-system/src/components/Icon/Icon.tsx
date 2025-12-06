@@ -9,6 +9,7 @@ export interface IconProps {
   color?: string;
   style?: StyleProp<ViewStyle>;
   accessibilityLabel?: string;
+  accessibilityElementsHidden?: boolean;
 }
 
 export const Icon: React.FC<IconProps> = ({
@@ -17,7 +18,9 @@ export const Icon: React.FC<IconProps> = ({
   color = '#222',
   style,
   accessibilityLabel,
+  accessibilityElementsHidden = true,
 }) => {
+  const isHidden = accessibilityElementsHidden ?? !accessibilityLabel;
   return (
     <Feather
       name={name}
@@ -26,6 +29,7 @@ export const Icon: React.FC<IconProps> = ({
       style={style}
       accessibilityLabel={accessibilityLabel}
       accessible={!!accessibilityLabel}
+      accessibilityElementsHidden={isHidden}
     />
   );
 };

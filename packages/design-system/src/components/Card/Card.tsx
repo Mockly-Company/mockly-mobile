@@ -4,7 +4,8 @@ import { cva, type VariantProps } from 'cva';
 import LinearGradient from 'react-native-linear-gradient';
 import { tw } from '../../lib/tw';
 
-const cardVariants = cva('rounded-lg', {
+const cardVariants = cva({
+  base: 'rounded-lg',
   variants: {
     variant: {
       elevated: 'bg-background shadow-md',

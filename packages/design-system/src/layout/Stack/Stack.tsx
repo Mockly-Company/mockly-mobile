@@ -3,7 +3,8 @@ import { View, ViewProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
 
-const stackVariants = cva('flex', {
+const stackVariants = cva({
+  base: 'flex',
   variants: {
     direction: {
       vertical: 'flex-col',

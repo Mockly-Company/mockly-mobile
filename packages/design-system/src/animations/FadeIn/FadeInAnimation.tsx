@@ -32,7 +32,7 @@ export const FadeInAnimation = ({
   style,
   useSpring = true,
 }: FadeInAnimationProps) => {
-  const Animation = fadeInMap[direction] || fadeInMap.default;
+  const Animation = fadeInMap[direction];
   const entering = useSpring ? Animation.delay(delay).springify() : Animation.delay(delay);
   return (
     <Animated.View entering={entering} style={style}>

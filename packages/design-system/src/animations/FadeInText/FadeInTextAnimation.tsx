@@ -32,7 +32,7 @@ export const FadeInTextAnimation = ({
   style,
   useSpring = true,
 }: FadeInTextAnimationProps) => {
-  const Animation = fadeInMap[direction] || fadeInMap.default;
+  const Animation = fadeInMap[direction];
   const entering = useSpring ? Animation.delay(delay).springify() : Animation.delay(delay);
   return (
     <Animated.Text entering={entering} style={style}>

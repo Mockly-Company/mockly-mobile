@@ -4,7 +4,8 @@ import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
 import { Text } from '../Text/Text';
 
-const avatarVariants = cva('items-center justify-center overflow-hidden', {
+const avatarVariants = cva({
+  base: 'items-center justify-center overflow-hidden',
   variants: {
     size: {
       sm: 'w-8 h-8 rounded-full',
