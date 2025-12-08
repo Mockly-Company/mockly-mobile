@@ -6,7 +6,8 @@
     "paths": {
       "@mockly/entities": ["../../packages/entities/src"],
       "@mockly/design-system": ["../../packages/design-system/src"],
-      "@mockly/api": ["../../packages/api/src"]
+      "@mockly/api": ["../../packages/api/src"],
+      "@mobile/*": ["../mobile/src/*"]
     },
     "types": ["jest", "react-native", "node"]
   },

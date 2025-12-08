@@ -6,6 +6,7 @@ const path = require('path');
 const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, '../..');
 const packagesPath = path.resolve(workspaceRoot, 'packages');
+const mobileSrcPath = path.resolve(workspaceRoot, 'apps/mobile/src');
 
 /**
  * Metro configuration
@@ -14,15 +15,20 @@ const packagesPath = path.resolve(workspaceRoot, 'packages');
  * @type {import('@react-native/metro-config').MetroConfig}
  */
 const config = {
-  watchFolders: [workspaceRoot, projectRoot, packagesPath],
+  watchFolders: [workspaceRoot, projectRoot, packagesPath, mobileSrcPath],
   resolver: {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(workspaceRoot, 'node_modules'),
+      path.resolve(workspaceRoot, 'apps/mobile/node_modules'),
       path.resolve(workspaceRoot, 'packages/design-system/node_modules'),
       path.resolve(workspaceRoot, 'packages/api/node_modules'),
     ],
     extraNodeModules: {
+      '@app': path.resolve(workspaceRoot, 'apps/mobile/src/app'),
+      '@features': path.resolve(workspaceRoot, 'apps/mobile/src/features'),
+      '@lib': path.resolve(workspaceRoot, 'apps/mobile/src/lib'),
+      '@shared': path.resolve(workspaceRoot, 'apps/mobile/src/shared'),
       '@mockly/entities': path.resolve(workspaceRoot, 'packages/entities'),
       '@mockly/design-system': path.resolve(
         workspaceRoot,
@@ -34,6 +40,7 @@ const config = {
         'packages/typescript-config',
       ),
       '@mockly/utils': path.resolve(workspaceRoot, 'packages/utils'),
+      mobile: path.resolve(workspaceRoot, 'apps/mobile'),
     },
     unstable_enablePackageExports: true,
     unstable_enableSymlinks: true,

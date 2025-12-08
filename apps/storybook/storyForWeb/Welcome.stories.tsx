@@ -341,7 +341,7 @@ const WelcomeComponent = () => {
 };
 
 const meta: Meta<typeof WelcomeComponent> = {
-  title: 'Welcome/디자인 시스템',
+  title: '디자인 시스템/디자인 시스템',
   component: WelcomeComponent,
   parameters: {
     layout: 'centered',

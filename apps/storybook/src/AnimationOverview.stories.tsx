@@ -152,7 +152,7 @@ const AnimationOverview = () => (
 );
 
 const meta: Meta<typeof AnimationOverview> = {
-  title: 'Animations/애니메이션 소개',
+  title: '애니메이션/애니메이션 소개',
   component: AnimationOverview,
   parameters: {
     layout: 'centered',
@@ -161,9 +161,10 @@ const meta: Meta<typeof AnimationOverview> = {
         component:
           '디자인 시스템의 주요 애니메이션 토큰과 사용 가이드, 효과 설명을 한눈에 볼 수 있는 Animation 개요입니다.',
       },
+      page: AnimationOverview,
     },
   },
-  tags: ['!autodocs'],
+  tags: ['autodocs', '!dev'],
 };
 
 export default meta;

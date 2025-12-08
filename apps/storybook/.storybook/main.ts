@@ -1,4 +1,9 @@
 import type {StorybookConfig} from '@storybook/react-native-web-vite';
+import path from 'path';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const main: StorybookConfig = {
   stories: [
@@ -56,6 +61,8 @@ const main: StorybookConfig = {
       ...(config.resolve.alias || {}),
       'react-native': 'react-native-web',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
+      '@mobile': path.resolve(__dirname, '../../mobile/src'),
+      '@env': path.resolve(__dirname, '../__mocks__/@env.js'),
     };
     config.build = {
       ...config.build,
@@ -65,6 +72,7 @@ const main: StorybookConfig = {
       },
     };
     config.assetsInclude = ['**/*.ttf', '**/*.mp4'];
+
     return config;
   },
   staticDirs: ['../public'],
@@ -74,8 +82,20 @@ const main: StorybookConfig = {
   previewHead: _head => {
     return `<head>
       <style>
+        html {
+          display: flex;
+          width: 100%;
+          height: 100%;
+        }
         body {
+          justify-content: center;
           background-color: #f8f9fc;
+          margin: auto;
+          #storybook-root {
+            margin:auto;
+            width:fit-content;
+            height:fit-content;  
+          }
         }
         .dark body {
           background-color: #1a1a1a;

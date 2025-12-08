@@ -90,7 +90,7 @@ const LayoutOverview = () => (
 );
 
 const meta: Meta<typeof LayoutOverview> = {
-  title: 'Layout/레이아웃 소개',
+  title: '레이아웃/레이아웃 소개',
   component: LayoutOverview,
   parameters: {
     layout: 'centered',
@@ -99,9 +99,10 @@ const meta: Meta<typeof LayoutOverview> = {
         component:
           '디자인 시스템의 주요 레이아웃 컴포넌트와 사용 가이드, 특징을 한눈에 볼 수 있는 Layout 개요입니다.',
       },
+      page: LayoutOverview,
     },
   },
-  tags: ['!autodocs'],
+  tags: ['autodocs', '!dev'],
 };
 
 export default meta;

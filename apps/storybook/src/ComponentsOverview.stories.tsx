@@ -62,9 +62,9 @@ const components = [
       'Feather 기반의 벡터 아이콘 컴포넌트. name, size, color props 지원.',
     Example: () => (
       <View style={tw`flex-row items-center gap-2`}>
-        <Icon name="star" size={28} color="#facc15" />
-        <Icon name="heart" size={28} color="#ef4444" />
-        <Icon name="user" size={28} color="#0ea5e9" />
+        <Icon name="star" size={28} variant="warning" />
+        <Icon name="heart" size={28} variant="error" />
+        <Icon name="user" size={28} variant="secondary" />
       </View>
     ),
   },
@@ -142,18 +142,19 @@ const ComponentsOverview = () => (
 );
 
 const meta: Meta<typeof ComponentsOverview> = {
-  title: 'Components/컴포넌트 소개',
+  title: '컴포넌트/컴포넌트 소개',
   component: ComponentsOverview,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
     docs: {
       description: {
         component:
           '디자인 시스템의 주요 컴포넌트와 사용 가이드, 특징을 한눈에 볼 수 있는 Components 개요입니다.',
       },
+      page: ComponentsOverview,
     },
   },
-  tags: ['!autodocs'],
+  tags: ['autodocs', '!dev'],
 };
 
 export default meta;
