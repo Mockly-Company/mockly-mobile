@@ -1,5 +1,5 @@
-import { tw } from '@mockly/design-system';
-import { View, Text } from 'react-native';
+import { tw, Text } from '@mockly/design-system';
+import { View } from 'react-native';
 
 interface Props {
   message?: string;
@@ -21,13 +21,13 @@ export function ResourceNotFoundFallback({
       accessibilityLabel={`${resourceType}를 찾을 수 없습니다. ${message}`}
     >
       <Text style={tw`text-6xl mb-4`}>🔍</Text>
-      <Text style={tw`text-2xl font-bold text-gray-800 mb-2`}>
+      <Text variant="h2" weight="bold" color="black" style={tw`mb-2`}>
         찾을 수 없음
       </Text>
-      <Text style={tw`text-base text-gray-600 text-center mb-2`}>
+      <Text variant="body" color="secondary" align="center" style={tw`mb-2`}>
         {message}
       </Text>
-      <Text style={tw`text-sm text-gray-500 text-center`}>
+      <Text variant="caption" color="textSecondary" align="center">
         {resourceType}가 삭제됐거나 존재하지 않습니다.
       </Text>
     </View>

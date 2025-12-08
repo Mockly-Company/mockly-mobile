@@ -61,7 +61,7 @@ const initialStoreState: AuthState = {
 export const useAuthStore = create<AuthStore>((set, get) => ({
   // 초기 상태
   user: null,
-  isLoading: true,
+  isLoading: false,
   isAuthenticated: false,
   error: null,
 

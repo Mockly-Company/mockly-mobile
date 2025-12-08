@@ -1,5 +1,5 @@
-import { ActivityIndicator, Text, Image, View } from 'react-native';
-import { Button, colors, tw } from '@mockly/design-system';
+import { ActivityIndicator, Image, View } from 'react-native';
+import { Button, colors, tw, Text } from '@mockly/design-system';
 import { useAuth } from '@features/auth/hooks';
 import { useCallback, useEffect, useMemo } from 'react';
 import { useErrorBoundary } from 'react-error-boundary';
@@ -26,9 +26,9 @@ const providerConfig: Record<
 > = {
   google: {
     imageSource: { uri: 'https://img.clerk.com/static/google.png?width=160' },
-    backgroundColor: 'bg-white',
+    backgroundColor: 'bg-surface dark:bg-surface',
     borderColor: 'border-gray-300',
-    textStyle: 'text-gray-700',
+    textStyle: 'text-text',
     indicatorColor: colors.primary,
   },
   apple: {
@@ -128,7 +128,9 @@ export const SignInButton = ({ provider }: SignInButtonProps) => {
           {isLoading ? (
             <ActivityIndicator size="small" color={config.indicatorColor} />
           ) : (
-            <Text style={textStyle}>{capitalize(provider)}로 계속하기</Text>
+            <Text variant="body" weight="semibold" style={textStyle}>
+              {capitalize(provider)}로 계속하기
+            </Text>
           )}
         </View>
       </View>
