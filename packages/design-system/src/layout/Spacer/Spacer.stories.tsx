@@ -5,7 +5,7 @@ import { Text } from '../../components/Text';
 import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Layout/Spacer',
+  title: '레이아웃/Spacer',
   component: Spacer,
   parameters: {
     layout: 'centered',

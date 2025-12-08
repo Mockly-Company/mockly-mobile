@@ -4,15 +4,31 @@ import { Avatar } from './Avatar';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof Avatar> = {
-  title: 'Components/Avatar',
+  title: '컴포넌트/Avatar',
   component: Avatar,
-  decorators: [
-    Story => (
-      <View style={tw`flex-1 items-center justify-center p-4 bg-white dark:bg-zinc-950`}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [Story => <Story />],
+  argTypes: {
+    size: {
+      control: { type: 'radio' },
+      options: ['sm', 'md', 'lg'],
+    },
+    fallbackText: {
+      control: { type: 'text' },
+    },
+    uri: {
+      control: { type: 'text' },
+    },
+    variant: {
+      control: { type: 'radio' },
+      options: ['circle'],
+    },
+  },
+  args: {
+    size: 'md',
+    fallbackText: '🙂',
+    uri: '',
+    variant: 'circle',
+  },
 };
 
 export default meta;

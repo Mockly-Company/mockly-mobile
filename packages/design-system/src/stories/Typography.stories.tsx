@@ -5,7 +5,7 @@ import { Text } from '../components/Text/Text';
 import { typography } from '../theme';
 
 const meta: Meta = {
-  title: 'Foundation/Typography',
+  title: '파운데이션/Typography',
   parameters: {
     layout: 'fullscreen',
   },

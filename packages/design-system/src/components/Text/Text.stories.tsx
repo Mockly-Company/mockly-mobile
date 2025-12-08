@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Components/Text',
+  title: '컴포넌트/Text',
   component: Text,
   parameters: {
     layout: 'centered',
@@ -31,13 +31,14 @@ const meta = {
       description: 'Text content',
     },
   },
-  decorators: [
-    Story => (
-      <View style={tw`p-5 bg-white dark:bg-gray-900`}>
-        <Story />
-      </View>
-    ),
-  ],
+  args: {
+    variant: 'body',
+    color: 'text',
+    weight: 'normal',
+    children: 'Sample Text',
+    align: 'center',
+  },
+  decorators: [Story => <Story />],
 } as Meta<typeof Text>;
 
 export default meta;

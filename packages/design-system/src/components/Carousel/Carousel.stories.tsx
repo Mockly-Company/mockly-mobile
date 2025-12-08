@@ -3,14 +3,20 @@ import { View, Text } from 'react-native';
 import { useSharedValue } from 'react-native-reanimated';
 import { Carousel } from './Carousel';
 import { tw } from '../../lib/tw';
+const slides = [
+  { id: '1', title: 'Slide 1', color: 'bg-blue-500' },
+  { id: '2', title: 'Slide 2', color: 'bg-green-500' },
+  { id: '3', title: 'Slide 3', color: 'bg-purple-500' },
+];
 
 const meta: Meta<typeof Carousel> = {
-  title: 'Components/Carousel',
+  title: '컴포넌트/Carousel',
   component: Carousel,
   tags: ['autodocs'],
   args: {
     loop: true,
     interaction: 'both',
+    items: slides,
   },
   argTypes: {
     loop: {
@@ -22,26 +28,33 @@ const meta: Meta<typeof Carousel> = {
       options: ['swipe', 'tap', 'both'],
       description: 'Type of user interaction to navigate the carousel',
     },
+    currentIndex: {
+      control: false,
+      table: { disable: true },
+      description: 'not controllable from Storybook',
+    },
+    hasReachedEnd: {
+      control: false,
+      table: { disable: true },
+      description: 'not controllable from Storybook',
+    },
   },
   decorators: [
     (Story, { args }) => {
       return (
-        <View style={tw`flex-1 h-20 bg-white dark:bg-zinc-950`}>
+        <View style={tw`w-40 h-20`}>
           <Story key={`${args.loop}-${args.interaction}`} />
         </View>
       );
     },
   ],
+  parameters: {
+    layout: 'centered',
+  },
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-const slides = [
-  { id: '1', title: 'Slide 1', color: 'bg-blue-500' },
-  { id: '2', title: 'Slide 2', color: 'bg-green-500' },
-  { id: '3', title: 'Slide 3', color: 'bg-purple-500' },
-];
 
 export const Default: Story = {
   render: ({ loop = false, interaction = 'both' }) => {

@@ -4,7 +4,7 @@ import { ScaleInAnimation } from './ScaleInAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof ScaleInAnimation> = {
-  title: 'Animations/ScaleInAnimation',
+  title: '애니메이션/ScaleInAnimation',
   component: ScaleInAnimation,
   parameters: {
     layout: 'centered',

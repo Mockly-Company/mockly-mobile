@@ -5,7 +5,7 @@ import { Text } from '../../components/Text';
 import { tw } from '../../lib/tw';
 // import { fn } from 'storybook/test';
 const meta = {
-  title: 'Layout/Grid',
+  title: '레이아웃/Grid',
   component: Grid,
   parameters: {
     layout: 'centered',

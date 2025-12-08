@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { View } from 'react-native';
+
 import { Indicator } from './Indicator';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof Indicator> = {
-  title: 'Components/Indicator',
+  title: '컴포넌트/Indicator',
   component: Indicator,
   args: {
     count: 4,
@@ -20,13 +20,13 @@ const meta: Meta<typeof Indicator> = {
   },
   decorators: [
     Story => {
-      return (
-        <View>
-          <Story />
-        </View>
-      );
+      return <Story />;
     },
   ],
+  parameters: {
+    layout: 'centered',
+  },
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -43,13 +43,6 @@ export const Bars: Story = {
       </Indicator.Container>
     </Indicator>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: '',
-      },
-    },
-  },
 };
 export const Dots: Story = {
   render: ({ currentIndex, count }) => (
@@ -61,11 +54,4 @@ export const Dots: Story = {
       </Indicator.Container>
     </Indicator>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story: '',
-      },
-    },
-  },
 };

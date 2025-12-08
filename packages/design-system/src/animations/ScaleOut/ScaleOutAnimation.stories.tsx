@@ -4,7 +4,7 @@ import { ScaleOutAnimation } from './ScaleOutAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof ScaleOutAnimation> = {
-  title: 'Animations/ScaleOutAnimation',
+  title: '애니메이션/ScaleOutAnimation',
   component: ScaleOutAnimation,
   parameters: {
     layout: 'centered',

@@ -4,7 +4,7 @@ import { FadeOutAnimation } from './FadeOutAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta = {
-  title: 'Animations/FadeOutAnimation',
+  title: '애니메이션/FadeOutAnimation',
   parameters: {
     layout: 'centered',
     docs: {

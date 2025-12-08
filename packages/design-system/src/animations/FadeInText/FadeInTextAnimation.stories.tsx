@@ -3,7 +3,7 @@ import { FadeInTextAnimation } from './FadeInTextAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta = {
-  title: 'Animations/FadeInTextAnimation',
+  title: '애니메이션/FadeInTextAnimation',
   parameters: {
     layout: 'centered',
     docs: {

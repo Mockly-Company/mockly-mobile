@@ -128,6 +128,8 @@ export const colors = {
   secondaryDark: darkColors.secondary,
   textDark: darkColors.text,
   textSecondaryDark: darkColors.textSecondary,
+  successDark: darkColors.success,
+  errorDark: darkColors.error,
 };
 
 export const spacing = {

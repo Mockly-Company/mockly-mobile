@@ -42,8 +42,10 @@ export const Avatar: React.FC<AvatarProps> = ({ size = 'md', style, uri, fallbac
 
 const DefaultAvatarImage = ({ fallbackText }: { fallbackText?: string }) => {
   return (
-    <View style={tw`w-10 h-10 rounded-full items-center justify-center bg-primary/10`}>
-      <Text style={tw`text-primary`}>{fallbackText ?? '🙂'}</Text>
+    <View
+      style={tw`w-10 h-10 rounded-full items-center justify-center bg-primary/10 dark:bg-primary/30`}
+    >
+      <Text style={tw`text-primary dark:text-primary-foreground`}>{fallbackText ?? '🙂'}</Text>
     </View>
   );
 };

@@ -39,9 +39,9 @@ const buttonFrameVariants = cva({
   base: 'flex-row items-center justify-center rounded-md',
   variants: {
     variant: {
-      primary: 'bg-primary',
-      secondary: 'bg-secondary',
-      outline: 'bg-transparent border border-primary',
+      primary: 'bg-primary dark:bg-primary-dark',
+      secondary: 'bg-secondary dark:bg-secondary-dark',
+      outline: 'bg-transparent border border-primary dark:border-primary-dark',
     },
     size: {
       small: 'py-sm px-sm',
@@ -64,7 +64,7 @@ const buttonTextVariants = cva({
     variant: {
       primary: 'text-white',
       secondary: 'text-white',
-      outline: 'text-primary',
+      outline: 'text-primary dark:text-primary-dark',
     },
     size: {
       small: 'text-sm',

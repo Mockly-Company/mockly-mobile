@@ -3,7 +3,7 @@ import { Text } from 'react-native';
 import { FadeInAnimation } from './FadeInAnimation';
 
 const meta: Meta = {
-  title: 'Animations/FadeInAnimation',
+  title: '애니메이션/FadeInAnimation',
   parameters: {
     layout: 'centered',
     docs: {

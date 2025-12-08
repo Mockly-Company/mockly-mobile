@@ -4,7 +4,7 @@ import { SlideOutAnimation } from './SlideOutAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof SlideOutAnimation> = {
-  title: 'Animations/SlideOutAnimation',
+  title: '애니메이션/SlideOutAnimation',
   component: SlideOutAnimation,
   parameters: {
     layout: 'centered',

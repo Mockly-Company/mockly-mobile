@@ -5,10 +5,10 @@ import { tw } from '../../lib/tw';
 import { colors } from '../../theme';
 
 const inputVariants = cva({
-  base: 'bg-surface border border-border rounded-md px-md py-md text-md text-text',
+  base: 'bg-surface dark:bg-surface border border-border dark:border-border rounded-md px-md py-md text-md text-text dark:text-text',
   variants: {
     hasError: {
-      true: 'border-error',
+      true: 'border-error dark:border-error',
     },
   },
 });
@@ -35,10 +35,15 @@ export const Input: React.FC<InputProps> = ({
   const errorId = `${inputId}-error`;
   return (
     <View style={[tw`mb-md`, containerStyle]}>
-      {label && <Text style={tw`text-sm font-medium text-text mb-xs`}>{label}</Text>}
+      {label && (
+        <Text style={tw`text-sm font-medium text-text dark:text-text-dark mb-xs`}>{label}</Text>
+      )}
       <TextInput
         style={[inputStyle, style]}
-        placeholderTextColor={placeholderTextColor ?? colors.textSecondary}
+        placeholderTextColor={
+          placeholderTextColor ??
+          (tw.color('text-textSecondary dark:text-textSecondary') || colors.textSecondary)
+        }
         accessible={true}
         accessibilityLabel={label ? `${label}${error ? `, 오류: ${error}` : ''}` : undefined}
         accessibilityLabelledBy={label ? labelId : undefined}
@@ -48,7 +53,7 @@ export const Input: React.FC<InputProps> = ({
       {error && (
         <Text
           nativeID={errorId}
-          style={tw`text-xs text-error mt-xs`}
+          style={tw`text-xs text-error dark:text-error mt-xs`}
           accessibilityLiveRegion="polite"
         >
           {error}
