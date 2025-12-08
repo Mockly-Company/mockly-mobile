@@ -33,6 +33,12 @@ export const Input: React.FC<InputProps> = ({
   const inputId = useId();
   const labelId = `${inputId}-label`;
   const errorId = `${inputId}-error`;
+  const placeholderColor = useMemo(
+    () =>
+      placeholderTextColor ??
+      (tw.color('text-textSecondary dark:text-textSecondary') || colors.textSecondary),
+    [placeholderTextColor]
+  );
   return (
     <View style={[tw`mb-md`, containerStyle]}>
       {label && (
@@ -40,10 +46,7 @@ export const Input: React.FC<InputProps> = ({
       )}
       <TextInput
         style={[inputStyle, style]}
-        placeholderTextColor={
-          placeholderTextColor ??
-          (tw.color('text-textSecondary dark:text-textSecondary') || colors.textSecondary)
-        }
+        placeholderTextColor={placeholderColor}
         accessible={true}
         accessibilityLabel={label ? `${label}${error ? `, 오류: ${error}` : ''}` : undefined}
         accessibilityLabelledBy={label ? labelId : undefined}

@@ -1,32 +1,29 @@
 import React, { useMemo } from 'react';
 import { ViewStyle, StyleProp } from 'react-native';
 import Feather, { type FeatherIconName } from '@react-native-vector-icons/feather';
+import { cva, type VariantProps } from 'class-variance-authority';
 
 import { tw } from '../../lib/tw';
 
-// variant별 tw 스타일 반환
-const iconVariantTw = (variant: IconVariant = 'primary') => {
-  switch (variant) {
-    case 'primary':
-      return tw`text-primary dark:text-primary`;
-    case 'secondary':
-      return tw`text-secondary dark:text-secondary`;
-    case 'error':
-      return tw`text-error dark:text-error`;
-    case 'warning':
-      return tw`text-warning dark:text-warning`;
-    case 'success':
-      return tw`text-success dark:text-success`;
-    case 'surface':
-      return tw`text-surface dark:text-surface`;
-    case 'text':
-      return tw`text-black dark:text-white`;
-    default:
-      return tw`text-primary dark:text-primary`;
-  }
-};
+// cva를 사용한 variant 정의
+const iconVariants = cva('', {
+  variants: {
+    variant: {
+      primary: 'text-primary dark:text-primary-dark',
+      secondary: 'text-secondary dark:text-secondary',
+      error: 'text-error dark:text-error',
+      warning: 'text-warning dark:text-warning',
+      success: 'text-success dark:text-success',
+      surface: 'text-surface dark:text-surface-dark',
+      text: 'text-black dark:text-white',
+    },
+  },
+  defaultVariants: {
+    variant: 'primary',
+  },
+});
 
-type IconVariant = 'primary' | 'secondary' | 'error' | 'warning' | 'success' | 'surface' | 'text';
+type IconVariant = VariantProps<typeof iconVariants>['variant'];
 
 export interface IconProps {
   name: FeatherIconName;
@@ -46,8 +43,12 @@ export const Icon: React.FC<IconProps> = ({
   variant = 'primary',
 }) => {
   const isHidden = accessibilityElementsHidden ?? !accessibilityLabel;
-  // cva로 관리되는 Tailwind 색상 클래스를 hex로 변환
-  const iconStyle = useMemo(() => [iconVariantTw(variant), style], [variant, style]);
+  // cva로 생성된 클래스를 tw로 변환
+  const iconStyle = useMemo(() => {
+    const variantClass = iconVariants({ variant });
+    return [tw`${variantClass}`, style];
+  }, [variant, style]);
+
   return (
     <Feather
       name={name}

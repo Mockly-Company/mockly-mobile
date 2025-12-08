@@ -34,7 +34,7 @@ const textVariants = cva({
       surface: 'text-surface dark:text-surface-dark',
       accent: 'text-accent dark:text-accent-dark',
       white: 'text-white',
-      black: 'text-black dark:text-white',
+      black: 'text-black',
     },
     align: {
       left: 'text-left',

@@ -52,7 +52,7 @@ export const MockProviders = ({
         user: null,
       });
     }
-  }, [initialAuthState, authStore]);
+  }, [initialAuthState]);
 
   if (!isReady) {
     return null;

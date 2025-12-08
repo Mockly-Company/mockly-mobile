@@ -34,18 +34,38 @@ export const Avatar: React.FC<AvatarProps> = ({ size = 'md', style, uri, fallbac
       {uri ? (
         <Image source={{ uri }} style={tw`w-full h-full`} />
       ) : (
-        <DefaultAvatarImage fallbackText={fallbackText} />
+        <DefaultAvatarImage fallbackText={fallbackText} size={size} />
       )}
     </View>
   );
 };
 
-const DefaultAvatarImage = ({ fallbackText }: { fallbackText?: string }) => {
+const defaultAvatarVariants = cva({
+  base: 'rounded-full items-center justify-center',
+  variants: {
+    size: {
+      sm: 'w-8 h-8',
+      md: 'w-10 h-10',
+      lg: 'w-12 h-12',
+    },
+  },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+const DefaultAvatarImage = ({
+  fallbackText,
+  size,
+}: {
+  fallbackText?: string;
+  size: 'sm' | 'md' | 'lg';
+}) => {
+  const containerStyle = useMemo(() => tw.style(defaultAvatarVariants({ size })), [size]);
+
   return (
-    <View
-      style={tw`w-10 h-10 rounded-full items-center justify-center bg-primary/10 dark:bg-primary/30`}
-    >
-      <Text style={tw`text-primary dark:text-primary-foreground`}>{fallbackText ?? '🙂'}</Text>
+    <View style={[containerStyle, tw`bg-primary/10 dark:bg-primary/30`]}>
+      <Text color="primary">{fallbackText ?? '🙂'}</Text>
     </View>
   );
 };
