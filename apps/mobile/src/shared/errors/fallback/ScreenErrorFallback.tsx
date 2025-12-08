@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { tw } from '@mockly/design-system';
+import { View, TouchableOpacity } from 'react-native';
+import { tw, Text } from '@mockly/design-system';
 import { useErrorBoundary } from 'react-error-boundary';
 
 type ScreenErrorFallbackProps = {
@@ -19,16 +19,26 @@ export function ScreenErrorFallback({
       <View
         style={tw`w-20 h-20 bg-yellow-100 rounded-full items-center justify-center mb-4`}
       >
-        <Text style={tw`text-2xl`}>😔</Text>
+        <Text variant="h1">😔</Text>
       </View>
 
-      <Text style={tw`text-xl font-bold text-gray-900 mb-2 text-center`}>
+      <Text variant="h2" color="black" align="center" style={tw`mb-2`}>
         화면을 불러올 수 없습니다
       </Text>
-      <Text style={tw`text-base text-gray-600 text-center mb-1`}>
+      <Text
+        variant="body"
+        color="textSecondary"
+        align="center"
+        style={tw`mb-1`}
+      >
         {message}
       </Text>
-      <Text style={tw`text-sm text-gray-500 text-center mb-6`}>
+      <Text
+        variant="caption"
+        color="textSecondary"
+        align="center"
+        style={tw`mb-6`}
+      >
         {screenName} 화면 로드 중 문제가 발생했습니다
       </Text>
 
@@ -39,7 +49,9 @@ export function ScreenErrorFallback({
         accessibilityRole="button"
         accessibilityLabel="다시 시도"
       >
-        <Text style={tw`text-white text-base font-semibold`}>다시 시도</Text>
+        <Text variant="body" weight="semibold" color="white">
+          다시 시도
+        </Text>
       </TouchableOpacity>
     </View>
   );

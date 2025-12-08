@@ -82,9 +82,7 @@ const Header = ({ onPressLogin }: { onPressLogin: () => void }) => {
       style={tw`absolute top-15 right-6`}
       onPress={onPressLogin}
     >
-      <Text
-        style={tw`text-primary dark:text-primary-dark font-semibold text-sm`}
-      >
+      <Text variant="caption" color="primary" weight="semibold">
         로그인
       </Text>
     </TouchableOpacity>

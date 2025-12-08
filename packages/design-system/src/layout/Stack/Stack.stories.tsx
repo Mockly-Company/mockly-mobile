@@ -5,7 +5,7 @@ import { Text } from '../../components/Text';
 import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Layout/Stack',
+  title: '레이아웃/Stack',
   component: Stack,
   parameters: {
     layout: 'centered',

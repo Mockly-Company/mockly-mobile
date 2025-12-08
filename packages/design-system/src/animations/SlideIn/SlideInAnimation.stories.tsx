@@ -4,7 +4,7 @@ import { SlideInAnimation } from './SlideInAnimation';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof SlideInAnimation> = {
-  title: 'Animations/SlideInAnimation',
+  title: '애니메이션/SlideInAnimation',
   component: SlideInAnimation,
   parameters: {
     layout: 'centered',

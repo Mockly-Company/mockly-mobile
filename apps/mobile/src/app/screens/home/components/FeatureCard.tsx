@@ -24,11 +24,7 @@ export const FeatureCard = ({
       accessibilityLabel={`${title}. ${description}`}
       accessibilityHint="기능 상세 화면으로 이동합니다"
     >
-      <Card
-        variant="transparent"
-        padding="md"
-        style={tw`rounded-xl bg-surface border border-border dark:bg-surface-dark dark:border-border-dark`}
-      >
+      <Card variant="outlined" padding="md" style={tw`rounded-xl`}>
         <View style={tw`flex-row items-center gap-md`}>
           <View
             style={tw`w-12 h-12 rounded-full bg-primary/10 items-center justify-center`}
@@ -36,10 +32,15 @@ export const FeatureCard = ({
             <Text style={tw`text-2xl`}>{icon}</Text>
           </View>
           <View style={tw`flex-1`}>
-            <Text style={tw`font-bold text-lg mb-xs text-text dark:text-white`}>
+            <Text
+              variant="body"
+              weight="bold"
+              color="text"
+              style={tw`text-lg mb-xs`}
+            >
               {title}
             </Text>
-            <Text style={tw`text-sm text-text-secondary dark:text-gray-400`}>
+            <Text variant="caption" color="secondary">
               {description}
             </Text>
           </View>

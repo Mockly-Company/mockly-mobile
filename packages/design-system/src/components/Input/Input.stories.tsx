@@ -1,11 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from './Input';
-import { View } from 'react-native';
 import { useState } from 'react';
-import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Components/Input',
+  title: '컴포넌트/Input',
   component: Input,
   parameters: {
     layout: 'centered',
@@ -29,13 +27,7 @@ const meta = {
       description: 'Disabled state',
     },
   },
-  decorators: [
-    Story => (
-      <View style={tw`p-5 w-75 bg-white dark:bg-gray-900`}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [Story => <Story />],
 } as Meta<typeof Input>;
 
 export default meta;

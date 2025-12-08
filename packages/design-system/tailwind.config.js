@@ -23,6 +23,8 @@ const config = {
         'secondary-dark': colors.secondaryDark,
         'text-secondary-dark': colors.textSecondaryDark,
         'text-dark': colors.textDark,
+        'success-dark': colors.textSuccessDark,
+        'error-dark': colors.textErrorDark,
       },
       spacing: {
         xs: `${spacing.xs}px`,

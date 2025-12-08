@@ -295,7 +295,7 @@ const iconNames = [
 ] as const;
 
 const meta: Meta<typeof Icon> = {
-  title: 'Components/Icon',
+  title: '컴포넌트/Icon',
   component: Icon,
   argTypes: {
     size: {
@@ -303,9 +303,9 @@ const meta: Meta<typeof Icon> = {
       defaultValue: 32,
       description: '아이콘 크기',
     },
-    color: {
-      control: 'color',
-      defaultValue: '#222',
+    variant: {
+      control: { type: 'radio' },
+      options: ['primary', 'secondary', 'success', 'warning', 'danger', 'text'],
       description: '아이콘 색상',
     },
   },
@@ -321,6 +321,22 @@ const meta: Meta<typeof Icon> = {
 export default meta;
 type Story = StoryObj<typeof Icon>;
 
+export const Default: Story = {
+  args: {
+    name: 'activity',
+    size: 32,
+    variant: 'primary',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: '기본 Feather 아이콘. variant, name, size 등 컨트롤 가능.',
+      },
+    },
+  },
+  tags: ['autodocs', '!dev'],
+};
+
 export const AllIcons: Story = {
   render: args => {
     const [expanded, setExpanded] = useState(false);
@@ -331,7 +347,7 @@ export const AllIcons: Story = {
         <View style={tw`flex-row flex-wrap gap-4`}>
           {visibleIcons.map(name => (
             <View key={name} style={tw`items-center m-2`}>
-              <Icon name={name} size={32} color={args.color || '#222'} />
+              <Icon name={name} size={32} variant={args.variant} />
               {/* <Text style={{ fontSize: 10, color: '#888', marginTop: 2 }}>{name}</Text> */}
             </View>
           ))}
@@ -350,7 +366,7 @@ export const AllIcons: Story = {
     );
   },
   args: {
-    color: '#222',
+    variant: 'text',
   },
   parameters: {
     docs: {

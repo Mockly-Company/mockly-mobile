@@ -1,7 +1,7 @@
 import { useLoggedInAuth } from '@features/auth/hooks';
-import { tw } from '@mockly/design-system';
+import { tw, Text } from '@mockly/design-system';
 import { toast } from '@shared/utils/toast';
-import { Text, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, ActivityIndicator } from 'react-native';
 
 export const LogoutButton = () => {
   const { signOut, isLoading } = useLoggedInAuth();
@@ -28,7 +28,9 @@ export const LogoutButton = () => {
       {isLoading ? (
         <ActivityIndicator size="small" color="#ffffff" />
       ) : (
-        <Text style={tw`text-white text-base font-semibold`}>로그아웃</Text>
+        <Text variant="body" weight="semibold" color="white">
+          로그아웃
+        </Text>
       )}
     </TouchableOpacity>
   );

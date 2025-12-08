@@ -66,7 +66,12 @@ const WelcomeComponentMobile = () => {
           <TouchableOpacity
             style={tw`items-center bg-blue-50 dark:bg-blue-900 rounded-lg p-2 w-[48%]`}
             onPress={linkTo('Foundation')}>
-            <Icon name="layers" size={40} color="#4F8EF7" style={tw`mb-2`} />
+            <Icon
+              name="layers"
+              size={40}
+              variant="secondary"
+              style={tw`mb-2`}
+            />
             <Text style={tw`text-base font-bold text-gray-900 dark:text-white`}>
               Foundation
             </Text>
@@ -74,7 +79,7 @@ const WelcomeComponentMobile = () => {
           <TouchableOpacity
             style={tw`items-center bg-blue-50 dark:bg-blue-900 rounded-lg p-2 w-[48%]`}
             onPress={linkTo('Components')}>
-            <Icon name="grid" size={40} color="#4F8EF7" style={tw`mb-2`} />
+            <Icon name="grid" size={40} variant="secondary" style={tw`mb-2`} />
             <Text style={tw`text-base font-bold text-gray-900 dark:text-white`}>
               Components
             </Text>
@@ -82,7 +87,12 @@ const WelcomeComponentMobile = () => {
           <TouchableOpacity
             style={tw`items-center bg-blue-50 dark:bg-blue-900 rounded-lg p-2 w-[48%]`}
             onPress={linkTo('Layout')}>
-            <Icon name="layout" size={40} color="#4F8EF7" style={tw`mb-2`} />
+            <Icon
+              name="layout"
+              size={40}
+              variant="secondary"
+              style={tw`mb-2`}
+            />
             <Text style={tw`text-base font-bold text-gray-900 dark:text-white`}>
               Layout
             </Text>
@@ -90,7 +100,12 @@ const WelcomeComponentMobile = () => {
           <TouchableOpacity
             style={tw`items-center bg-blue-50 dark:bg-blue-900 rounded-lg p-2 w-[48%]`}
             onPress={linkTo('Animations')}>
-            <Icon name="activity" size={40} color="#4F8EF7" style={tw`mb-2`} />
+            <Icon
+              name="activity"
+              size={40}
+              variant="secondary"
+              style={tw`mb-2`}
+            />
             <Text style={tw`text-base font-bold text-gray-900 dark:text-white`}>
               Animation
             </Text>
@@ -246,7 +261,7 @@ const WelcomeComponentMobile = () => {
 };
 
 const meta: Meta<typeof WelcomeComponentMobile> = {
-  title: 'Welcome/디자인 시스템',
+  title: '디자인 시스템/디자인 시스템',
   component: WelcomeComponentMobile,
   parameters: {
     layout: 'centered',

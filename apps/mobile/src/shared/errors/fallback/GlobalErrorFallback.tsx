@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { tw } from '@mockly/design-system';
+import { View, TouchableOpacity } from 'react-native';
+import { tw, Text } from '@mockly/design-system';
 import RNRestart from 'react-native-restart';
 
 type GlobalErrorFallbackProps = {
@@ -25,13 +25,24 @@ export function GlobalErrorFallback({
         <Text style={tw`text-4xl`}>⚠️</Text>
       </View>
 
-      <Text style={tw`text-2xl font-bold text-gray-900 mb-2 text-center`}>
+      <Text
+        variant="h2"
+        weight="bold"
+        color="black"
+        align="center"
+        style={tw`mb-2`}
+      >
         {title}
       </Text>
-      <Text style={tw`text-base text-gray-600 text-center mb-2`}>
+      <Text variant="body" color="secondary" align="center" style={tw`mb-2`}>
         {message}
       </Text>
-      <Text style={tw`text-sm text-gray-500 text-center mb-8`}>
+      <Text
+        variant="caption"
+        color="textSecondary"
+        align="center"
+        style={tw`mb-8`}
+      >
         앱을 다시 시작해야 합니다
         {'\n'}
         문제가 계속되면 앱을 재설치해주세요
@@ -44,7 +55,9 @@ export function GlobalErrorFallback({
         accessibilityRole="button"
         accessibilityLabel="앱 다시 시작"
       >
-        <Text style={tw`text-white text-lg font-bold`}>앱 다시 시작</Text>
+        <Text variant="body" weight="bold" color="white" style={tw`text-lg`}>
+          앱 다시 시작
+        </Text>
       </TouchableOpacity>
     </View>
   );

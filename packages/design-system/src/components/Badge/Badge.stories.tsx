@@ -4,15 +4,15 @@ import { Badge } from './Badge';
 import { tw } from '../../lib/tw';
 
 const meta: Meta<typeof Badge> = {
-  title: 'Components/Badge',
+  title: '컴포넌트/Badge',
   component: Badge,
-  decorators: [
-    Story => (
-      <View style={tw`flex-1 items-center justify-center p-4 bg-white dark:bg-zinc-950`}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [Story => <Story />],
+  args: {
+    color: 'primary',
+    children: 'Badge',
+    variant: 'solid',
+    size: 'md',
+  },
 };
 
 export default meta;

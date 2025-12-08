@@ -8,11 +8,11 @@ const cardVariants = cva({
   base: 'rounded-lg',
   variants: {
     variant: {
-      elevated: 'bg-background shadow-md',
-      outlined: 'bg-background border border-border',
-      filled: 'bg-surface',
+      elevated: 'bg-surface dark:bg-surface-dark shadow-md',
+      outlined: 'bg-surface dark:bg-surface-dark border border-border dark:border-border-dark',
+      filled: 'bg-surface dark:bg-surface-dark',
       gradient: 'overflow-hidden',
-      transparent: 'bg-transparent border-border',
+      transparent: 'bg-transparent',
     },
     padding: {
       xs: 'p-xs',

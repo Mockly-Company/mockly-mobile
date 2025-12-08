@@ -64,6 +64,7 @@
     }
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
     "globals": "^16.5.0"
   }
 }

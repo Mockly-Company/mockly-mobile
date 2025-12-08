@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import Feather from '@react-native-vector-icons/feather';
 import { HomeScreen } from '../screens/home/HomeScreen';
 import { LocalInterviewScreen } from '../screens/localInterview/LocalInterviewScreen';
@@ -7,7 +7,7 @@ import { InterviewScreen } from '../screens/interview/InterviewScreen';
 import { ChatScreen } from '../screens/chat/ChatScreen';
 import { MyPageScreen } from '../screens/profile/MyPageScreen';
 import { withScreenErrorBoundary } from '../screens/withScreenErrorBoundary';
-import { theme, tw } from '@mockly/design-system';
+import { theme, tw, Text } from '@mockly/design-system';
 
 export type BottomTabParamList = {
   Home: undefined;
@@ -49,11 +49,7 @@ export const BottomTabNavigator = () => {
         name="Home"
         component={withScreenErrorBoundary(HomeScreen)}
         options={{
-          headerTitle: () => (
-            <Text style={tw`font-bold text-xl text-zinc-900 dark:text-white`}>
-              Mockly
-            </Text>
-          ),
+          headerTitle: () => <Text variant="h2">Mockly</Text>,
           headerTitleAlign: 'left',
           tabBarLabel: '홈',
           tabBarAccessibilityLabel: '홈 화면으로 이동',

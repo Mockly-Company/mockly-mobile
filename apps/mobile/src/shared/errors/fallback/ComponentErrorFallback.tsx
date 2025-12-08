@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { tw } from '@mockly/design-system';
+import { View, TouchableOpacity } from 'react-native';
+import { tw, Text } from '@mockly/design-system';
 import { useErrorBoundary } from 'react-error-boundary';
 
 type ComponentErrorFallbackProps = {
@@ -22,10 +22,18 @@ export function ComponentErrorFallback({
         <Text style={tw`text-2xl`}>ℹ️</Text>
       </View>
 
-      <Text style={tw`text-base font-semibold text-gray-900 mb-1 text-center`}>
+      <Text
+        variant="body"
+        weight="semibold"
+        color="black"
+        align="center"
+        style={tw`mb-1`}
+      >
         데이터를 불러올 수 없습니다
       </Text>
-      <Text style={tw`text-sm text-gray-600 text-center mb-4`}>{message}</Text>
+      <Text variant="caption" color="secondary" align="center" style={tw`mb-4`}>
+        {message}
+      </Text>
 
       <TouchableOpacity
         style={tw`bg-primary px-5 py-2.5 rounded-lg`}
@@ -34,7 +42,9 @@ export function ComponentErrorFallback({
         accessibilityRole="button"
         accessibilityLabel="다시 시도"
       >
-        <Text style={tw`text-white text-sm font-semibold`}>다시 시도</Text>
+        <Text variant="caption" weight="semibold" color="white">
+          다시 시도
+        </Text>
       </TouchableOpacity>
     </View>
   );

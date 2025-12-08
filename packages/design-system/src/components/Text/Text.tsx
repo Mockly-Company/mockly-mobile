@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Text as RNText, TextProps as RNTextProps } from 'react-native';
 import { cva, type VariantProps } from 'cva';
 import { tw } from '../../lib/tw';
@@ -22,39 +22,50 @@ const textVariants = cva({
       bold: 'font-bold',
     },
     color: {
-      primary: 'text-primary',
-      secondary: 'text-secondary',
-      success: 'text-success',
-      warning: 'text-warning',
-      error: 'text-error',
-      text: 'text-text',
-      textSecondary: 'text-text-secondary',
-      background: 'text-background',
-      border: 'text-border',
-      surface: 'text-surface',
-      accent: 'text-accent',
+      primary: 'text-primary dark:text-primary-dark',
+      secondary: 'text-secondary dark:text-secondary-dark',
+      success: 'text-success dark:text-success-dark',
+      warning: 'text-warning dark:text-warning-dark',
+      error: 'text-error dark:text-error-dark',
+      text: 'text-text dark:text-text-dark',
+      textSecondary: 'text-text-secondary dark:text-text-secondary-dark',
+      background: 'text-background dark:text-background-dark',
+      border: 'text-border dark:text-border-dark',
+      surface: 'text-surface dark:text-surface-dark',
+      accent: 'text-accent dark:text-accent-dark',
+      white: 'text-white',
+      black: 'text-black',
+    },
+    align: {
+      left: 'text-left',
+      center: 'text-center',
+      right: 'text-right',
     },
   },
   defaultVariants: {
     variant: 'body',
     weight: 'normal',
     color: 'text',
+    align: 'left',
   },
 });
 
 export interface TextProps extends RNTextProps, VariantProps<typeof textVariants> {}
-
 export const Text: React.FC<TextProps> = ({
   variant = 'body',
   color = 'text',
   weight = 'normal',
+  align = 'left',
+
   style,
   ...props
 }) => {
-  const textStyle = useMemo(
-    () => tw.style(textVariants({ variant, weight, color })),
-    [weight, variant, color]
-  );
   const accessibilityRole = variant && variant.startsWith('h') ? 'header' : 'text';
-  return <RNText accessibilityRole={accessibilityRole} style={[textStyle, style]} {...props} />;
+  return (
+    <RNText
+      accessibilityRole={accessibilityRole}
+      style={[tw.style(textVariants({ variant, weight, color, align })), style]}
+      {...props}
+    />
+  );
 };

@@ -3,7 +3,7 @@ import { borderRadius } from '../theme';
 import { tw } from '../lib/tw';
 
 export default {
-  title: 'Foundation/BorderRadius',
+  title: '파운데이션/BorderRadius',
 };
 
 const radiusKeys = Object.keys(borderRadius) as Array<keyof typeof borderRadius>;

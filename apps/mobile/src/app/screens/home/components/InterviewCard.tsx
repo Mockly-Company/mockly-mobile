@@ -16,7 +16,6 @@ export const InterviewCard = ({ item }: InterviewCardProps) => {
   return (
     <Card
       variant="elevated"
-      style={tw`bg-surface dark:bg-surface-dark`}
       accessible={true}
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel}

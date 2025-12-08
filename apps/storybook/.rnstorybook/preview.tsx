@@ -30,15 +30,17 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
-          'Welcome',
+          '디자인 시스템',
           ['디자인 시스템'],
-          'Foundation',
+          '파운데이션',
           ['파운데이션 소개'],
-          'Components',
+          '스크린',
+          ['스크린 소개'],
+          '컴포넌트',
           ['컴포넌트 소개'],
-          'Layout',
+          '레이아웃',
           ['레이아웃 소개'],
-          'Animations',
+          '애니메이션',
           ['애니메이션 소개'],
         ],
       },

@@ -2,10 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Card } from './Card';
 import { Text } from '../Text';
 import { View } from 'react-native';
-import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Components/Card',
+  title: '컴포넌트/Card',
   component: Card,
   parameters: {
     layout: 'centered',
@@ -35,13 +34,7 @@ const meta = {
       description: 'Gradient end point',
     },
   },
-  decorators: [
-    Story => (
-      <View style={tw`p-5 w-75 bg-white dark:bg-gray-900`}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [Story => <Story />],
 } as Meta<typeof Card>;
 
 export default meta;
@@ -53,8 +46,12 @@ export const Elevated: Story = {
     padding: 'md',
     children: (
       <View>
-        <Text variant="h3">Card Title</Text>
-        <Text variant="body">This is an elevated card with shadow effect.</Text>
+        <Text variant="h3" color="text">
+          Card Title
+        </Text>
+        <Text variant="body" color="secondary">
+          This is an elevated card with shadow effect.
+        </Text>
       </View>
     ),
   },
@@ -66,8 +63,12 @@ export const Outlined: Story = {
     padding: 'md',
     children: (
       <View>
-        <Text variant="h3">Card Title</Text>
-        <Text variant="body">This is an outlined card with border.</Text>
+        <Text variant="h3" color="text">
+          Card Title
+        </Text>
+        <Text variant="body" color="secondary">
+          This is an outlined card with border.
+        </Text>
       </View>
     ),
   },
@@ -79,8 +80,12 @@ export const Filled: Story = {
     padding: 'md',
     children: (
       <View>
-        <Text variant="h3">Card Title</Text>
-        <Text variant="body">This is a filled card with background color.</Text>
+        <Text variant="h3" color="text">
+          Card Title
+        </Text>
+        <Text variant="body" color="secondary">
+          This is a filled card with background color.
+        </Text>
       </View>
     ),
   },
@@ -95,8 +100,12 @@ export const Gradient: Story = {
     gradientEnd: { x: 1, y: 0 },
     children: (
       <View>
-        <Text variant="h3">Gradient Card</Text>
-        <Text variant="body">This card uses a linear gradient background.</Text>
+        <Text variant="h3" color="text">
+          Gradient Card
+        </Text>
+        <Text variant="body" color="secondary">
+          This card uses a linear gradient background.
+        </Text>
       </View>
     ),
   },
@@ -108,8 +117,12 @@ export const Transparent: Story = {
     padding: 'md',
     children: (
       <View>
-        <Text variant="h3">Transparent Card</Text>
-        <Text variant="body">This card has a transparent background and border.</Text>
+        <Text variant="h3" color="text">
+          Transparent Card
+        </Text>
+        <Text variant="body" color="secondary">
+          This card has a transparent background and border.
+        </Text>
       </View>
     ),
   },
@@ -121,8 +134,12 @@ export const SmallPadding: Story = {
     padding: 'sm',
     children: (
       <View>
-        <Text variant="h3">Small Padding</Text>
-        <Text variant="body">Card with small padding.</Text>
+        <Text variant="h3" color="text">
+          Small Padding
+        </Text>
+        <Text variant="body" color="secondary">
+          Card with small padding.
+        </Text>
       </View>
     ),
   },
@@ -134,8 +151,12 @@ export const LargePadding: Story = {
     padding: 'xl',
     children: (
       <View>
-        <Text variant="h3">Large Padding</Text>
-        <Text variant="body">Card with large padding.</Text>
+        <Text variant="h3" color="text">
+          Large Padding
+        </Text>
+        <Text variant="body" color="secondary">
+          Card with large padding.
+        </Text>
       </View>
     ),
   },

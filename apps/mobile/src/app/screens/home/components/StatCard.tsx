@@ -1,15 +1,9 @@
 import React, { useMemo } from 'react';
 import { View } from 'react-native';
 import { Card, Text, tw } from '@mockly/design-system';
-import { cva } from 'cva';
+import { cva, type VariantProps } from 'cva';
 
 export type StatColor = 'primary' | 'success' | 'secondary';
-
-interface StatCardProps {
-  label: string;
-  value: string;
-  color?: StatColor;
-}
 
 const cardVariants = cva({
   base: 'p-md rounded-xl border',
@@ -25,19 +19,11 @@ const cardVariants = cva({
   },
 });
 
-const valueVariants = cva({
-  base: 'font-bold',
-  variants: {
-    color: {
-      primary: 'text-primary',
-      success: 'text-success',
-      secondary: 'text-secondary',
-    },
-  },
-  defaultVariants: {
-    color: 'primary',
-  },
-});
+type CardVariantProps = VariantProps<typeof cardVariants>;
+interface StatCardProps extends CardVariantProps {
+  label: string;
+  value: string;
+}
 
 export const StatCard: React.FC<StatCardProps> = ({
   label,
@@ -45,18 +31,14 @@ export const StatCard: React.FC<StatCardProps> = ({
   color = 'primary',
 }) => {
   const cardStyle = useMemo(() => tw.style(cardVariants({ color })), [color]);
-  const valueStyle = useMemo(() => tw.style(valueVariants({ color })), [color]);
 
   return (
     <Card variant="filled" style={cardStyle}>
       <View style={tw`gap-xs`}>
-        <Text
-          variant="caption"
-          style={tw`text-text-secondary dark:text-gray-400`}
-        >
+        <Text variant="caption" color="textSecondary">
           {label}
         </Text>
-        <Text variant="h2" style={valueStyle}>
+        <Text variant="h2" weight="bold" color={color}>
           {value}
         </Text>
       </View>

@@ -1,11 +1,11 @@
 import { useCallback, useMemo, forwardRef } from 'react';
-import { Text, View, ActivityIndicator, useColorScheme } from 'react-native';
+import { View, ActivityIndicator, useColorScheme } from 'react-native';
 import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetBackdropProps,
   BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import { tw } from '@mockly/design-system';
+import { tw, Text } from '@mockly/design-system';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useAuth } from '@features/auth/hooks';
@@ -45,7 +45,11 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
           style={[tw`px-6 pb-4 gap-2 flex-1`, { paddingBottom: insets.bottom }]}
         >
           <Text
-            style={tw`text-xl font-bold text-zinc-900 dark:text-white mb-md text-center`}
+            variant="h3"
+            weight="bold"
+            color="text"
+            align="center"
+            style={tw`mb-md`}
           >
             로그인하고 계속하기
           </Text>

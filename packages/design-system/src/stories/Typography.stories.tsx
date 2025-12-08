@@ -5,7 +5,7 @@ import { Text } from '../components/Text/Text';
 import { typography } from '../theme';
 
 const meta: Meta = {
-  title: 'Foundation/Typography',
+  title: '파운데이션/Typography',
   parameters: {
     layout: 'fullscreen',
   },
@@ -130,39 +130,55 @@ export const TextHierarchy: Story = {
   render: () => (
     <ScrollView style={tw`flex-1 bg-white dark:bg-zinc-950`}>
       <View style={tw`p-6 gap-4`}>
-        <Text style={tw`text-2xl font-bold text-zinc-900 dark:text-white mb-4`}>
+        <Text variant="h2" color="text" weight="bold" style={tw`mb-4`}>
           Text Hierarchy
         </Text>
         <View style={tw`gap-4`}>
           <View>
-            <Text style={tw`text-3xl font-bold text-zinc-900 dark:text-white`}>Heading 1</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
-              3xl / bold - 주요 페이지 제목
+            <Text variant="h1" color="text" weight="bold">
+              Heading 1
+            </Text>
+            <Text variant="caption" color="textSecondary">
+              2xl / bold - 주요 페이지 제목
             </Text>
           </View>
           <View>
-            <Text style={tw`text-2xl font-bold text-zinc-900 dark:text-white`}>Heading 2</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>2xl / bold - 섹션 제목</Text>
+            <Text variant="h2" color="text" weight="bold">
+              Heading 2
+            </Text>
+            <Text variant="caption" color="textSecondary">
+              2xl / bold - 섹션 제목
+            </Text>
           </View>
           <View>
-            <Text style={tw`text-xl font-semibold text-zinc-900 dark:text-white`}>Heading 3</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
+            <Text variant="h3" color="text" weight="semibold">
+              Heading 3
+            </Text>
+            <Text variant="caption" color="textSecondary">
               xl / semibold - 서브 섹션 제목
             </Text>
           </View>
           <View>
-            <Text style={tw`text-lg font-medium text-zinc-900 dark:text-white`}>Subtitle</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>lg / medium - 부제목</Text>
+            <Text variant="h4" color="text" weight="medium">
+              Subtitle
+            </Text>
+            <Text variant="caption" color="textSecondary">
+              lg / medium - 부제목
+            </Text>
           </View>
           <View>
-            <Text style={tw`text-base text-zinc-900 dark:text-white`}>Body Text</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
+            <Text variant="body" color="text" weight="normal">
+              Body Text
+            </Text>
+            <Text variant="caption" color="textSecondary">
               md / regular - 본문 텍스트
             </Text>
           </View>
           <View>
-            <Text style={tw`text-sm text-zinc-600 dark:text-zinc-300`}>Body Small</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
+            <Text variant="caption" color="textSecondary" weight="normal">
+              Body Small
+            </Text>
+            <Text variant="caption" color="textSecondary">
               sm / regular - 작은 본문 텍스트
             </Text>
           </View>
@@ -185,25 +201,19 @@ export const TextColors: Story = {
         <Text style={tw`text-2xl font-bold text-zinc-900 dark:text-white mb-4`}>Text Colors</Text>
         <View style={tw`gap-3`}>
           <View>
-            <Text style={tw`text-base text-zinc-900 dark:text-white`}>Primary Text</Text>
+            <Text color="text">Primary Text</Text>
             <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
               주요 텍스트 (zinc-900 / white)
             </Text>
           </View>
           <View>
-            <Text style={tw`text-base text-zinc-600 dark:text-zinc-300`}>Secondary Text</Text>
+            <Text color="textSecondary">Secondary Text</Text>
             <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
               보조 텍스트 (zinc-600 / zinc-300)
             </Text>
           </View>
           <View>
-            <Text style={tw`text-base text-zinc-500 dark:text-zinc-400`}>Tertiary Text</Text>
-            <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>
-              삼차 텍스트 (zinc-500 / zinc-400)
-            </Text>
-          </View>
-          <View>
-            <Text style={tw`text-base text-primary dark:text-primary-dark`}>Primary Color</Text>
+            <Text color="primary">Primary Color</Text>
             <Text style={tw`text-sm text-zinc-500 dark:text-zinc-400`}>브랜드 컬러 텍스트</Text>
           </View>
         </View>

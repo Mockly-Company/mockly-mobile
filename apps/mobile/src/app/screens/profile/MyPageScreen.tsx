@@ -1,5 +1,5 @@
-import { View, Text, Image } from 'react-native';
-import { tw } from '@mockly/design-system';
+import { View, Image } from 'react-native';
+import { tw, Text } from '@mockly/design-system';
 import { useLoggedInAuth } from '@features/auth/hooks';
 import { capitalize } from '@shared/utils/stringUtils';
 import { LogoutButton } from '@features/auth/components/LogoutButton';
@@ -16,13 +16,13 @@ export const MyPageScreen = () => {
             style={tw`w-25 h-25 rounded-full mb-4`}
           />
         )}
-        <Text style={tw`text-2xl font-bold mb-2 text-zinc-900 dark:text-white`}>
+        <Text variant="h2" color="text" style={tw`mb-2`}>
           {user.name || '이름 없음'}
         </Text>
-        <Text style={tw`text-base text-zinc-600 dark:text-zinc-300 mb-1`}>
+        <Text variant="body" color="textSecondary" style={tw`mb-1`}>
           {user.email}
         </Text>
-        <Text style={tw`text-sm text-zinc-400 dark:text-zinc-500`}>
+        <Text variant="caption" color="textSecondary">
           {capitalize(user.provider)} 로그인
         </Text>
       </View>

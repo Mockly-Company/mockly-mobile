@@ -1,11 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Button } from './Button';
-import { View } from 'react-native';
-import { tw } from '../../lib/tw';
 
 const meta = {
-  title: 'Components/Button',
-  component: Button,
+  title: '컴포넌트/Button',
+  component: (props: Parameters<typeof Button>[0]) => (
+    <Button {...props}>
+      <Button.Text>Button</Button.Text>
+    </Button>
+  ),
   parameters: {
     layout: 'centered',
   },
@@ -25,18 +27,8 @@ const meta = {
       control: 'boolean',
       description: 'Disabled state',
     },
-    children: {
-      control: 'text',
-      description: 'Button text',
-    },
   },
-  decorators: [
-    Story => (
-      <View style={tw`p-5 bg-white dark:bg-gray-900`}>
-        <Story />
-      </View>
-    ),
-  ],
+  decorators: [Story => <Story />],
 } as Meta<typeof Button>;
 
 export default meta;
@@ -46,7 +38,6 @@ export const Primary: Story = {
   args: {
     variant: 'primary',
     size: 'medium',
-    children: 'Primary Button',
   },
 };
 
@@ -54,7 +45,6 @@ export const Secondary: Story = {
   args: {
     variant: 'secondary',
     size: 'medium',
-    children: 'Secondary Button',
   },
 };
 
@@ -62,7 +52,6 @@ export const Outline: Story = {
   args: {
     variant: 'outline',
     size: 'medium',
-    children: 'Outline Button',
   },
 };
 
@@ -70,7 +59,6 @@ export const Small: Story = {
   args: {
     variant: 'primary',
     size: 'small',
-    children: 'Small Button',
   },
 };
 

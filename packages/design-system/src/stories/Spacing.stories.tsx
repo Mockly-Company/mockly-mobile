@@ -3,7 +3,7 @@ import { spacing } from '../theme';
 import { tw } from '../lib/tw';
 
 export default {
-  title: 'Foundation/Spacing',
+  title: '파운데이션/Spacing',
 };
 
 const spacingKeys = Object.keys(spacing) as Array<keyof typeof spacing>;

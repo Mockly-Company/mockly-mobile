@@ -4,7 +4,7 @@ import { tw } from '../lib/tw';
 import { palette, lightColors, darkColors } from '../theme';
 
 const meta: Meta = {
-  title: 'Foundation/Colors',
+  title: '파운데이션/Colors',
 };
 
 export default meta;
