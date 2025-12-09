@@ -59,6 +59,10 @@
     },
     "clean": {
       "cache": false
+    },
+    "storybook-generate": {
+      "outputs": ["storybook-static/**"],
+      "cache": false
     }
   }
 }
