@@ -12,7 +12,7 @@ import { MyPageScreen } from '@app/screens/profile/MyPageScreen';
 import { useLoggedInAuth } from '@features/auth/hooks';
 import { ErrorBoundary } from 'react-error-boundary';
 import React from 'react';
-import { AuthUser } from '@mockly/entities';
+import { AuthUser } from '@mockly/domain';
 
 // 테스트용 ErrorBoundary 래퍼
 const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (

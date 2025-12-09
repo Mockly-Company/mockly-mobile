@@ -3,7 +3,7 @@ import {
   AuthToken,
   DeviceInfo,
   LocationInfo,
-} from '@mockly/entities';
+} from '@mockly/domain';
 import type { AuthConfig, AuthorizationResult, AuthProvider } from '../types';
 import { AppError, ErrorCoverage } from '@shared/errors';
 import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';

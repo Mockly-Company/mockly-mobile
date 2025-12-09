@@ -17,7 +17,7 @@ module.exports = function (api) {
             '@lib': '../mobile/src/lib',
             '@shared': '../mobile/src/shared',
             '@mobile': '../mobile/src',
-            '@mockly/entities': '../../packages/entities',
+            '@mockly/domain': '../../packages/domain',
             '@mockly/design-system': '../../packages/design-system',
             '@mockly/api': '../../packages/api',
             '@mockly/typescript-config': '../../packages/typescript-config',

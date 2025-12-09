@@ -20,7 +20,7 @@ const config = {
       path.resolve(workspaceRoot, 'packages/api/node_modules'),
     ],
     extraNodeModules: {
-      '@mockly/entities': path.resolve(workspaceRoot, 'packages/entities'),
+      '@mockly/domain': path.resolve(workspaceRoot, 'packages/domain'),
       '@mockly/design-system': path.resolve(
         workspaceRoot,
         'packages/design-system',

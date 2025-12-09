@@ -29,7 +29,7 @@ const config = {
       '@features': path.resolve(workspaceRoot, 'apps/mobile/src/features'),
       '@lib': path.resolve(workspaceRoot, 'apps/mobile/src/lib'),
       '@shared': path.resolve(workspaceRoot, 'apps/mobile/src/shared'),
-      '@mockly/entities': path.resolve(workspaceRoot, 'packages/entities'),
+      '@mockly/domain': path.resolve(workspaceRoot, 'packages/domain'),
       '@mockly/design-system': path.resolve(
         workspaceRoot,
         'packages/design-system',

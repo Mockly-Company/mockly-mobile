@@ -31,7 +31,7 @@ jobs:
 
       - name: 패키지 빌드
         run: |
-          pnpm --filter @mockly/entities build
+          pnpm --filter @mockly/domain build
           pnpm --filter @mockly/utils build
           pnpm --filter @mockly/api build
           pnpm --filter @mockly/design-system build

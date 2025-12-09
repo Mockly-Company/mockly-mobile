@@ -1,5 +1,5 @@
 import { authorize } from 'react-native-app-auth';
-import { GoogleAuthService } from '@features/auth/services/GoogleAuthService';
+import { GoogleAuthService } from '@features/auth/services/AuthService.google';
 
 // @mockly/api 모킹
 jest.mock('@mockly/api', () => ({

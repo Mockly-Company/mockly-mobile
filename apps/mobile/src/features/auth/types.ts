@@ -1,7 +1,4 @@
-import {
-  AuthUser,
-  type AuthProvider as AllAuthProvider,
-} from '@mockly/entities';
+import { AuthUser, type AuthProvider as AllAuthProvider } from '@mockly/domain';
 export type AuthProvider = Extract<
   AllAuthProvider,
   'google' | 'kakao' | 'apple' | 'naver' | 'github'

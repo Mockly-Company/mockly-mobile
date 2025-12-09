@@ -5,8 +5,8 @@
 
 import type { AuthProvider } from '../types';
 import { BaseAuthService } from './BaseAuthService';
-import { GoogleAuthService } from './GoogleAuthService';
-import { AppleAuthService } from './AppleAuthService';
+import { GoogleAuthService } from './AuthService.google';
+import { AppleAuthService } from './AuthService.apple';
 import { AppError, ErrorCoverage } from '@shared/errors/AppError';
 
 // Provider별 AuthService 싱글톤 인스턴스
@@ -65,5 +65,5 @@ export function clearAuthServiceCache(): void {
 }
 
 export { BaseAuthService } from './BaseAuthService';
-export { GoogleAuthService } from './GoogleAuthService';
-export { AppleAuthService } from './AppleAuthService';
+export { GoogleAuthService } from './AuthService.google';
+export { AppleAuthService } from './AuthService.apple';
