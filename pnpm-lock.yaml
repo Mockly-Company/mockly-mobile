@@ -83,9 +83,9 @@ importers:
       '@mockly/design-system':
         specifier: workspace:*
         version: link:../../packages/design-system
-      '@mockly/entities':
+      '@mockly/domain':
         specifier: workspace:*
-        version: link:../../packages/entities
+        version: link:../../packages/domain
       '@mockly/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -523,9 +523,9 @@ importers:
 
   packages/api:
     dependencies:
-      '@mockly/entities':
+      '@mockly/domain':
         specifier: workspace:*
-        version: link:../entities
+        version: link:../domain
       axios:
         specifier: 1.13.2
         version: 1.13.2
@@ -589,7 +589,7 @@ importers:
         specifier: 5.9.3
         version: 5.9.3
 
-  packages/entities:
+  packages/domain:
     dependencies:
       zod:
         specifier: ^4.1.13

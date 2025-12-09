@@ -12,7 +12,7 @@ import { AppError, ErrorCoverage } from '@shared/errors';
 import { logger } from '@shared/utils/logger';
 import { localStorage } from './localStorage';
 import { logout, renewalToken } from '@mockly/api';
-import { AccessRefreshToken, AuthUser } from '@mockly/entities';
+import { AccessRefreshToken, AuthUser } from '@mockly/domain';
 
 type AuthState = LoginAuthState | LogoutAuthState;
 type LoginAuthState = {

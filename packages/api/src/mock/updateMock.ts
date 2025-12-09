@@ -1,4 +1,4 @@
-import { MockData } from '@mockly/entities';
+import { MockData } from '@mockly/domain';
 import { apiClient } from '../client';
 
 interface MockResDTO {

@@ -3,8 +3,8 @@
  * Provider 패턴 기반 인증 및 초기 로그인 상태 확인 기능 테스트
  */
 
-// GoogleAuthService 모킹
-jest.mock('@features/auth/services/GoogleAuthService');
+// AuthService.google 모킹
+jest.mock('@features/auth/services/AuthService.google');
 
 // API 모킹
 jest.mock('@mockly/api', () => {
@@ -19,11 +19,11 @@ jest.mock('@mockly/api', () => {
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { useAuth } from '@features/auth/hooks';
 import { useAuthStore } from '@features/auth/store';
-import { GoogleAuthService } from '@features/auth/services/GoogleAuthService';
+import { GoogleAuthService } from '@features/auth/services/AuthService.google';
 import { localStorage } from '@features/auth/localStorage';
 import * as api from '@mockly/api';
 import type { AuthorizationResult } from '@features/auth/types';
-import type { AuthToken, AccessRefreshToken, AuthUser } from '@mockly/entities';
+import type { AuthToken, AccessRefreshToken, AuthUser } from '@mockly/domain';
 
 const expectedAuthUser: AuthUser = {
   id: 'test-user-id',

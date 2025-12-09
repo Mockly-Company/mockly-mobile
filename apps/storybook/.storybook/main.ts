@@ -33,7 +33,7 @@ const main: StorybookConfig = {
         '@mockly/typescript-config',
         '@mockly/storybook',
         '@mockly/api',
-        '@mockly/entities',
+        '@mockly/domain',
         '@mockly/utils',
       ],
     },

@@ -5,7 +5,7 @@
 import { AppError, ErrorCoverage } from '@shared/errors';
 import { useAuthStore } from './store';
 import { useShallow } from 'zustand/react/shallow';
-import { AuthUser } from '@mockly/entities';
+import { AuthUser } from '@mockly/domain';
 /**
  * 인증 상태 및 기능을 사용하기 위한 훅
  *

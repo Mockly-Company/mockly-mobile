@@ -8,7 +8,7 @@ import { createMMKV } from 'react-native-mmkv';
 import * as Keychain from 'react-native-keychain';
 import { logger } from '@shared/utils/logger';
 
-import { AccessRefreshToken, AuthUser, AuthUserSchema } from '@mockly/entities';
+import { AccessRefreshToken, AuthUser, AuthUserSchema } from '@mockly/domain';
 import { AppError, ErrorCoverage } from '@shared/errors';
 const storage = createMMKV({ id: 'token-storage' });
 

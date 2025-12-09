@@ -1,4 +1,4 @@
-import { User } from '@mockly/entities';
+import { User } from '@mockly/domain';
 import { apiClient } from '../client';
 
 interface UserResDTO {

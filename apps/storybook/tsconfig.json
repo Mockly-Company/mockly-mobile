@@ -4,7 +4,7 @@
     "baseUrl": ".",
     "moduleResolution": "bundler",
     "paths": {
-      "@mockly/entities": ["../../packages/entities/src"],
+      "@mockly/domain": ["../../packages/domain/src"],
       "@mockly/design-system": ["../../packages/design-system/src"],
       "@mockly/api": ["../../packages/api/src"],
       "@mobile/*": ["../mobile/src/*"]
