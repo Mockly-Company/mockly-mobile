@@ -23,7 +23,8 @@
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
     "prepare": "husky",
-    "postinstall": "git config commit.template .gitmessage"
+    "postinstall": "git config commit.template .gitmessage",
+    "storybook:generate": "turbo run storybook-generate --filter=@mockly/storybook"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
