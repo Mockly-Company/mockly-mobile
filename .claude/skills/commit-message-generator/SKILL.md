@@ -1,9 +1,9 @@
 ---
-name: commit-message-formatter
+name: commit-message-generator
 description: 정해진 형식에 따라 구조화된 한글 커밋 메시지를 생성합니다. 커밋 생성 시 프로젝트의 커밋 컨벤션을 자동으로 적용하여 일관성 있는 커밋 히스토리를 유지합니다.
 ---
 
-# Commit Message Formatter
+# Commit Message Generator
 
 이 스킬은 프로젝트의 커밋 메시지 컨벤션을 자동으로 적용하여 일관성 있고 구조화된 커밋 메시지를 생성합니다.
 

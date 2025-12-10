@@ -113,49 +113,60 @@ view /mnt/user-data/uploads
 
 ## 기술 스택별 분석 패턴
 
-### Next.js/React 프로젝트
+### React Native 프로젝트 (Mockly)
 
-**감지 방법**: package.json 내 "next" 또는 "react"
+**감지 방법**: package.json 내 "react-native"
 **주요 컨텍스트 수집 항목**:
 
-- Next.js version (App Router vs Pages Router)
-- State management (Zustand, Redux, Context)
-- Styling (Tailwind, CSS Modules, styled-components)
-- API approach (Next.js API routes, external API)
-- TypeScript usage
+- React Native 버전
+- State management (Zustand)
+- Styling (twrnc, cva)
+- API 통신 (@mockly/api의 DTO→Entity 변환 아키텍처)
+- 디렉토리 구조 (apps/mobile, packages/)
+- TypeScript 사용
 
 **포함할 내용**:
 
 ```markdown
 ### UI Components
 
-- 컴포넌트: [path]/[ComponentName].tsx
-- Props interface: [existing pattern]
-- Styling: [Tailwind classes/CSS modules]
+- 디자인 시스템: packages/design-system/src/components/
+- 앱 컴포넌트: apps/mobile/src/app/components/
+- tw 객체로 인라인 스타일링, cva로 variant 정의
+- Props 최대한 활용, style prop은 최후의 수단
 
 ### State Management
 
-- Store: [existing state structure]
-- Actions: [action naming convention]
+- Zustand: features/[feature]/store/useXxxStore.ts
+- create 패턴, TypeScript 인터페이스 정의
 
 ### API Layer
 
-- Endpoint: [app/api or external]
-- Method: [GET/POST/PUT/DELETE]
-- Response type: [TypeScript interface]
+- 위치: packages/api/src/[domain]/[동사][자원].ts
+- 반환 타입: @mockly/domain 타입 또는 원시 타입
+- DTO → Entity 변환
+- ApiResponse<T> 래핑
 
-### Routing
+### Entities
 
-- Route: [app/[route] or pages/[route]]
-- Dynamic segments: [if needed]
+- 위치: packages/domain/src/[entity]/entity.type.ts
+- zod 스키마 + TypeScript 타입
+- 런타임 검증 함수
+
+### Navigation
+
+- 위치: apps/mobile/src/app/navigation/
+- 조건부 렌더링 활용 (early return)
 
 ## 성공 기준
 
 ✅ TypeScript 타입 안정성
-✅ [Existing components] 재사용
-✅ 반응형 디자인 (모바일/데스크톱)
-✅ SEO 최적화 (메타데이터)
-✅ Unit test + Integration test
+✅ @mockly/design-system 컴포넌트 재사용
+✅ tw 인라인 스타일링, cva variant 정의
+✅ StyleSheet.create 사용 금지
+✅ @mockly/api 통신 아키텍처 준수
+✅ 테스트 파일: 패키지루트/**tests**
+✅ 프론트엔드 테스트: 사용자 관점 (클릭, 입력, 화면 표시)
 ```
 
 ## 프롬프트 강화 예시
@@ -173,14 +184,14 @@ view /mnt/user-data/uploads
 
 ## 📋 프로젝트 컨텍스트
 
-- 프레임워크: React Native 0.82.1 with TypeScript 5.9.3
+- 프레임워크: React Native with TypeScript
 - 모노레포: Turborepo + pnpm workspace
-- 스타일링: NativeWind 4.2.1 (Tailwind CSS)
-- 네트워크: Axios 1.13.2 (@mockly/api)
-- 상태 관리: Zustand 5.0.8, tanstack/react-query 5.90.7
-- 네비게이션: @react-navigation/native 7.1.19
-- 저장소: @react-native-async-storage/async-storage 2.2.0
-- 패키지 매니저: pnpm 9.x
+- 스타일링: twrnc (Tailwind CSS for React Native), cva, clsx, tailwind-merge
+- API 통신: @mockly/api (DTO→Entity 변환 아키텍처)
+- 상태 관리: Zustand
+- 테스트: Jest, @testing-library/react-native
+- 문서화: Storybook (React Native Web/Android)
+- 린팅: ESLint, Prettier, commitlint, husky
 
 ## 🎯 구현 범위
 
@@ -193,153 +204,141 @@ view /mnt/user-data/uploads
 
 ### 파일 구조
 
-mockly-mobile/
+m/
 ├── apps/
 │ ├── mobile/ # React Native 모바일 앱
-| | └── src/
-│ │ ├── hooks # 훅
-│ │ └── screens # 화면
+│ │ └── src/
+│ │ ├── app/ # 앱 UI 관련 코드
+│ │ │ ├── components/ # 앱 컴포넌트
+│ │ │ ├── navigation/ # 앱 네비게이션
+│ │ │ └── screens/ # 앱 스크린
+│ │ ├── features/ # 앱 기능 관련 코드
+│ │ │ ├── auth/ # auth 기능, 스토어, 컴포넌트
+│ │ │ └── interview/ # interview 기능, 스토어, 컴포넌트
+│ │ └── shared/ # 공용 코드
+│ │ ├── api/ # apiClient 초기화 코드
+│ │ ├── errors/ # 에러 바운더리, Fallback 컴포넌트
+│ │ ├── hooks/ # 공통 훅
+│ │ └── utils/ # 공통 함수 (toast, deviceInfo, location)
 │ └── storybook/ # Storybook 문서화
 ├── packages/
-│ ├── entities/ # 공통 엔티티 타입 정의
-| | └── src/
-│ │ └── user.ts # 유저 타입
-│ ├── design-system/ # 디자인 시스템 컴포넌트
+│ ├── design-system/ # UI 컴포넌트, 테마, tw 객체
 │ │ └── src/
-│ │ └── components/
-│ │ ├── Button.tsx # 재사용
-│ │ ├── Input.tsx # 예시
-│ │ └── Form.tsx # 예시
-│ ├── api/ # API 클라이언트 및 서비스
+│ │ ├── components/ # 재사용 가능한 UI 컴포넌트
+│ │ ├── layout/ # 재사용 가능한 UI 레이아웃
+│ │ ├── animations/ # 재사용 가능한 UI 애니메이션
+│ │ ├── lib/ # export하는 tw 객체
+│ │ └── theme/ # 테마 설정 (colors, spacing 등)
+│ ├── api/ # API 클라이언트, DTO→Entity 변환
 │ │ └── src/
-│ │ └── auth/
-│ │ └── login.ts # 로그인 API
-│ └── typescript-config/ # 공유 TypeScript 설정
-└── .env.\* # 환경별 환경변수 파일
+│ │ └── [domain]/ # Auth, User, Interview 등
+│ │ ├── getXXX.ts # 자원 요청
+│ │ ├── postXXX.ts # 자원 생성
+│ │ ├── patchXXX.ts # 자원 일부 수정
+│ │ ├── putXXX.ts # 자원 전체 수정
+│ │ └── deleteXXX.ts # 자원 삭제
+│ ├── domain/ # 도메인 엔티티 타입 정의, 핵심 비즈니스 로직
+│ │ └── src/
+│ │ ├── auth/
+│ │ └── user/
+│ ├── utils/ # 공통 유틸리티 함수
+│ │ └── src/
+│ │ └── cn.ts
+│ └── typescript-config/ # 공유 tsconfig
 
 ## 📝 상세 요구사항
 
-### 1. Entities Package - User 타입 정의
+### 1. Domain Package - User 타입 정의
 
-- **위치**: `packages/entities/src/user.ts`
+- **위치**: `packages/domain/src/user/user.type.ts`
 - **목적**: 사용자 도메인 모델 및 인증 관련 타입 정의
 - **구현 내용**:
-  - User 인터페이스 (id, email, name, profileImageUrl, createdAt)
-  - LoginCredentials 인터페이스 (email, password)
-  - AuthTokens 인터페이스 (accessToken, refreshToken)
-  - LoginResponse 인터페이스 (user, tokens)
-- **기존 패턴 준수**: 순수 TypeScript 인터페이스, 명시적 export
+  - User 인터페이스 (id, email, name, createdAt)
+  - zod 스키마를 통한 런타임 검증 (UserSchema, validateUser)
+- **기존 패턴 준수**: zod 스키마 + TypeScript 타입 조합 패턴
 
-### 2. API Package - TokenProvider 인터페이스 추가
+### 2. API Package - 로그인 API 함수 작성
 
-- **위치**: `packages/api/src/client.ts`
-- **목적**: 플랫폼 독립적인 토큰 관리 인터페이스
+- **위치**: `packages/api/src/Auth/postLogin.ts`
+- **목적**: 로그인 API 통신 및 DTO→Entity 변환
 - **구현 내용**:
-  - TokenProvider 인터페이스 (getToken, clearTokens 메서드)
-  - ApiClientConfig에 tokenProvider 옵션 추가
-  - Request interceptor에서 토큰 자동 주입
-  - Response interceptor에서 401 시 토큰 제거
-- **기존 패턴 준수**: Dependency Injection 패턴, 기존 ApiClient 클래스 확장
+  - LoginRequestDto, LoginResponseDto 인터페이스 정의
+  - postLogin 함수 (email, password 받아서 User 엔티티 반환)
+  - ApiResponse<T> 래핑
+  - DTO → Entity 변환 로직
+- **기존 패턴 준수**: `packages/api/src/[domain]/[동사][자원].ts` 네이밍 규칙
 
-### 3. API Package - AuthService 구현
+### 3. Mobile App - apiClient 초기화
 
-- **위치**: `packages/api/src/services/authService.ts`
-- **목적**: 로그인 API 통신 레이어
+- **위치**: `apps/mobile/src/shared/api/apiClient.ts`
+- **목적**: @mockly/api에서 제공하는 apiClient 인스턴스화
 - **구현 내용**:
-  - login(credentials) 메서드 (POST /auth/login)
-  - logout() 메서드 (POST /auth/logout)
-  - refreshToken(refreshToken) 메서드
-  - getMe() 메서드 (사용자 정보 조회)
-- **기존 패턴 준수**: UserService, MockService와 동일한 클래스 기반 패턴
+  - apiClient 생성 (baseURL 환경변수 사용)
+  - export하여 앱 전역에서 사용
+- **기존 패턴 준수**: shared 디렉토리의 초기화 코드 패턴
 
-### 4. Mobile App - TokenProvider 구현
+### 4. Design System - Input 컴포넌트 추가
 
-- **위치**: `apps/mobile/src/utils/tokenProvider.ts`
-- **목적**: React Native용 토큰 관리 구현
-- **구현 내용**:
-  - getToken() 메서드 (AsyncStorage에서 accessToken 조회)
-  - clearTokens() 메서드 (accessToken, refreshToken 삭제)
-- **기존 패턴 준수**: Interface 구현 패턴
-
-### 5. Mobile App - ApiClient 인스턴스 생성
-
-- **위치**: `apps/mobile/src/api/client.ts`
-- **목적**: TokenProvider를 주입한 ApiClient 및 Service 인스턴스 생성
-- **구현 내용**:
-  - ApiClient 인스턴스 생성 (tokenProvider 주입, baseURL은 환경변수 사용)
-  - authService, userService, mockService 인스턴스 생성 및 export
-- **기존 패턴 준수**: 싱글톤 인스턴스 패턴
-
-### 6. Design System - Input 컴포넌트 추가
-
-- **위치**: `packages/design-system/src/components/Input.tsx`
+- **위치**: `packages/design-system/src/components/Input/`
 - **목적**: 재사용 가능한 텍스트 입력 컴포넌트
 - **구현 내용**:
-  - TextInput 래핑 컴포넌트
-  - label, error, required props 지원
-  - theme 토큰 활용한 스타일링
-  - error 상태 시 빨간색 테두리 표시
-- **기존 패턴 준수**: Button.tsx와 동일한 구조, StyleSheet.create, theme 토큰 활용
+  - Input.tsx - TextInput 래핑, variant/size props 지원, cva 활용
+  - Input.stories.tsx - Storybook 스토리 (필수)
+  - index.ts - export
+  - tw 객체로 인라인 스타일링
+- **기존 패턴 준수**: Button 컴포넌트와 동일한 디렉토리 구조, cva variant 정의
 
-### 7. Mobile App - Auth Zustand Store
+### 5. Mobile App - Auth Store (Zustand)
 
-- **위치**: `apps/mobile/src/stores/authStore.ts`
+- **위치**: `apps/mobile/src/features/auth/store/useAuthStore.ts`
 - **목적**: 전역 인증 상태 관리
 - **구현 내용**:
-  - user, isAuthenticated, isInitialized 상태
-  - setUser, logout, initialize 액션
-  - initialize에서 토큰으로 사용자 정보 복원
-- **기존 패턴 준수**: Zustand create 패턴, TypeScript 인터페이스 정의
+  - user, isAuthenticated 상태
+  - login, logout 액션
+  - Zustand create 패턴
+- **기존 패턴 준수**: features 디렉토리 내 store 위치
 
-### 8. Mobile App - useLogin React Query Hook
+### 6. Mobile App - LoginScreen 구현
 
-- **위치**: `apps/mobile/src/hooks/useLogin.ts`
-- **목적**: React Query 기반 로그인 mutation 훅
-- **구현 내용**:
-  - useMutation으로 authService.login 호출
-  - onSuccess에서 토큰 AsyncStorage 저장 및 Zustand 스토어 업데이트
-  - onError에서 에러 로깅
-- **기존 패턴 준수**: React Query useMutation 패턴, Zustand 스토어 연동
-
-### 9. Mobile App - LoginScreen 구현
-
-- **위치**: `apps/mobile/src/screens/auth/LoginScreen.tsx`
+- **위치**: `apps/mobile/src/app/screens/LoginScreen.tsx`
 - **목적**: 로그인 UI 화면
 - **구현 내용**:
-  - 이메일/비밀번호 Input 컴포넌트
-  - 클라이언트 사이드 유효성 검증 (이메일 형식, 비밀번호 8자 이상)
-  - useLogin 훅으로 로그인 처리
-  - 로딩 중 버튼 비활성화 및 Input editable=false
-  - KeyboardAvoidingView로 키보드 처리
-- **기존 패턴 준수**: NativeWind className, Design System 컴포넌트 재사용
+  - @mockly/api의 postLogin 함수 직접 호출
+  - @mockly/design-system의 Input, Button 컴포넌트 사용
+  - tw 객체로 인라인 스타일링 (StyleSheet.create 사용 금지)
+  - Props 최대한 활용, style prop은 최후의 수단
+  - 클라이언트 사이드 유효성 검증
+  - 로딩 중 버튼 비활성화
+- **기존 패턴 준수**: app/screens 위치, tw 인라인 스타일링
 
-### 10. Mobile App - Navigation 설정
+### 7. Mobile App - Navigation 설정
 
-- **위치**: `apps/mobile/src/navigation/AppNavigator.tsx`
+- **위치**: `apps/mobile/src/app/navigation/AppNavigator.tsx`
 - **목적**: 인증 상태 기반 조건부 네비게이션
 - **구현 내용**:
-  - useAuthStore에서 isAuthenticated, isInitialized 구독
-  - 초기화 중일 때 ActivityIndicator 표시
+  - useAuthStore에서 isAuthenticated 구독
   - isAuthenticated에 따라 Login 화면 또는 Home 화면 표시
-  - useEffect에서 authStore.initialize 호출
-- **기존 패턴 준수**: React Navigation Stack Navigator, 조건부 렌더링
+  - early return을 활용한 조건부 렌더링
+- **기존 패턴 준수**: app/navigation 위치
 
 ## ✅ 성공 기준
 
 - [ ] 사용자가 이메일과 비밀번호 입력
-- [ ] 로그인 버튼 클릭 시 API 호출
-- [ ] 성공 시 토큰 저장 및 홈 화면 이동
-- [ ] 실패 시 적절한 에러 메시지 표시 (SnackBar)
+- [ ] 로그인 버튼 클릭 시 @mockly/api 함수로 API 호출
+- [ ] 성공 시 Zustand 스토어 업데이트 및 홈 화면 이동
+- [ ] 실패 시 적절한 에러 메시지 표시
 - [ ] 로딩 중 버튼 비활성화 및 로딩 인디케이터 표시
 - [ ] 이메일 형식 및 비밀번호 길이 검증
+- [ ] tw 객체로 인라인 스타일링, cva로 variant 정의
+- [ ] 기존 컴포넌트의 Props 최대한 활용
 - [ ] 기존 코드 스타일 및 아키텍처 일관성 유지
-- [ ] 단위 테스트 작성
-- [ ] 통합 테스트 작성
+- [ ] 테스트 파일 위치: 패키지루트/**tests**
+- [ ] 프론트엔드 테스트: 사용자 관점 (클릭, 입력, 화면 표시)
 
 ## 🔍 확인 사항
 
-- API 엔드포인트 주소가 `https://api.example.com`이 맞나요?
-- 토큰 만료 시 자동 갱신 기능이 필요한가요?
+- API 엔드포인트 baseURL을 환경변수로 설정할까요?
+- 로그인 성공 후 토큰을 어디에 저장할까요? (AsyncStorage, SecureStore 등)
 - 소셜 로그인(구글, 애플 등)도 함께 구현할까요?
 - "비밀번호 찾기" 기능이 필요한가요?
 
@@ -380,8 +379,3 @@ mockly-mobile/
 - AuthService: 사용자 정보 조회에 재사용
 - TokenProvider: 기존 토큰 저장 로직 활용
 ```
-
-## 참조 파일
-
-- **향상 패턴**: references/enhancement-patterns.md
-- **프레임워크 가이드**: references/framework-guides.md
