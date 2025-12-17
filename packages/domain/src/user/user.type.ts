@@ -1,3 +1,5 @@
+import { PlanType } from '../product';
+
 export interface User {
   id: string;
   email: string;
@@ -9,6 +11,6 @@ export interface UserProfile {
   subscription: {
     id: string;
     name: string;
-    planType: 'FREE' | 'PREMIUM' | 'PRO' | 'BASIC';
+    planType: PlanType;
   };
 }
