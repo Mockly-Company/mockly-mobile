@@ -1,6 +1,7 @@
 package com.mockly.mobile
 
 import android.os.Bundle
+import com.swmansion.rnscreens.fragment.restoration.RNScreensFragmentFactory
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.facebook.react.ReactActivity
@@ -32,7 +33,7 @@ class MainActivity : ReactActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     // Install splash screen and keep it visible until JS calls hide()
     val splashScreen = installSplashScreen()
-  
+    supportFragmentManager.fragmentFactory = RNScreensFragmentFactory()
     super.onCreate(savedInstanceState)
 
     splashScreen.setKeepOnScreenCondition { keepSplashScreen }

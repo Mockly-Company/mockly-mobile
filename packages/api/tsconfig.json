@@ -3,8 +3,8 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src",
-    "target": "ES2019",
-    "lib": ["ES2019", "DOM"],
+    "target": "esnext",
+    "lib": ["ESNext", "DOM"],
     "strict": true,
     "noEmit": false,
     "declaration": true,
