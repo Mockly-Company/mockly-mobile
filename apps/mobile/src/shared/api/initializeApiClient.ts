@@ -39,7 +39,6 @@ export const initializeApiClient = async (deviceId: string) => {
       return config;
     },
     responseErrorInterceptor: async error => {
-      console.log(error, '에러들');
       const originalRequest = error.config as RetryableRequestConfig;
       const apiError = AppError.fromAxiosError(
         error,
@@ -80,7 +79,6 @@ export const initializeApiClient = async (deviceId: string) => {
       if (!apiError.shouldRefreshToken || originalRequest._retry) {
         throw apiError;
       }
-      console.log(error.response?.data, '데이터', error.config?.url);
       if (apiError.shouldReLogin) {
         // 토큰 갱신이 필요하지 않은 경우
         await useAuthStore.getState().signOut();
@@ -114,11 +112,8 @@ export const initializeApiClient = async (deviceId: string) => {
 
       try {
         // 7초 타임아웃 설정
-        console.log('시작이다.');
         const refreshToken = useAuthStore.getState().refreshToken();
-        console.log('여기는2');
         await apiPendingQueue.throwErrorWhenTimeOutOrReturnResult(refreshToken);
-        console.log('넘어가냐?');
         const newAccessToken = useAuthStore.getState().getAccessToken();
         if (!newAccessToken) throw new Error('리프레시 에러');
 
@@ -127,9 +122,7 @@ export const initializeApiClient = async (deviceId: string) => {
 
         return apiClient.client(originalRequest);
       } catch (e) {
-        console.log('못넘어간다.', e);
         await useAuthStore.getState().signOut();
-        console.log('로그아웃도못하겠찌');
         apiPendingQueue.cleareRefresh();
         apiPendingQueue.setIsRefreshing(false);
         throw new AppError(e, ErrorCoverage.GLOBAL, '토큰 리프레시 에러');
