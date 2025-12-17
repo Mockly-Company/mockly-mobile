@@ -27,7 +27,6 @@ const mockUser: AuthUser = {
   id: 'test-user-id',
   email: 'test@example.com',
   name: 'Test User',
-  photo: 'https://example.com/photo.jpg',
   provider: 'google',
 };
 

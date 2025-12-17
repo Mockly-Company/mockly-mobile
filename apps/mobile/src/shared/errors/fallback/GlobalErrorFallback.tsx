@@ -16,7 +16,6 @@ export function GlobalErrorFallback({
     // 앱 전체 재시작
     RNRestart.restart();
   };
-
   return (
     <View style={tw`flex-1 items-center justify-center p-6 bg-white`}>
       <View

@@ -24,8 +24,8 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
       (props: BottomSheetBackdropProps) => (
         <BottomSheetBackdrop
           {...props}
-          disappearsOnIndex={-1}
-          appearsOnIndex={0}
+          disappearsOnIndex={0}
+          appearsOnIndex={1}
         />
       ),
       [],

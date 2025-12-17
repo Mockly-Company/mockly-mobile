@@ -1,4 +1,4 @@
-import { AccessRefreshToken, LocationInfo } from '@mockly/domain';
+import { AccessRefreshToken, DeviceInfo } from '@mockly/domain';
 import { apiClient } from '../client';
 interface RenewalTokenResDTO {
   accessToken: string;
@@ -8,15 +8,12 @@ interface RenewalTokenResDTO {
 
 export async function renewalToken(
   refreshToken: string,
-  locationInfo: LocationInfo
+  deviceInfo: DeviceInfo
 ): Promise<AccessRefreshToken> {
   const res = await apiClient.post<RenewalTokenResDTO>('/api/auth/refresh', {
     refreshToken,
-    locationInfo,
+    deviceInfo,
   });
 
-  return {
-    accessToken: res.data.accessToken,
-    refreshToken: res.data.refreshToken,
-  };
+  return res.data;
 }

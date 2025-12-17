@@ -39,7 +39,6 @@ export const MockProviders = ({
           id: 'storybook-user-123',
           email: 'storybook@mockly.com',
           name: 'Storybook User',
-          photo: null,
           provider: 'google',
         },
       });

@@ -24,12 +24,15 @@ export async function updateUserProfile(
   const res = await apiClient.put<UserResDTO>(`/users/${userId}`, data);
   const dto = res.data;
   return {
-    id: dto.id,
-    email: dto.email,
-    name: dto.name,
-    avatar: dto.avatar,
-    bio: dto.bio,
-    createdAt: new Date(dto.created_at),
-    updatedAt: new Date(dto.updated_at),
+    user: {
+      id: dto.id,
+      email: dto.email,
+      name: dto.name,
+    },
+    subscription: {
+      id: 'mock-123',
+      name: '플랜',
+      planType: 'BASIC',
+    },
   };
 }

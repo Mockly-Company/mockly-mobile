@@ -13,7 +13,7 @@ import { logger } from '@shared/utils/logger';
 import { localStorage } from './localStorage';
 import { logout, renewalToken } from '@mockly/api';
 import { AccessRefreshToken, AuthUser } from '@mockly/domain';
-
+import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';
 type AuthState = LoginAuthState | LogoutAuthState;
 type LoginAuthState = {
   user: AuthUser;
@@ -32,7 +32,7 @@ type LogoutAuthState = {
 interface AuthActions {
   signIn: (provider: AuthProvider) => Promise<string | null>;
   signOut: () => Promise<void>;
-  initialize: () => Promise<void>;
+  initialize: () => Promise<void | AuthUser>;
   setLoading: (isLoading: boolean) => void;
   clearError: () => void;
   setError: (error: Error | null | unknown) => void;
@@ -68,11 +68,9 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   // 로딩 상태 설정
   setLoading: (isLoading: boolean) => set({ isLoading }),
 
-  // 초기화 (앱 시작 시 호출)
   initialize: async () => {
     try {
       const { accessToken, refreshToken } = await localStorage.getTokens();
-      // 토큰이 없으면 로그아웃 상태
       if (!accessToken || !refreshToken) {
         set(initialStoreState);
         return;
@@ -87,9 +85,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         isLoading: false,
         user,
       });
+      return user;
     } catch (err) {
       logger.logException(err, { context: '초기화 실패' });
       set(initialStoreState);
+      return;
     }
   },
 
@@ -120,9 +120,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
       });
-      await localStorage.saveUser({
+      localStorage.saveUser({
         ...tokens.user,
-        photo: null,
         provider,
       });
 
@@ -131,7 +130,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         id: tokens.user.id,
         email: tokens.user.email,
         name: tokens.user.name,
-        photo: null,
         provider,
       };
 
@@ -156,9 +154,8 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         return;
       }
       const refreshToken = await get().getRefreshToken();
-      if (!refreshToken)
-        throw new AppError('리프레시 토큰이 없습니다.', ErrorCoverage.NONE);
-      await logout(refreshToken).catch();
+      if (!refreshToken) return;
+      logout(refreshToken).catch();
     } finally {
       await get().clearTokens();
       set(initialStoreState);
@@ -175,9 +172,11 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (!refreshToken)
         throw new AppError('리프레시 토큰이 없습니다.', ErrorCoverage.NONE);
-      // TODO: 위치 정보 수집 로직 삭제 예정
-      const locationInfo = { latitude: 0, longitude: 0 };
-      const newTokens = await renewalToken(refreshToken, locationInfo);
+      const deviceInfo = {
+        deviceId: deviceInfoFromUtil.getDevice(),
+        deviceName: await deviceInfoFromUtil.getDeviceName(),
+      };
+      const newTokens = await renewalToken(refreshToken, deviceInfo);
       await get().saveTokens(newTokens);
 
       return true;

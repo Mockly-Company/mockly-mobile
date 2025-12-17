@@ -1,19 +1,18 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { tw, Text } from '@mockly/design-system';
-import { useErrorBoundary } from 'react-error-boundary';
 
 type ScreenErrorFallbackProps = {
   screenName: string;
   message?: string;
+  onRetry?: () => void;
 };
 
 export function ScreenErrorFallback({
   screenName,
   message,
+  onRetry,
 }: ScreenErrorFallbackProps): React.ReactElement {
-  const { resetBoundary } = useErrorBoundary();
-
   return (
     <View style={tw`flex-1 items-center justify-center p-6 bg-white`}>
       <View
@@ -44,7 +43,7 @@ export function ScreenErrorFallback({
 
       <TouchableOpacity
         style={tw`bg-primary px-6 py-3 rounded-lg shadow`}
-        onPress={resetBoundary}
+        onPress={onRetry}
         accessible={true}
         accessibilityRole="button"
         accessibilityLabel="다시 시도"
