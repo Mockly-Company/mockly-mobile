@@ -27,6 +27,7 @@ const config = {
         'error-dark': colors.textErrorDark,
       },
       spacing: {
+        '2xs': `${spacing['2xs']}px`,
         xs: `${spacing.xs}px`,
         sm: `${spacing.sm}px`,
         md: `${spacing.md}px`,

@@ -17,7 +17,10 @@ export const LogoutButton = () => {
   };
   return (
     <TouchableOpacity
-      style={[tw`bg-red-500 px-8 py-3 rounded-lg`, isLoading && tw`opacity-50`]}
+      style={[
+        tw`bg-red-500 px-8 py-3 rounded-lg w-full items-center`,
+        isLoading && tw`opacity-50`,
+      ]}
       onPress={handleLogout}
       disabled={isLoading}
       accessible={true}

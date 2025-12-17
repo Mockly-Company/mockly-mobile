@@ -16,9 +16,10 @@ const badgeContainer = cva({
       success: '',
       warning: '',
       neutral: '',
+      error: '',
     },
     size: {
-      sm: 'px-sm py-xs',
+      sm: 'px-sm py-2xs',
       md: 'px-sm py-xs',
     },
   },
@@ -27,16 +28,19 @@ const badgeContainer = cva({
     { variant: 'soft', color: 'primary', class: 'bg-primary/10 border-primary/20' },
     { variant: 'soft', color: 'success', class: 'bg-success/10 border-success/20' },
     { variant: 'soft', color: 'warning', class: 'bg-warning/10 border-warning/20' },
+    { variant: 'soft', color: 'error', class: 'bg-error/10 border-error/20' },
     { variant: 'soft', color: 'neutral', class: 'bg-surface border-border' },
     // solid variants
     { variant: 'solid', color: 'primary', class: 'bg-primary border-primary' },
     { variant: 'solid', color: 'success', class: 'bg-success border-success' },
     { variant: 'solid', color: 'warning', class: 'bg-warning border-warning' },
+    { variant: 'solid', color: 'error', class: 'bg-error border-error' },
     { variant: 'solid', color: 'neutral', class: 'bg-text border-text' },
     // outline variants
     { variant: 'outline', color: 'primary', class: 'border-primary' },
     { variant: 'outline', color: 'success', class: 'border-success' },
     { variant: 'outline', color: 'warning', class: 'border-warning' },
+    { variant: 'outline', color: 'error', class: 'border-error' },
     { variant: 'outline', color: 'neutral', class: 'border-border' },
   ],
   defaultVariants: {
@@ -59,6 +63,7 @@ const badgeText = cva({
       success: 'text-success',
       warning: 'text-warning',
       neutral: 'text-text-secondary',
+      error: 'text-error',
     },
     size: {
       sm: 'text-xs',
@@ -70,6 +75,7 @@ const badgeText = cva({
     { variant: 'solid', color: 'success', class: 'text-white' },
     { variant: 'solid', color: 'warning', class: 'text-white' },
     { variant: 'solid', color: 'neutral', class: 'text-white' },
+    { variant: 'solid', color: 'error', class: 'text-white' },
   ],
   defaultVariants: {
     variant: 'soft',

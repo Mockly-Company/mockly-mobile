@@ -14,6 +14,7 @@ const textVariants = cva({
       h5: 'text-sm font-medium',
       body: 'text-md',
       caption: 'text-sm',
+      caption2: 'text-xs',
     },
     weight: {
       normal: 'font-normal',
@@ -56,7 +57,6 @@ export const Text: React.FC<TextProps> = ({
   color = 'text',
   weight = 'normal',
   align = 'left',
-
   style,
   ...props
 }) => {
