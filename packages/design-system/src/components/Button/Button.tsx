@@ -16,7 +16,7 @@ import { tw } from '../../lib/tw';
 // ========================================
 
 type ButtonContextValue = {
-  variant: 'primary' | 'secondary' | 'outline';
+  variant: 'primary' | 'secondary' | 'outline' | 'error' | 'warning';
   size: 'small' | 'medium' | 'large';
   disabled?: boolean;
 };
@@ -42,6 +42,8 @@ const buttonFrameVariants = cva({
       primary: 'bg-primary dark:bg-primary-dark',
       secondary: 'bg-secondary dark:bg-secondary-dark',
       outline: 'bg-transparent border border-primary dark:border-primary-dark',
+      error: 'bg-red-500 dark:bg-red-600',
+      warning: 'bg-yellow-500 dark:bg-yellow-600',
     },
     size: {
       small: 'py-sm px-sm',
@@ -65,6 +67,8 @@ const buttonTextVariants = cva({
       primary: 'text-white',
       secondary: 'text-white',
       outline: 'text-primary dark:text-primary-dark',
+      error: 'text-white',
+      warning: 'text-white',
     },
     size: {
       small: 'text-sm',

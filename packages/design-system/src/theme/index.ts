@@ -130,9 +130,12 @@ export const colors = {
   textSecondaryDark: darkColors.textSecondary,
   successDark: darkColors.success,
   errorDark: darkColors.error,
+  textSuccessDark: darkColors.success,
+  textErrorDark: darkColors.error,
 };
 
 export const spacing = {
+  '2xs': 2,
   xs: 4,
   sm: 8,
   md: 12,
