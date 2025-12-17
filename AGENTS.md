@@ -104,7 +104,6 @@ RequestDTO → 백엔드 API 통신 → ResponseDTO
 
 - 위치: `packages/api/src/[도메인]/[동사][자원].ts`
 - 반환 타입: **반드시 @mockly/domain 타입 또는 원시 타입**
-- 모든 응답은 `ApiResponse<T>` 래핑되어짐.
 
 ```typescript
 // packages/api/src/user/getUser.ts
@@ -248,7 +247,6 @@ packages/design-system/src/components/
 
 ```typescript
 // 1. React/React Native
-import React from 'react';
 import { View } from 'react-native';
 
 // 2. 외부 라이브러리

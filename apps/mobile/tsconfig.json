@@ -13,7 +13,10 @@
       "@shared/*": ["src/shared/*"]
     },
     "types": ["jest", "react-native", "node"],
-    "lib": ["ES2015", "DOM"]
+    "lib": ["ES2015", "DOM"],
+
+    "moduleResolution": "bundler",
+    "strict": true
   },
   "include": ["**/*.ts", "**/*.tsx", "src/**/*", "__tests__/**/*"],
   "exclude": ["node_modules", "android", "ios", "**/Pods"]

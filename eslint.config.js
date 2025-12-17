@@ -4,11 +4,10 @@ import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
-import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import eslintJest from 'eslint-plugin-jest';
 
-export default defineConfig([
+export default [
   {
     ignores: [
       'node_modules/',
@@ -69,7 +68,9 @@ export default defineConfig([
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       'react-hooks/rules-of-hooks': 'off',
-      'no-undef': 'off', // TypeScript에서 타입 체크하므로 비활성화
+      'no-undef': 'off',
+      '@typescript-eslint/no-namespace': 'off',
+      '@typescript-eslint/no-empty-object-type': 'off',
     },
   },
   {
@@ -93,4 +94,4 @@ export default defineConfig([
       'react-hooks/rules-of-hooks': 'off',
     },
   },
-]);
+];
