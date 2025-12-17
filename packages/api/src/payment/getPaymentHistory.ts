@@ -1,4 +1,4 @@
-import { PaymentHistory, PaymentStatus } from '@mockly/domain';
+import { CURRENCY, PaymentHistory, PaymentStatus } from '@mockly/domain';
 // import { apiClient } from '../client';
 
 interface GetPaymentHistoryResponseDto {
@@ -7,8 +7,8 @@ interface GetPaymentHistoryResponseDto {
     user_id: string;
     plan_name: string;
     amount: number;
-    currency: string;
-    status: string;
+    currency: CURRENCY;
+    status: PaymentStatus;
     paid_at?: number;
     receipt_url?: string;
   }[];
@@ -43,7 +43,7 @@ export async function getPaymentHistory(
     planName: payment.plan_name,
     amount: payment.amount,
     currency: payment.currency,
-    status: payment.status as PaymentStatus,
+    status: payment.status,
     paidAt: payment.paid_at ? new Date(payment.paid_at) : undefined,
     receiptUrl: payment.receipt_url,
   }));
@@ -59,8 +59,8 @@ const mockPayments: {
   user_id: string;
   plan_name: string;
   amount: number;
-  currency: string;
-  status: string;
+  currency: CURRENCY;
+  status: PaymentStatus;
   paid_at?: number;
   receipt_url?: string;
 }[] = [

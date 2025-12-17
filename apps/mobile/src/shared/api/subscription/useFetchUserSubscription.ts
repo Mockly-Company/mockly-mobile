@@ -10,6 +10,5 @@ export const useFetchUserSubscription = () => {
     queryFn: async () => {
       return await subscription.getUserSubscription(user.id);
     },
-    gcTime: 0,
   });
 };

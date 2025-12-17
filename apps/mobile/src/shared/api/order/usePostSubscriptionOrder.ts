@@ -6,7 +6,7 @@ export const usePostSubscriptionOrder = (
   props?: RestUseMutationProps<typeof order.postSubscriptionOrder>,
 ) => {
   return useMutation({
-    mutationKey: ['subscription', 'delete'],
+    mutationKey: ['subscription', 'post'],
     mutationFn: order.postSubscriptionOrder,
     ...props,
   });

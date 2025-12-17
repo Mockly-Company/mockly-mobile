@@ -46,8 +46,8 @@ const getMockPlanResponse = (_userId: string) => {
 const MockPlanResponse: { data: GetUserSubscriptionResponseDto } = {
   data: {
     subscription: {
-      expires_at: new Date().getTime(),
-      started_at: new Date().getTime(),
+      expires_at: new Date().getTime(), // milliseconds timestamp
+      started_at: new Date().getTime(), // milliseconds timestamp
       limit: 500000,
       usage: 150000,
       is_active: true,

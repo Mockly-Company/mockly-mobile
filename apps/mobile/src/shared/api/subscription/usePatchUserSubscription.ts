@@ -7,9 +7,8 @@ export const usePatchUserSubscription = (
   props?: RestUseMutationProps<typeof subscription.patchUserSubscription>,
 ) => {
   return useMutation({
-    mutationKey: ['subscription', 'change'],
+    mutationKey: ['subscription', 'patch'],
     mutationFn: subscription.patchUserSubscription,
-    gcTime: 0,
     ...props,
   });
 };

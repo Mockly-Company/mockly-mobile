@@ -11,7 +11,6 @@ export const useDeleteUserSubscription = (
     mutationFn: () => {
       return subscription.deleteUserSubscription();
     },
-    gcTime: 0,
     ...props,
   });
 };

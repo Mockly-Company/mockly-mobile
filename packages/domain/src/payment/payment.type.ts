@@ -12,7 +12,7 @@ export const PaymentHistorySchema = z.object({
   userId: z.string(),
   planName: z.string(),
   amount: z.number(),
-  currency: z.string(),
+  currency: CURRENCY,
   status: PaymentStatus,
   paidAt: z.date().optional(),
   receiptUrl: z.string().optional(),
