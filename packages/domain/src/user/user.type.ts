@@ -2,11 +2,13 @@ export interface User {
   id: string;
   email: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
-export interface UserProfile extends User {
-  avatar?: string;
-  bio?: string;
+export interface UserProfile {
+  user: User;
+  subscription: {
+    id: string;
+    name: string;
+    planType: 'FREE' | 'PREMIUM' | 'PRO' | 'BASIC';
+  };
 }

@@ -30,7 +30,6 @@ export const AuthUserSchema = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
-  photo: z.string().nullable(),
   provider: AuthProviderSchema,
 });
 

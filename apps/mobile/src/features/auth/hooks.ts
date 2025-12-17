@@ -69,7 +69,7 @@ export const useLoggedInAuth = () => {
 
 /** 초기 인증 상태를 설정하는 훅 */
 export const useInitializeAuth = () => {
-  const initializeAuth = useAuthStore(state => state.initialize);
+  const initializeAuth = useAuthStore(useShallow(state => state.initialize));
 
   return initializeAuth;
 };

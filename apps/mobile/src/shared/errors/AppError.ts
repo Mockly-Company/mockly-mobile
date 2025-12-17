@@ -42,6 +42,10 @@ export enum ErrorCode {
   UNKNOWN = 'UNKNOWN',
 }
 
+const ServerCode = {
+  EXPIRED_TOKEN: 'EXPIRED_TOKEN',
+};
+
 /**
  * 앱 에러 클래스
  */
@@ -52,13 +56,14 @@ export class AppError extends Error {
   public readonly code: ErrorCode;
   public readonly statusCode?: number;
   public readonly isApiError: boolean;
-
+  public readonly serverCode?: string;
   constructor(
     error: unknown,
     coverage: ErrorCoverage,
     displayMessage?: string,
     code: ErrorCode = ErrorCode.UNKNOWN,
     statusCode?: number,
+    serverCode?: string,
     isApiError: boolean = false,
   ) {
     const sanitizeErrorMessage = AppError.sanitizeErrorMessage(
@@ -79,6 +84,7 @@ export class AppError extends Error {
     this.code = code;
     this.statusCode = statusCode;
     this.isApiError = isApiError;
+    this.serverCode = serverCode;
 
     // Error 프로토타입 체인 유지
     Object.setPrototypeOf(this, AppError.prototype);
@@ -123,6 +129,7 @@ export class AppError extends Error {
       | undefined;
     const serverMessage = response?.message || response?.error;
     const finalDisplayMessage = displayMessage || serverMessage;
+    const serverCode = response?.error;
 
     return new AppError(
       err,
@@ -130,6 +137,7 @@ export class AppError extends Error {
       finalDisplayMessage,
       code,
       statusCode,
+      serverCode,
       true,
     );
   }
@@ -186,14 +194,22 @@ export class AppError extends Error {
    * 토큰 갱신이 필요한 경우 (401 Unauthorized)
    */
   get shouldRefreshToken(): boolean {
-    return this.isApiError && this.statusCode === 401;
+    return (
+      this.isApiError &&
+      this.statusCode === 401 &&
+      this.serverCode === ServerCode.EXPIRED_TOKEN
+    );
   }
 
   /**
    * 재로그인이 필요한 경우 (401 에러)
    */
   get shouldReLogin(): boolean {
-    return this.isApiError && this.statusCode === 401;
+    return (
+      this.isApiError &&
+      this.statusCode === 401 &&
+      this.serverCode !== ServerCode.EXPIRED_TOKEN
+    );
   }
 
   /**
@@ -201,8 +217,8 @@ export class AppError extends Error {
    */
   get isConnectionError(): boolean {
     return (
-      this.isApiError &&
-      (this.code === ErrorCode.NETWORK_ERROR || this.code === ErrorCode.TIMEOUT)
+      (this.isApiError && this.code === ErrorCode.NETWORK_ERROR) ||
+      this.serverCode === ErrorCode.TIMEOUT
     );
   }
 

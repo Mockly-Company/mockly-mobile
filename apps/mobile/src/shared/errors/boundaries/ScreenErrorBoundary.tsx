@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ScreenErrorFallback, ResourceNotFoundFallback } from '../fallback';
 import { AppError } from '../AppError';
@@ -17,12 +17,6 @@ export function ScreenErrorBoundary({
   children,
   screenName,
 }: Props): React.ReactElement {
-  const [remountKey, setRemountKey] = useState(0);
-
-  const handleReset = async () => {
-    setRemountKey(prev => prev + 1);
-  };
-
   const handleError = (error: Error) => {
     if (AppError.isApiError(error)) {
       if (error.isServerError) {
@@ -52,16 +46,19 @@ export function ScreenErrorBoundary({
 
   return (
     <ErrorBoundary
-      resetKeys={[remountKey]}
-      onReset={handleReset}
       onError={handleError}
-      FallbackComponent={({ error }) => {
+      FallbackComponent={({ error, resetErrorBoundary }) => {
         // NoResource 404는 ResourceNotFoundFallback
         if (AppError.isApiError(error) && error.hasNoResource) {
           return <ResourceNotFoundFallback message={error.message} />;
         }
         // 기타 에러는 ScreenErrorFallback
-        return <ScreenErrorFallback screenName={screenName} />;
+        return (
+          <ScreenErrorFallback
+            screenName={screenName}
+            onRetry={resetErrorBoundary}
+          />
+        );
       }}
     >
       {children}

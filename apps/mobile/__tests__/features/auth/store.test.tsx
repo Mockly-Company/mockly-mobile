@@ -29,7 +29,6 @@ const expectedAuthUser: AuthUser = {
   id: 'test-user-id',
   email: 'test@example.com',
   name: 'Test User',
-  photo: null,
   provider: 'google',
 };
 
@@ -325,7 +324,7 @@ describe('AuthStore - Provider 패턴 기반 인증', () => {
 
       expect(api.renewalToken).toHaveBeenCalledWith(
         'mock-refresh-token',
-        expect.objectContaining({ latitude: 0, longitude: 0 }),
+        expect.objectContaining({ deviceId: '', deviceName: 'unknown' }),
       );
     });
   });

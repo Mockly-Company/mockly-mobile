@@ -76,9 +76,11 @@ export abstract class BaseAuthService {
   public async refreshAccessToken(
     refreshToken: string,
   ): Promise<AccessRefreshToken> {
-    // TODO: 위치 정보 수집 로직 삭제 예정
-    const locationInfo = { latitude: 0, longitude: 0 };
-    const data = await renewalToken(refreshToken, locationInfo);
+    const deviceInfo = {
+      deviceId: deviceInfoFromUtil.getDevice(),
+      deviceName: await deviceInfoFromUtil.getDeviceName(),
+    };
+    const data = await renewalToken(refreshToken, deviceInfo);
     if (!data)
       throw new AppError(
         '서버로부터 갱신된 토큰을 획득하지 못했습니다.',

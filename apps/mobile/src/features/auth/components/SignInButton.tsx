@@ -7,6 +7,8 @@ import { toast } from '@shared/utils/toast';
 import { AppError } from '@shared/errors';
 import { AuthProvider } from '@features/auth/types';
 import { capitalize } from '@shared/utils/stringUtils';
+import { useProfileStore } from '@features/user';
+import { user } from '@mockly/api';
 
 type SignInButtonProps = {
   provider: AuthProvider;
@@ -69,6 +71,7 @@ const providerConfig: Record<
 
 export const SignInButton = ({ provider }: SignInButtonProps) => {
   const { signIn, isLoading, error, clearError } = useAuth();
+  const { initialize } = useProfileStore();
   const { showBoundary } = useErrorBoundary();
   const config = providerConfig[provider];
 
@@ -84,15 +87,17 @@ export const SignInButton = ({ provider }: SignInButtonProps) => {
 
   const handleLogin = useCallback(async () => {
     await signIn(provider)
-      .then(userName => {
+      .then(async userName => {
         const isUserCanceled = userName === null;
         if (isUserCanceled) return;
+        const profile = await user.getUserProfile();
+        initialize({ ...profile.user, provider }, profile.subscription);
         toast.success(`${provider} 로그인 성공`, `${userName}님 환영합니다!`);
       })
       .catch(err => {
         toast.error('로그인 실패', err.message || '다시 시도해주세요.');
       });
-  }, [signIn, provider]);
+  }, [signIn, provider, initialize]);
 
   const buttonStyle = useMemo(
     () =>
