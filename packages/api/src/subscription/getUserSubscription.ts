@@ -14,12 +14,12 @@ interface GetUserSubscriptionResponseDto {
 export async function getUserSubscription(userId: string): Promise<Subscription> {
   // const response = await apiClient.get<GetUserSubscriptionResponseDto>('/payments/subscription');
   const response = await getMockPlanResponse(userId);
-  const { plan_type, is_active, started_at, expires_at } = response.data.subscription;
+  const { plan_type, is_active, started_at, expires_at, usage, limit } = response.data.subscription;
 
   const baseSubscription = {
     isActive: is_active,
-    limit: 15000,
-    usage: 15000,
+    limit: limit,
+    usage: usage,
   };
   const isFreePlan = plan_type === PlanType.enum.FREE;
   if (isFreePlan) {
@@ -38,9 +38,15 @@ export async function getUserSubscription(userId: string): Promise<Subscription>
     expiresAt: new Date(expires_at),
   };
 }
-
+let usage = 150000;
 const getMockPlanResponse = (_userId: string) => {
-  return Promise.resolve(MockPlanResponse);
+  return new Promise<typeof MockPlanResponse>(resolve =>
+    setTimeout(() => {
+      MockPlanResponse.data.subscription.usage = usage;
+      usage += 20000;
+      resolve(MockPlanResponse);
+    }, 1500)
+  );
 };
 
 const MockPlanResponse: { data: GetUserSubscriptionResponseDto } = {
@@ -48,10 +54,10 @@ const MockPlanResponse: { data: GetUserSubscriptionResponseDto } = {
     subscription: {
       expires_at: new Date().getTime(), // milliseconds timestamp
       started_at: new Date().getTime(), // milliseconds timestamp
-      limit: 500000,
+      limit: 300000,
       usage: 150000,
       is_active: true,
-      plan_type: 'PRO',
+      plan_type: 'FREE',
     },
   },
 };

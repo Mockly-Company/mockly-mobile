@@ -1,7 +1,11 @@
 export * from './client';
 export * from './types';
-export * from './auth';
-export * as user from './user';
-export * as payment from './payment';
-export * as subscription from './subscription';
-export * as order from './order';
+import * as auth from './auth';
+import * as user from './user';
+import * as payment from './payment';
+import * as subscription from './subscription';
+import * as order from './order';
+import * as product from './product';
+
+export const api = { auth, user, payment, subscription, order, product };
+export default api;
