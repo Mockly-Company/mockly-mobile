@@ -8,14 +8,14 @@ import BottomSheet, {
 import { tw, Text } from '@mockly/design-system';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { useAuth } from '@features/auth/hooks';
+import { useSignIn } from '@features/auth/hooks';
 import { SignInButton } from '@features/auth/components/SignInButton';
 
 type LoginBottomSheetProps = Record<string, unknown>;
 
 export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
   (_, ref) => {
-    const { isLoading } = useAuth();
+    const { isPending } = useSignIn();
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const snapPoints = useMemo(() => ['30%'], []);
@@ -37,7 +37,7 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
         index={-1}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
-        enablePanDownToClose={!isLoading}
+        enablePanDownToClose={!isPending}
         backgroundStyle={tw`bg-white dark:bg-zinc-900`}
         handleIndicatorStyle={tw`bg-zinc-300 dark:bg-zinc-700`}
       >
@@ -57,7 +57,7 @@ export const LoginBottomSheet = forwardRef<BottomSheet, LoginBottomSheetProps>(
           <SignInButton provider="google" />
           <SignInButton provider="apple" />
 
-          {isLoading && (
+          {isPending && (
             <View
               style={tw`absolute inset-0 bg-white/80 dark:bg-zinc-900/80 items-center justify-center z-50`}
               accessible={true}

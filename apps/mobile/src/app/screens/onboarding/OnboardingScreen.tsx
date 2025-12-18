@@ -16,6 +16,7 @@ import {
 import { LoginBottomSheet } from './LoginBottomSheet';
 import { OnboardingCTA } from './components/OnboardingCTA';
 import { OnboardingSlide } from './components/OnboardingSlide';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export type OnboardingSlide = {
   id: string;
@@ -51,7 +52,7 @@ export const OnboardingScreen = () => {
     bottomSheetRef.current?.expand();
   }, []);
   return (
-    <View style={tw`flex-1 bg-white dark:bg-zinc-950`}>
+    <SafeAreaView style={tw`flex-1 bg-white dark:bg-zinc-950`}>
       <CarouselIndicator
         pageCount={slides.length}
         currentIndex={currentSlideIndex}
@@ -72,7 +73,7 @@ export const OnboardingScreen = () => {
         onCTAPress={handleOpenBottomSheet}
       />
       <LoginBottomSheet ref={bottomSheetRef} />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -100,23 +101,25 @@ const Footer = ({
     display: isButtonVisible.value ? 'none' : 'flex',
   }));
   return (
-    <FadeInAnimation
-      direction={'up'}
-      delay={400}
-      useSpring={true}
-      style={tw`absolute bottom-12 left-6 right-6`}
-    >
-      <OnboardingCTA isVisible={isButtonVisible} onPress={onCTAPress} />
-
-      <Animated.Text
-        style={[
-          tw`text-center text-zinc-500 dark:text-zinc-400 text-sm font-medium`,
-          textStyle,
-        ]}
+    <SafeAreaView>
+      <FadeInAnimation
+        direction={'up'}
+        delay={400}
+        useSpring={true}
+        style={tw`absolute left-6 right-6 bottom-6`}
       >
-        탭해서 계속하기
-      </Animated.Text>
-    </FadeInAnimation>
+        <OnboardingCTA isVisible={isButtonVisible} onPress={onCTAPress} />
+
+        <Animated.Text
+          style={[
+            tw`text-center text-zinc-500 dark:text-zinc-400 text-sm font-medium`,
+            textStyle,
+          ]}
+        >
+          탭해서 계속하기
+        </Animated.Text>
+      </FadeInAnimation>
+    </SafeAreaView>
   );
 };
 
