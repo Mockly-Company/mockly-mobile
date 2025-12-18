@@ -1,11 +1,11 @@
 import { useAuth } from '@features/auth/hooks';
-import { BottomTabNavigator } from './BottomTabNavigator';
-
-// import { useAuth } from '@features/auth/hooks';
-import { LandingNavigator } from './LandingNavigator';
+import { LoggedInNavigator } from './LoggedInNavigator';
+import { LoggedOutNavigator } from './LoggedOutNavigator';
+import { useProfileStore } from '@features/user';
 
 export const RootNavigator = () => {
   const { isAuthenticated } = useAuth();
-  // 인증 상태에 따른 화면 분기
-  return isAuthenticated ? <BottomTabNavigator /> : <LandingNavigator />;
+  const { isSigned } = useProfileStore();
+  const LoggedIn = isAuthenticated && isSigned;
+  return LoggedIn ? <LoggedInNavigator /> : <LoggedOutNavigator />;
 };
