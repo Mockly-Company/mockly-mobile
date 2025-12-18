@@ -7,7 +7,7 @@ interface UserResDTO {
   name: string;
 }
 
-export async function getCurrentUser(): Promise<User> {
+export async function getCurrentUser(): Promise<Omit<User, 'provider'>> {
   const res = await apiClient.get<UserResDTO>('/users/me');
   const dto = res.data;
   return {
