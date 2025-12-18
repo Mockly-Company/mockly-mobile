@@ -8,3 +8,4 @@ export * from './Indicator';
 export * from './Input';
 export * from './Text';
 export * from './Icon';
+export * from './Progress';
