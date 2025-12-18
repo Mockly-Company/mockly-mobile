@@ -24,14 +24,6 @@ export interface DeviceInfo {
   deviceName: string;
 }
 
-const AuthProviderSchema = z.enum(['google', 'apple', 'naver', 'kakao', 'github']);
-
-export const AuthUserSchema = z.object({
-  id: z.string(),
-  email: z.string(),
-  name: z.string(),
-  provider: AuthProviderSchema,
-});
+export const AuthProviderSchema = z.enum(['google', 'apple', 'naver', 'kakao', 'github']);
 
 export type AuthProvider = z.infer<typeof AuthProviderSchema>;
-export type AuthUser = z.infer<typeof AuthUserSchema>;

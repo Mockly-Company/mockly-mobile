@@ -8,13 +8,14 @@ import { createMMKV } from 'react-native-mmkv';
 import * as Keychain from 'react-native-keychain';
 import { logger } from '@shared/utils/logger';
 
-import { AccessRefreshToken, AuthUser, AuthUserSchema } from '@mockly/domain';
-import { AppError, ErrorCoverage } from '@shared/errors';
+import { AccessRefreshToken, AuthProvider } from '@mockly/domain';
+
 const storage = createMMKV({ id: 'token-storage' });
 
 const ACCESS_TOKEN_KEY = 'access_token';
 const REFRESH_TOKEN_SERVICE = 'mockly.refresh_token';
 const USER_INFO_KEY = 'user_info';
+const PROVIDER_KEY = 'provider';
 const saveAccessToken = (accessToken: string): void => {
   storage.set(ACCESS_TOKEN_KEY, accessToken);
 };
@@ -61,6 +62,7 @@ const clear = async (): Promise<void> => {
   try {
     storage.remove(ACCESS_TOKEN_KEY);
     storage.remove(USER_INFO_KEY);
+    storage.remove(PROVIDER_KEY);
     await Keychain.resetGenericPassword({
       service: REFRESH_TOKEN_SERVICE,
     });
@@ -89,26 +91,15 @@ const getTokens = async (): Promise<{
 
   return { accessToken, refreshToken };
 };
-const saveUser = (user: AuthUser) => {
-  storage.set(USER_INFO_KEY, JSON.stringify(user));
+
+const saveProfivder = (prodiver: AuthProvider) => {
+  storage.set(PROVIDER_KEY, prodiver);
 };
 
-const getUser = (): AuthUser | null => {
-  const userString = storage.getString(USER_INFO_KEY);
-  if (userString) {
-    try {
-      const parsed = JSON.parse(userString);
-      return AuthUserSchema.parse(parsed);
-    } catch {
-      clear();
-      throw new AppError(
-        '저장된 사용자 정보가 손상되었습니다.',
-        ErrorCoverage.NONE,
-        '사용자 정보 파싱 실패',
-      );
-    }
-  }
-  return null;
+const getProvider = (): AuthProvider | null => {
+  const provider = storage.getString(PROVIDER_KEY) as AuthProvider;
+
+  return provider ?? null;
 };
 /**
  * 토큰 스토리지 API
@@ -128,6 +119,6 @@ export const localStorage = {
   saveRefreshToken,
   /** Refresh Token 가져오기 (Keychain) */
   getRefreshToken,
-  saveUser,
-  getUser,
+  saveProfivder,
+  getProvider,
 };

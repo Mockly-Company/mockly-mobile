@@ -1,11 +1,13 @@
+import z from 'zod';
 import { PlanType } from '../product';
 
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-}
+export const User = z.object({
+  id: z.string(),
+  email: z.string(),
+  name: z.string(),
+});
 
+export type User = z.infer<typeof User>;
 export interface UserProfile {
   user: User;
   subscription: {
