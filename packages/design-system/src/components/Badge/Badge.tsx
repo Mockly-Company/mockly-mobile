@@ -88,7 +88,7 @@ export interface BadgeProps
   extends ViewProps,
     Omit<VariantProps<typeof badgeContainer>, 'color'>,
     PropsWithChildren {
-  color?: 'primary' | 'success' | 'warning' | 'neutral';
+  color?: 'primary' | 'success' | 'warning' | 'neutral' | 'error';
 }
 
 export const Badge: React.FC<BadgeProps> = ({
