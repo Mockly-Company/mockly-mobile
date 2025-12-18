@@ -5,6 +5,7 @@ import {
 } from '@shared/utils/timeFormatter';
 import { View } from 'react-native';
 import { InterviewLog } from '../../../../features/interview/store';
+import { PropsWithChildren } from 'react';
 type InterviewCardProps = {
   item: InterviewLog;
 };
@@ -23,31 +24,29 @@ export const InterviewCard = ({ item }: InterviewCardProps) => {
     >
       <View style={tw`flex-row justify-between items-center py-sm px-md`}>
         <View>
-          <Text variant="body" style={tw`font-bold text-text dark:text-white`}>
-            {item.title}
-          </Text>
-          <Text
-            variant="caption"
-            style={tw`text-text-secondary dark:text-text-secondary-dark`}
-          >
-            {`${relative} · ${formattedDuration} 소요`}
-          </Text>
+          <Title>{item.title}</Title>
+          <MetaInfo>{`${relative} · ${formattedDuration} 소요`}</MetaInfo>
         </View>
-        <ScoreBadge score={item.score} color="success" />
+        <Badge variant="soft" color={'success'} size="sm">
+          {item.score}점
+        </Badge>
       </View>
     </Card>
   );
 };
 
-// 추후 점수별 색상 변경 로직이 생길 수 있어서 별도로 분리해둠.
-const ScoreBadge = ({
-  score,
-  color,
-}: {
-  score: number;
-  color: 'primary' | 'success' | 'warning' | 'neutral';
-}) => (
-  <Badge variant="soft" color={color} size="sm">
-    {score}점
-  </Badge>
-);
+const Title = ({ children }: PropsWithChildren) => {
+  return (
+    <Text variant="body" style={tw`font-bold text-text dark:text-white`}>
+      {children}
+    </Text>
+  );
+};
+
+const MetaInfo = ({ children }: PropsWithChildren) => {
+  return (
+    <Text variant="caption" color="textSecondary">
+      {children}
+    </Text>
+  );
+};
