@@ -13,12 +13,35 @@ jest.mock('react-native-nitro-modules', () => {
     },
   };
 });
+require('react-native-reanimated').setUpTests();
+jest.mock('react-native-svg', () => require('react-native-reanimated/mock'));
 const mockRNDeviceInfo = require('react-native-device-info/jest/react-native-device-info-mock.js');
 jest.mock('react-native-device-info', () => mockRNDeviceInfo);
 
 // Custom native modules
 const mockRNCNetInfo = require('@react-native-community/netinfo/jest/netinfo-mock.js');
 jest.mock('@react-native-community/netinfo', () => mockRNCNetInfo);
+
+jest.mock('react-native-screens', () => {
+  // Require actual module instead of a mock
+  let screens = jest.requireActual('react-native-screens');
+
+  // All exports in react-native-screens are getters
+  // We cannot use spread for cloning as it will call the getters
+  // So we need to clone it with Object.create
+  screens = Object.create(
+    Object.getPrototypeOf(screens),
+    Object.getOwnPropertyDescriptors(screens),
+  );
+
+  // Add mock of the component you need
+  // Here is the example of mocking the Screen component as a View
+  Object.defineProperty(screens, 'Screen', {
+    value: require('react-native').View,
+  });
+
+  return screens;
+});
 
 // 토스트 메시지 관련 mock 설정
 jest.mock('react-native-toast-message', () => ({

@@ -1,26 +1,109 @@
-import { View } from 'react-native';
-import { tw, Text } from '@mockly/design-system';
-import { useLoggedInAuth } from '@features/auth/hooks';
-import { capitalize } from '@shared/utils/stringUtils';
+import { View, ScrollView, TouchableOpacityProps } from 'react-native';
+import { tw, Text, Button, Spacer } from '@mockly/design-system';
+
+import { SubscriptionCard, TokenUsageCard } from '@features/subscription';
 import { LogoutButton } from '@features/auth/components/LogoutButton';
+import { useNavigation } from '@react-navigation/native';
+
+import { useProductBottomSheet } from '../product/ProductBottomSheetProvider';
+import { useUserProfile } from '@features/user';
+import { useQueryClient } from '@tanstack/react-query';
+import { queries } from '@shared/api/QueryKeys';
+import { useRefreshControl } from '@shared/hooks/useRefreshConftrol';
 
 export const MyPageScreen = () => {
-  const { user } = useLoggedInAuth();
+  const { user, subscription } = useUserProfile();
+  const isPaidPlan = subscription.planType !== 'FREE';
+
+  const { expand } = useProductBottomSheet();
+  const handleUpgrade = () => {
+    expand();
+  };
+
+  const navigation = useNavigation();
+  const handleViewHistory = () => {
+    navigation.navigate('Payments', { screen: 'PaymentHistory' });
+  };
+  const handleCancelSubscription = () => {
+    navigation.navigate('Subscription', { screen: 'SubscriptionCancel' });
+  };
+
+  const queryClient = useQueryClient();
+  const RefreshControl = useRefreshControl(async () => {
+    await queryClient.invalidateQueries({
+      queryKey: queries.subscription.detail._def,
+    });
+  });
 
   return (
-    <View style={tw`flex-1 justify-center items-center p-5`}>
-      <View style={tw`items-center mb-8`}>
-        <Text variant="h2" color="text" style={tw`mb-2`}>
-          {user.name || '이름 없음'}
-        </Text>
-        <Text variant="body" color="textSecondary" style={tw`mb-1`}>
-          {user.email}
-        </Text>
-        <Text variant="caption" color="textSecondary">
-          {capitalize(user.provider)} 로그인
-        </Text>
-      </View>
+    <ScrollView
+      style={tw`flex-1`}
+      contentContainerStyle={tw`pb-8 px-4 gap-4`}
+      showsVerticalScrollIndicator={false}
+      refreshControl={RefreshControl}
+    >
+      <Spacer size="2xl" />
+      <UserBaseProfile />
+
+      <SubscriptionCard userId={user.id} />
+
+      <TokenUsageCard userId={user.id} />
+
+      {isPaidPlan && <SubscriptionChange handlePromotion={handleUpgrade} />}
+
+      {isPaidPlan && (
+        <CancelSubscription handleCancel={handleCancelSubscription} />
+      )}
+
+      <PaymentHistoryButton onPress={handleViewHistory} />
       <LogoutButton />
+    </ScrollView>
+  );
+};
+
+const UserBaseProfile = () => {
+  const { user } = useUserProfile();
+  return (
+    <View style={tw`items-center`}>
+      <Text variant="h2" color="text" style={tw`mb-2`}>
+        {user.name || '이름 없음'}
+      </Text>
+      <Text variant="body" color="textSecondary" style={tw`mb-1`}>
+        {user.email}
+      </Text>
     </View>
+  );
+};
+
+type SubscriptionChangeProps = {
+  handlePromotion: TouchableOpacityProps['onPress'];
+};
+const SubscriptionChange = ({ handlePromotion }: SubscriptionChangeProps) => {
+  return (
+    <Button onPress={handlePromotion}>
+      <Button.Text>플랜 변경</Button.Text>
+    </Button>
+  );
+};
+
+interface PaymentHistoryButtonProps {
+  onPress: TouchableOpacityProps['onPress'];
+}
+const PaymentHistoryButton = ({ onPress }: PaymentHistoryButtonProps) => {
+  return (
+    <Button onPress={onPress} variant="outline" style={tw`w-full`}>
+      <Button.Text>결제 내역 보기</Button.Text>
+    </Button>
+  );
+};
+
+type CancelSubscription = {
+  handleCancel: TouchableOpacityProps['onPress'];
+};
+const CancelSubscription = ({ handleCancel }: CancelSubscription) => {
+  return (
+    <Button variant="error" onPress={handleCancel}>
+      <Button.Text>구독 취소</Button.Text>
+    </Button>
   );
 };

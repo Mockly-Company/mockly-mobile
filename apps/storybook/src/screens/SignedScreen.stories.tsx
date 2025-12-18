@@ -1,11 +1,11 @@
 import type {Meta, StoryObj} from '@storybook/react';
-import {BottomTabNavigator} from '@mobile/app/navigation/BottomTabNavigator';
+import {TabNavigator} from '@mobile/app/navigation/TabNavigator/TabNavigator';
 import {MockProviders} from './mocks/MockProviders';
 
 const SignedScreenWithProvider = () => {
   return (
     <MockProviders initialAuthState="authenticated">
-      <BottomTabNavigator />
+      <TabNavigator />
     </MockProviders>
   );
 };
@@ -34,7 +34,7 @@ const meta: Meta = {
   globals: {
     viewport: {value: 'iphone6', isRotated: false},
   },
-} satisfies Meta<typeof BottomTabNavigator>;
+} satisfies Meta<typeof TabNavigator>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

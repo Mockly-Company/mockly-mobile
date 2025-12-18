@@ -3,8 +3,12 @@ import { ComponentProps, createRef } from 'react';
 import { SubscriptionProduct, User } from '@mockly/domain';
 
 import { tw } from '@mockly/design-system';
+import { PAYMENT_PG_STORE_ID, PAYMENT_PG_CHANNEL_KEY } from '@env';
 
 type IssueBillingKeyProps = ComponentProps<typeof IssueBillingKey>;
+
+const STORE_KEY = PAYMENT_PG_STORE_ID;
+const CHANNEL_KEY = PAYMENT_PG_CHANNEL_KEY;
 
 type PaymentProps = {
   user: User;
@@ -46,8 +50,8 @@ export const SubscriptionPayment = ({
         },
         issueId: paymentId,
         issueName: paymentProductProps.orderName,
-        storeId: 'STORE_KEY_PLACEHOLDER',
-        channelKey: 'CHANNEL_KEY_PLACEHOLDER',
+        storeId: STORE_KEY,
+        channelKey: CHANNEL_KEY,
         ...paymentProductProps,
         billingKeyMethod: 'CARD',
         productType: 'PRODUCT_TYPE_DIGITAL',

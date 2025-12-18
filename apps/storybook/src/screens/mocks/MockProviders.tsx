@@ -1,6 +1,9 @@
 import React from 'react';
 import {GlobalErrorBoundary} from '@mobile/shared/errors/boundaries/GlobalErrorBoundary';
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  createNavigationContainerRef,
+  NavigationContainer,
+} from '@react-navigation/native';
 import {StatusBar, useWindowDimensions} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
@@ -8,9 +11,10 @@ import {Toast} from '@mobile/app/components/Toast/Toast';
 import {useAuthStore} from '@mobile/features/auth/store';
 import {useEffect, useState} from 'react';
 
-import {navigationRef} from '@mobile/app/navigation/utils/navigate';
 import {useMockDeviceColorScheme} from './useMockDeviceColorScheme';
-
+import {LoggedInStackParamList} from '@mobile/app/navigation/types';
+export const navigationRef =
+  createNavigationContainerRef<LoggedInStackParamList>();
 type MockProvidersProps = {
   children: React.ReactNode;
   /** Storybook용 초기 인증 상태 설정 */
@@ -51,7 +55,7 @@ export const MockProviders = ({
         user: null,
       });
     }
-  }, [initialAuthState]);
+  }, [initialAuthState, authStore]);
 
   if (!isReady) {
     return null;
