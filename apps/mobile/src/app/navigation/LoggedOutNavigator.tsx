@@ -1,12 +1,9 @@
 import { OnboardingScreen } from '@app/screens/onboarding/OnboardingScreen';
 import { createStackNavigator } from '@react-navigation/stack';
+import { LoggedOutStackParamList } from './types';
 
-export type LandingStackParamList = {
-  Onboarding: undefined;
-  Landing: undefined;
-};
-const Stack = createStackNavigator<LandingStackParamList>();
-export const LandingNavigator = () => {
+const Stack = createStackNavigator<LoggedOutStackParamList>();
+export const LoggedOutNavigator = () => {
   return (
     <Stack.Navigator
       initialRouteName="Landing"
