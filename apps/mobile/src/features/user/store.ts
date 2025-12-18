@@ -1,10 +1,10 @@
-import { AuthUser, UserProfile } from '@mockly/domain';
+import { User, UserProfile } from '@mockly/domain';
 import { create } from 'zustand';
 
 type ProfileState = SignedProfileState | UnSignedProfileState;
 
 type SignedProfileState = {
-  user: ProfileUser;
+  user: User;
   subscription: ProfileSubscription;
   isSigned: true;
 };
@@ -14,12 +14,11 @@ type UnSignedProfileState = {
   isSigned: false;
 };
 
-type ProfileUser = AuthUser;
 type ProfileSubscription = UserProfile['subscription'];
 
 interface ProfileActions {
-  clear: () => void;
-  initialize: (user: ProfileUser, subscription: ProfileSubscription) => void;
+  clearProfile: () => void;
+  setProfile: (user: User, subscription: ProfileSubscription) => void;
 }
 
 type ProfileStore = ProfileState & ProfileActions;
@@ -27,10 +26,10 @@ type ProfileStore = ProfileState & ProfileActions;
 export const useProfileStore = create<ProfileStore>(set => ({
   ...initialStoreState,
 
-  initialize: (user, subscription) => {
+  setProfile: (user, subscription) => {
     set({ user, subscription, isSigned: true });
   },
-  clear: () => {
+  clearProfile: () => {
     set(initialStoreState);
   },
 }));

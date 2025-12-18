@@ -11,20 +11,18 @@ import type { AuthProvider } from './types';
 import { AppError, ErrorCoverage } from '@shared/errors';
 import { logger } from '@shared/utils/logger';
 import { localStorage } from './localStorage';
-import { logout, renewalToken } from '@mockly/api';
-import { AccessRefreshToken, AuthUser } from '@mockly/domain';
+import api from '@mockly/api';
+import { AccessRefreshToken } from '@mockly/domain';
 import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';
 type AuthState = LoginAuthState | LogoutAuthState;
 type LoginAuthState = {
-  user: AuthUser;
-  isLoading: boolean;
+  provider: AuthProvider;
   isAuthenticated: true;
   error?: Error | null | unknown;
 };
 
 type LogoutAuthState = {
-  user: null;
-  isLoading: boolean;
+  provider: null;
   isAuthenticated: false;
   error?: Error | null | unknown;
 };
@@ -32,8 +30,7 @@ type LogoutAuthState = {
 interface AuthActions {
   signIn: (provider: AuthProvider) => Promise<string | null>;
   signOut: () => Promise<void>;
-  initialize: () => Promise<void | AuthUser>;
-  setLoading: (isLoading: boolean) => void;
+  initialize: () => Promise<AuthProvider | void>;
   clearError: () => void;
   setError: (error: Error | null | unknown) => void;
   refreshToken: () => Promise<boolean>;
@@ -52,21 +49,16 @@ interface AuthActions {
 type AuthStore = AuthState & AuthActions;
 
 const initialStoreState: AuthState = {
-  user: null,
-  isLoading: false,
+  provider: null,
   isAuthenticated: false,
 };
 
 // Third Party 인증 서비스 때문에 에러 직접 관리 필요. 에러 관련 상태 관리 수정시 주의.
 export const useAuthStore = create<AuthStore>((set, get) => ({
   // 초기 상태
-  user: null,
-  isLoading: false,
+  provider: null,
   isAuthenticated: false,
   error: null,
-
-  // 로딩 상태 설정
-  setLoading: (isLoading: boolean) => set({ isLoading }),
 
   initialize: async () => {
     try {
@@ -75,17 +67,16 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         set(initialStoreState);
         return;
       }
-      const user = localStorage.getUser();
-      if (!user) {
+      const provider = localStorage.getProvider();
+      if (!provider) {
         set(initialStoreState);
         return;
       }
       set({
         isAuthenticated: true,
-        isLoading: false,
-        user,
+        provider: provider,
       });
-      return user;
+      return provider;
     } catch (err) {
       logger.logException(err, { context: '초기화 실패' });
       set(initialStoreState);
@@ -95,7 +86,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
   // 로그인
   signIn: async (provider: AuthProvider) => {
-    set({ isLoading: true, error: null });
+    set({ error: null });
     try {
       const authService = getAuthService(provider);
 
@@ -104,7 +95,6 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
 
       const userCanceled = pkceResult === null;
       if (userCanceled) {
-        set({ isLoading: false });
         return null;
       }
 
@@ -120,28 +110,16 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
       });
-      localStorage.saveUser({
-        ...tokens.user,
-        provider,
-      });
-
-      // 4. 사용자 정보 상태 업데이트
-      const authUser: AuthUser = {
-        id: tokens.user.id,
-        email: tokens.user.email,
-        name: tokens.user.name,
-        provider,
-      };
+      localStorage.saveProfivder(provider);
 
       set({
-        user: authUser,
+        provider: provider,
         isAuthenticated: true,
-        isLoading: false,
       });
 
-      return authUser.name || '고객';
+      return provider;
     } catch (error) {
-      set({ isLoading: false, error });
+      set({ error });
       throw error;
     }
   },
@@ -149,13 +127,13 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   // 로그아웃
   signOut: async () => {
     try {
-      const { user, isAuthenticated } = get();
-      if (!isAuthenticated || !user) {
+      const { provider, isAuthenticated } = get();
+      if (!isAuthenticated || !provider) {
         return;
       }
       const refreshToken = await get().getRefreshToken();
       if (!refreshToken) return;
-      logout(refreshToken).catch();
+      api.auth.logout(refreshToken).catch();
     } finally {
       await get().clearTokens();
       set(initialStoreState);
@@ -176,7 +154,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         deviceId: deviceInfoFromUtil.getDevice(),
         deviceName: await deviceInfoFromUtil.getDeviceName(),
       };
-      const newTokens = await renewalToken(refreshToken, deviceInfo);
+      const newTokens = await api.auth.renewalToken(refreshToken, deviceInfo);
       await get().saveTokens(newTokens);
 
       return true;

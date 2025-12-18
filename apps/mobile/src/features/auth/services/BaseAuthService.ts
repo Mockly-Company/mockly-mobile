@@ -7,7 +7,7 @@ import {
 import type { AuthConfig, AuthorizationResult, AuthProvider } from '../types';
 import { AppError, ErrorCoverage } from '@shared/errors';
 import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';
-import { loginWithPKCECode, logout, renewalToken } from '@mockly/api';
+import api from '@mockly/api';
 import { capitalize } from '@shared/utils/stringUtils';
 import { localStorage } from '../localStorage';
 
@@ -39,7 +39,7 @@ export abstract class BaseAuthService {
       // TODO: 추후 없어질 예정.
       const locationInfo: LocationInfo = { latitude: 0, longitude: 0 };
 
-      const data = await loginWithPKCECode(
+      const data = await api.auth.loginWithPKCECode(
         {
           code: authorizationCode,
           codeVerifier,
@@ -80,7 +80,7 @@ export abstract class BaseAuthService {
       deviceId: deviceInfoFromUtil.getDevice(),
       deviceName: await deviceInfoFromUtil.getDeviceName(),
     };
-    const data = await renewalToken(refreshToken, deviceInfo);
+    const data = await api.auth.renewalToken(refreshToken, deviceInfo);
     if (!data)
       throw new AppError(
         '서버로부터 갱신된 토큰을 획득하지 못했습니다.',
@@ -93,7 +93,7 @@ export abstract class BaseAuthService {
   async logout(): Promise<boolean> {
     try {
       const refreshToken = await localStorage.getRefreshToken();
-      if (refreshToken) await logout(refreshToken);
+      if (refreshToken) await api.auth.logout(refreshToken);
       return true;
     } catch (err) {
       throw err;

@@ -4,7 +4,7 @@ import { AppError, ErrorCoverage } from '@shared/errors';
 
 export const useInitializeProfile = () => {
   const initializeProfile = useProfileStore(
-    useShallow(state => state.initialize),
+    useShallow(state => state.setProfile),
   );
 
   return initializeProfile;
@@ -18,6 +18,7 @@ export const useUserProfile = () => {
       isSigned: state.isSigned,
     })),
   );
+  console.log(user, subscription, isSigned, '뭐냐');
   if (!user || !subscription || !isSigned) {
     throw new AppError(
       '프로필 정보가 없습니다.',
@@ -26,5 +27,5 @@ export const useUserProfile = () => {
     );
   }
 
-  return { user, subscription };
+  return { user, subscription, isSigned };
 };
