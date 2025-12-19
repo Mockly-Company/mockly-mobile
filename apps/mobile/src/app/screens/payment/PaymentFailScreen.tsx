@@ -39,11 +39,23 @@ export const PaymentFailScreen = ({ navigation }: Props) => {
 
       {/* Actions */}
       <View style={tw`w-full max-w-sm gap-3`}>
-        <Button variant="primary" size="large" onPress={handleRetry}>
+        <Button
+          variant="primary"
+          size="large"
+          onPress={handleRetry}
+          accessibilityLabel="상품 선택 화면"
+          accessibilityHint="다시 상품 선택 화면으로 이동합니다"
+        >
           <Button.Text>다시 시도</Button.Text>
         </Button>
 
-        <Button variant="outline" size="large" onPress={handleGoBack}>
+        <Button
+          variant="outline"
+          size="large"
+          onPress={handleGoBack}
+          accessibilityLabel="결제 취소"
+          accessibilityHint="다시 상품 선택 화면으로 이동합니다"
+        >
           <Button.Text>취소</Button.Text>
         </Button>
       </View>

@@ -235,7 +235,12 @@ const PaymentButton = ({
   isLoading,
 }: PaymentButtonProps) => {
   return (
-    <Button onPress={onPress} disabled={disabled}>
+    <Button
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityLabel="결제 진행"
+      accessibilityHint="선택한 플랜으로 결제를 진행합니다"
+    >
       <Button.Text>{isLoading ? '처리 중...' : '결제하기'}</Button.Text>
     </Button>
   );
@@ -246,7 +251,13 @@ type CancelButtonProps = {
 };
 const CancelButton = ({ onPress, disabled }: CancelButtonProps) => {
   return (
-    <Button variant="outline" onPress={onPress} disabled={disabled}>
+    <Button
+      variant="outline"
+      onPress={onPress}
+      disabled={disabled}
+      accessibilityLabel="결제 취소"
+      accessibilityHint="결제를 취소합니다"
+    >
       <Button.Text>취소</Button.Text>
     </Button>
   );

@@ -46,7 +46,7 @@ export const queries = createQueryKeyStore({
   product: {
     all: null,
     list: () => ({
-      queryKey: [''],
+      queryKey: ['list'],
       queryFn: api.product.getProducts,
     }),
   },

@@ -1,6 +1,5 @@
 import { tw } from '@mockly/design-system';
 
-import { Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import type { StackScreenProps } from '@react-navigation/stack';
 
@@ -35,9 +34,8 @@ export const SubscriptionPaymentScreen = ({
             planType: planType,
           }}
           paymentId={paymentUid}
-          onError={error => {
+          onError={() => {
             navigation.popTo('PaymentFail');
-            Alert.alert('실패', error.message);
           }}
           onComplete={complete => {
             const pgCode = complete.pgCode;

@@ -92,7 +92,7 @@ const getTokens = async (): Promise<{
   return { accessToken, refreshToken };
 };
 
-const saveProfivder = (prodiver: AuthProvider) => {
+const saveProivder = (prodiver: AuthProvider) => {
   storage.set(PROVIDER_KEY, prodiver);
 };
 
@@ -119,6 +119,6 @@ export const localStorage = {
   saveRefreshToken,
   /** Refresh Token 가져오기 (Keychain) */
   getRefreshToken,
-  saveProfivder,
+  saveProivder,
   getProvider,
 };

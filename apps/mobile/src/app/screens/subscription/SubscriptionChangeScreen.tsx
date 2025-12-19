@@ -139,12 +139,23 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
         </View>
 
         <View style={tw`gap-3`}>
-          <Button onPress={handleConfirmChange} disabled={isPending}>
+          <Button
+            onPress={handleConfirmChange}
+            disabled={isPending}
+            accessibilityLabel="구독 변경 요청"
+            accessibilityHint="구독 변경을 요청합니다"
+          >
             <Button.Text>
               {isPending ? '변경 중...' : '플랜 변경하기'}
             </Button.Text>
           </Button>
-          <Button variant="outline" onPress={handleCancel} disabled={isPending}>
+          <Button
+            variant="outline"
+            onPress={handleCancel}
+            disabled={isPending}
+            accessibilityLabel="변경 취소"
+            accessibilityHint="구독 변경을 취소합니다."
+          >
             <Button.Text>취소</Button.Text>
           </Button>
         </View>

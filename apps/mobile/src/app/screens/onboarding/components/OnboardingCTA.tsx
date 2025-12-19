@@ -22,6 +22,8 @@ export const OnboardingCTA: React.FC<OnboardingCTAProps> = ({
         size="medium"
         style={tw`w-full bg-primary dark:bg-primary-dark shadow-xl`}
         onPress={onPress}
+        accessibilityLabel="면접 연습"
+        accessibilityHint="면접 연습화면 이동"
       >
         <Button.Text
           style={tw`text-white dark:text-zinc-900 font-bold text-lg`}

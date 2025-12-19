@@ -4,11 +4,7 @@ import { SubscriptionProduct, User } from '@mockly/domain';
 
 import { tw } from '@mockly/design-system';
 import { PAYMENT_PG_STORE_ID, PAYMENT_PG_CHANNEL_KEY } from '@env';
-
 type PaymentProps = ComponentProps<typeof Payment>;
-
-const STORE_KEY = PAYMENT_PG_STORE_ID;
-const CHANNEL_KEY = PAYMENT_PG_CHANNEL_KEY;
 
 type SinglePaymentProps = {
   user: User;
@@ -17,6 +13,8 @@ type SinglePaymentProps = {
   onError: PaymentProps['onError'];
   onComplete: PaymentProps['onComplete'];
 };
+const STORE_KEY = PAYMENT_PG_STORE_ID;
+const CHANNEL_KEY = PAYMENT_PG_CHANNEL_KEY;
 
 export const SinglePayment = ({
   user,

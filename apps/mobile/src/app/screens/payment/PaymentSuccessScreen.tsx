@@ -50,11 +50,23 @@ export const PaymentSuccessScreen = ({}: Props) => {
 
       {/* Actions */}
       <View style={tw`w-full max-w-sm gap-3`}>
-        <Button variant="primary" size="large" onPress={handleGoHome}>
+        <Button
+          variant="primary"
+          size="large"
+          onPress={handleGoHome}
+          accessibilityLabel="홈"
+          accessibilityHint="홈 화면으로 이동합니다"
+        >
           <Button.Text>홈으로</Button.Text>
         </Button>
 
-        <Button variant="outline" size="large" onPress={handleViewHistory}>
+        <Button
+          variant="outline"
+          size="large"
+          onPress={handleViewHistory}
+          accessibilityLabel="결제 내역"
+          accessibilityHint="결제 내역 화면으로 이동합니다"
+        >
           <Button.Text>결제 내역 보기</Button.Text>
         </Button>
       </View>
