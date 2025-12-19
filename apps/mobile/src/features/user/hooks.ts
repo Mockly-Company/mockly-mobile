@@ -18,7 +18,6 @@ export const useUserProfile = () => {
       isSigned: state.isSigned,
     })),
   );
-  console.log(user, subscription, isSigned, '뭐냐');
   if (!user || !subscription || !isSigned) {
     throw new AppError(
       '프로필 정보가 없습니다.',

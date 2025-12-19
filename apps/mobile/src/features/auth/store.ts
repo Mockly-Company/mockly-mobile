@@ -110,7 +110,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
         accessToken: tokens.accessToken,
         refreshToken: tokens.refreshToken,
       });
-      localStorage.saveProivder(provider);
+      localStorage.saveProvider(provider);
 
       set({
         provider: provider,
