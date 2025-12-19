@@ -18,6 +18,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import api from '@mockly/api';
 import { queries } from '@shared/api/QueryKeys';
+import dayjs from 'dayjs';
 
 type Props = StackScreenProps<SubscriptionParamList, 'Subscribe'>;
 
@@ -191,13 +192,7 @@ const PaymentDetail = ({ price }: { price: number }) => {
           다음 결제일
         </Text>
         <Text variant="body">
-          {new Date(
-            new Date().setMonth(new Date().getMonth() + 1),
-          ).toLocaleDateString('ko-KR', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
+          {dayjs().add(1, 'month').format('YYYY년 M월 D일')}
         </Text>
       </View>
       <View style={tw`flex-row justify-between`}>

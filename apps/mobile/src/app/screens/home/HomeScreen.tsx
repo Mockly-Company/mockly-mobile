@@ -14,6 +14,7 @@ import { useUserProfile } from '@features/user';
 import { PlanType } from '@mockly/domain';
 import { HomeSection } from './components/HomeSection';
 import React from 'react';
+import { toast } from '@shared/utils/toast';
 
 export const HomeScreen = () => {
   const { recentLogs } = useInterviewStore();
@@ -78,7 +79,9 @@ export const HomeScreen = () => {
               icon={item.icon}
               title={item.title}
               description={item.description}
-              onPress={() => {}}
+              onPress={() => {
+                toast.info('준비중');
+              }}
             />
           )}
           delay={300}
