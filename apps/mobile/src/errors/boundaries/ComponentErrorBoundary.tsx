@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react';
 
-import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { ComponentErrorFallback, ResourceNotFoundFallback } from '../fallback';
 import { AppError } from '../AppError';
-import { logger } from '@shared/utils/logger';
+import { logger } from '@utils/logger';
 
 interface Props {
   children: ReactNode;
@@ -48,18 +48,7 @@ export function ComponentErrorBoundary({
 
   return (
     <ErrorBoundary
-      FallbackComponent={({ error }) => {
-        // ApiError의 404는 ResourceNotFoundFallback
-        if (AppError.isApiError(error) && error.hasNoResource) {
-          return <ResourceNotFoundFallback message={error.message} />;
-        }
-        // 기타 에러는 ComponentErrorFallback
-        return (
-          <ComponentErrorFallback
-            message={error.displayMessage || error.message}
-          />
-        );
-      }}
+      FallbackComponent={ComponentErrorFallbackWrapper}
       resetKeys={[remountKey]}
       onReset={handleReset}
       onError={handleError}
@@ -68,3 +57,14 @@ export function ComponentErrorBoundary({
     </ErrorBoundary>
   );
 }
+
+const ComponentErrorFallbackWrapper = ({ error }: FallbackProps) => {
+  // ApiError의 404는 ResourceNotFoundFallback
+  if (AppError.isApiError(error) && error.hasNoResource) {
+    return <ResourceNotFoundFallback message={error.message} />;
+  }
+  // 기타 에러는 ComponentErrorFallback
+  return (
+    <ComponentErrorFallback message={error.displayMessage || error.message} />
+  );
+};

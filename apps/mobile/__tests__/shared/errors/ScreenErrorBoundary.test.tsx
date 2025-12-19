@@ -5,8 +5,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
-import { ScreenErrorBoundary } from '@shared/errors/boundaries/ScreenErrorBoundary';
-import { AppError, ErrorCoverage, ErrorCode } from '@shared/errors/AppError';
+import { ScreenErrorBoundary } from '@errors/boundaries/ScreenErrorBoundary';
+import { AppError, ErrorCoverage, ErrorCode } from '@errors/AppError';
 
 const ThrowError: React.FC<{ error: Error }> = ({ error }) => {
   throw error;
@@ -25,7 +25,7 @@ describe('ScreenErrorBoundary', () => {
   describe('정상 렌더링', () => {
     it('에러가 없을 때 children을 정상 렌더링해야 함', () => {
       render(
-        <ScreenErrorBoundary screenName="TestScreen">
+        <ScreenErrorBoundary>
           <Text>정상 컴포넌트</Text>
         </ScreenErrorBoundary>,
       );
@@ -44,33 +44,13 @@ describe('ScreenErrorBoundary', () => {
       );
 
       render(
-        <ScreenErrorBoundary screenName="HomeScreen">
+        <ScreenErrorBoundary>
           <ThrowError error={error} />
         </ScreenErrorBoundary>,
       );
 
       expect(screen.getByText('화면을 불러올 수 없습니다')).toBeTruthy();
-      expect(
-        screen.getByText(/HomeScreen 화면 로드 중 문제가 발생했습니다/),
-      ).toBeTruthy();
-    });
-
-    it('screenName이 Fallback UI에 표시되어야 함', () => {
-      const error = new AppError(
-        new Error('Error'),
-        ErrorCoverage.SCREEN,
-        '에러 메시지',
-      );
-
-      render(
-        <ScreenErrorBoundary screenName="ProfileScreen">
-          <ThrowError error={error} />
-        </ScreenErrorBoundary>,
-      );
-
-      expect(
-        screen.getByText(/ProfileScreen 화면 로드 중 문제가 발생했습니다/),
-      ).toBeTruthy();
+      expect(screen.getByText(/화면 로드 중 문제가 발생했습니다/)).toBeTruthy();
     });
 
     it('다시 시도 버튼이 렌더링되어야 함', () => {
@@ -81,7 +61,7 @@ describe('ScreenErrorBoundary', () => {
       );
 
       render(
-        <ScreenErrorBoundary screenName="TestScreen">
+        <ScreenErrorBoundary>
           <ThrowError error={error} />
         </ScreenErrorBoundary>,
       );
@@ -104,7 +84,7 @@ describe('ScreenErrorBoundary', () => {
       };
 
       render(
-        <ScreenErrorBoundary screenName="TestScreen">
+        <ScreenErrorBoundary>
           <RetryableComponent />
         </ScreenErrorBoundary>,
       );
@@ -121,7 +101,7 @@ describe('ScreenErrorBoundary', () => {
 
   describe('에러 로깅', () => {
     it('SCREEN 에러는 logger.logException으로 로깅되어야 함', () => {
-      const { logger } = require('@shared/utils/logger');
+      const { logger } = require('@utils/logger');
       const error = new AppError(
         new Error('Screen error'),
         ErrorCoverage.SCREEN,
@@ -129,30 +109,28 @@ describe('ScreenErrorBoundary', () => {
       );
 
       render(
-        <ScreenErrorBoundary screenName="TestScreen">
+        <ScreenErrorBoundary>
           <ThrowError error={error} />
         </ScreenErrorBoundary>,
       );
 
       expect(logger.logException).toHaveBeenCalledWith(error, {
         boundary: 'ScreenErrorBoundary',
-        screenName: 'TestScreen',
       });
     });
 
     it('알 수 없는 에러는 logger.logException으로 로깅되어야 함', () => {
-      const { logger } = require('@shared/utils/logger');
+      const { logger } = require('@utils/logger');
       const error = new Error('Unknown error');
 
       render(
-        <ScreenErrorBoundary screenName="TestScreen">
+        <ScreenErrorBoundary>
           <ThrowError error={error} />
         </ScreenErrorBoundary>,
       );
 
       expect(logger.logException).toHaveBeenCalledWith(error, {
         boundary: 'ScreenErrorBoundary',
-        screenName: 'TestScreen',
         type: 'unknown',
       });
     });

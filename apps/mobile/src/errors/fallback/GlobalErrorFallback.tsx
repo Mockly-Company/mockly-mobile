@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { tw, Text } from '@mockly/design-system';
 import RNRestart from 'react-native-restart';
@@ -12,10 +12,10 @@ export function GlobalErrorFallback({
   title,
   message,
 }: GlobalErrorFallbackProps): React.ReactElement {
-  const handleRestart = () => {
+  const handleRestart = useCallback(() => {
     // 앱 전체 재시작
     RNRestart.restart();
-  };
+  }, []);
   return (
     <View style={tw`flex-1 items-center justify-center p-6 bg-white`}>
       <View

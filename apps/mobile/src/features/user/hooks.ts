@@ -1,6 +1,6 @@
 import { useShallow } from 'zustand/react/shallow';
 import { useProfileStore } from './store';
-import { AppError, ErrorCoverage } from '@shared/errors';
+import { AppError, ErrorCoverage } from '@errors/AppError';
 
 export const useInitializeProfile = () => {
   const initializeProfile = useProfileStore(

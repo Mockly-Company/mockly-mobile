@@ -10,8 +10,8 @@ import api from '@mockly/api';
 
 import { BottomSheet } from '@app/components/BottomSheet/BottomSheet';
 import { useUserProfile } from '@features/user';
-import { queries } from '@shared/api/QueryKeys';
-import { toast } from '@shared/utils/toast';
+import { queries } from '@configs/queryClient/QueryKeys';
+import { toast } from '@libs/toast';
 
 import { ProductBanner } from './components/ProductBanner';
 import { ProductList } from './components/ProductList';

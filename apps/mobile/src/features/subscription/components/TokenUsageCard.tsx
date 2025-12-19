@@ -1,7 +1,7 @@
 import { View } from 'react-native';
 import { tw, Text, Card, Progress } from '@mockly/design-system';
 import { useQuery } from '@tanstack/react-query';
-import { queries } from '@shared/api/QueryKeys';
+import { queries } from '@configs/queryClient/QueryKeys';
 
 type TokenUsageCardProps = {
   userId: string;

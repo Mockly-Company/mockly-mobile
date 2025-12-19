@@ -1,4 +1,4 @@
-import { capitalize } from '@shared/utils/stringUtils';
+import { capitalize } from '@utils/stringUtils';
 
 describe('문자열 유틸 테스트', () => {
   it('capitalize 함수는 문자열의 첫 글자를 대문자로 변환해야 함', () => {

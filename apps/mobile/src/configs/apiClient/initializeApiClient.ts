@@ -5,8 +5,8 @@ import {
   AxiosRequestConfig,
 } from '@mockly/api';
 import { useAuthStore } from '@features/auth/store';
-import { AppError, ErrorCoverage } from '@shared/errors';
-import { toast } from '@shared/utils/toast';
+import { AppError, ErrorCoverage } from '@errors/AppError';
+import { toast } from '@libs/toast';
 import { localStorage } from '@features/auth/localStorage';
 // 15초: 모바일 네트워크 환경 고려한 타임아웃
 const API_TIMEOUT = 15000;

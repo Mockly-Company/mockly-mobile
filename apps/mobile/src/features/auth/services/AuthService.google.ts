@@ -3,7 +3,7 @@ import { GOOGLE_ANDROID_CLIENT_ID, GOOGLE_REDIRECT_URI } from '@env';
 
 import { BaseAuthService } from './BaseAuthService';
 import type { AuthConfig, AuthorizationResult } from '../types';
-import { AppError, ErrorCoverage } from '@shared/errors/AppError';
+import { AppError, ErrorCoverage } from '@errors/AppError';
 
 const config: AuthConfig = {
   issuer: 'https://accounts.google.com',

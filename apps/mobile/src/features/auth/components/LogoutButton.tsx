@@ -1,6 +1,6 @@
 import { useSignOut } from '@features/auth/hooks';
 import { tw, Text } from '@mockly/design-system';
-import { toast } from '@shared/utils/toast';
+import { toast } from '@libs/toast';
 import { TouchableOpacity, ActivityIndicator } from 'react-native';
 
 export const LogoutButton = () => {

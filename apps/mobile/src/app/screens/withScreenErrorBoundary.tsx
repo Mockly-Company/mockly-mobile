@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScreenErrorBoundary } from '@shared/errors';
+import { ScreenErrorBoundary } from '@errors/boundaries';
 
 export function withScreenErrorBoundary<P extends Record<string, unknown>>(
   Wrapped: React.ComponentType<P>,
@@ -8,7 +8,7 @@ export function withScreenErrorBoundary<P extends Record<string, unknown>>(
 
   const ComponentWithBoundary: React.FC<P> = props => {
     return (
-      <ScreenErrorBoundary screenName={name}>
+      <ScreenErrorBoundary>
         <Wrapped {...props} />
       </ScreenErrorBoundary>
     );

@@ -2,7 +2,7 @@ import { Card, Text, tw, Badge } from '@mockly/design-system';
 import {
   relativeTimeFromNow,
   formatMinutesToHoursMinutes,
-} from '@shared/utils/timeFormatter';
+} from '@utils/timeFormatter';
 import { View } from 'react-native';
 import { InterviewLog } from '../../../../features/interview/store';
 import { PropsWithChildren } from 'react';

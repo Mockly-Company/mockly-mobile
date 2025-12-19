@@ -1,9 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 
 import RNRestart from 'react-native-restart';
-import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 import { GlobalErrorFallback } from '../fallback';
-import { logger } from '@shared/utils/logger';
+import { logger } from '@utils/logger';
 import { AppError } from '../AppError';
 
 interface Props {
@@ -15,31 +15,32 @@ interface Props {
  * 모든 에러를 최종적으로 처리
  */
 export function GlobalErrorBoundary({ children }: Props): React.ReactElement {
-  const handleRetry = (): void => {
+  const handleRetry = useCallback(() => {
     // 앱 전체 상태 초기화 로직이 필요한 경우 여기에 추가
     RNRestart.restart();
-  };
+  }, []);
 
-  const handleError = (error: Error) => {
+  const handleError = useCallback((error: Error) => {
     if (AppError.isApiError(error)) {
       return;
     }
 
     logger.logException(error, { boundary: 'GlobalErrorBoundary' });
-  };
+  }, []);
 
   return (
     <ErrorBoundary
       onReset={handleRetry}
       onError={handleError}
-      FallbackComponent={({ error }) => {
-        const message = AppError.isAppError(error)
-          ? error.displayMessage || error.message
-          : error.message;
-        return <GlobalErrorFallback title={error.name} message={message} />;
-      }}
+      FallbackComponent={GlobalErrorFallbackWrapper}
     >
       {children}
     </ErrorBoundary>
   );
 }
+const GlobalErrorFallbackWrapper = ({ error }: FallbackProps) => {
+  const message = AppError.isAppError(error)
+    ? error.displayMessage || error.message
+    : error.message;
+  return <GlobalErrorFallback title={error.name} message={message} />;
+};

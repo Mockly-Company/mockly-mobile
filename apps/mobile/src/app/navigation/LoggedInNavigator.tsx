@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { TabNavigator } from './TabNavigator/TabNavigator';
 import { LoggedInStackParamList } from './types';
 import { PaymentNavigator } from './PaymentNavigator/PaymentNavigator';
-import { ScreenErrorBoundary } from '@shared/errors';
+import { ScreenErrorBoundary } from '@errors/boundaries';
 
 import { ProductBottomSheetProvider } from '@app/screens/product/ProductBottomSheetProvider';
 import { SubscriptionNavigator } from './SubscriptionNavigator/SubscriptionNavigator';
@@ -13,7 +13,7 @@ export const LoggedInNavigator = () => {
   return (
     <Stack.Navigator
       screenLayout={({ children }) => (
-        <ScreenErrorBoundary screenName="">
+        <ScreenErrorBoundary>
           <ProductBottomSheetProvider>{children}</ProductBottomSheetProvider>
         </ScreenErrorBoundary>
       )}

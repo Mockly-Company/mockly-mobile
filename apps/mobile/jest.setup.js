@@ -93,7 +93,7 @@ jest.mock(
 );
 
 // Logger Mock
-jest.mock('./src/shared/utils/logger', () => ({
+jest.mock('@utils/logger', () => ({
   logger: {
     error: jest.fn(),
     logException: jest.fn(),

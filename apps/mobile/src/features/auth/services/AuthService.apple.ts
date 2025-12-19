@@ -5,7 +5,7 @@
 
 import { BaseAuthService } from './BaseAuthService';
 import type { AuthConfig, AuthorizationResult } from '../types';
-import { AppError, ErrorCoverage } from '@shared/errors/AppError';
+import { AppError, ErrorCoverage } from '@errors/AppError';
 
 const config: AuthConfig = {
   issuer: 'https://appleid.apple.com',

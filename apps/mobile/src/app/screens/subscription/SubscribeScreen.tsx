@@ -17,7 +17,7 @@ import { PLAN_FEATURES } from '@mockly/domain';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import api from '@mockly/api';
-import { queries } from '@shared/api/QueryKeys';
+import { queries } from '@configs/queryClient/QueryKeys';
 import dayjs from 'dayjs';
 
 type Props = StackScreenProps<SubscriptionParamList, 'Subscribe'>;

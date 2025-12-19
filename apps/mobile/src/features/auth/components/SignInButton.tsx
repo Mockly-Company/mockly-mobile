@@ -3,10 +3,11 @@ import { Button, colors, tw, Text } from '@mockly/design-system';
 import { useSignIn } from '@features/auth/hooks';
 import { useCallback, useEffect } from 'react';
 import { useErrorBoundary } from 'react-error-boundary';
-import { toast } from '@shared/utils/toast';
-import { AppError } from '@shared/errors';
+import { toast } from '@libs/toast';
+
 import { AuthProvider } from '@features/auth/types';
-import { capitalize } from '@shared/utils/stringUtils';
+import { capitalize } from '@utils/stringUtils';
+import { AppError } from '@errors/AppError';
 
 type SignInButtonProps = {
   provider: AuthProvider;

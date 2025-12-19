@@ -6,7 +6,7 @@
 
 import { createMMKV } from 'react-native-mmkv';
 import * as Keychain from 'react-native-keychain';
-import { logger } from '@shared/utils/logger';
+import { logger } from '@utils/logger';
 
 import { AccessRefreshToken, AuthProvider } from '@mockly/domain';
 

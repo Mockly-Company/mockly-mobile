@@ -1,5 +1,5 @@
 import Toast from 'react-native-toast-message';
-import { toast } from '@shared/utils/toast';
+import { toast } from '@libs/toast';
 
 jest.mock('react-native-toast-message');
 

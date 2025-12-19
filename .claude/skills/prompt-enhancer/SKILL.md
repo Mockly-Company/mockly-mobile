@@ -215,7 +215,7 @@ m/
 │ │ ├── features/ # 앱 기능 관련 코드
 │ │ │ ├── auth/ # auth 기능, 스토어, 컴포넌트
 │ │ │ └── interview/ # interview 기능, 스토어, 컴포넌트
-│ │ └── shared/ # 공용 코드
+│ │ └── libs/ # 라이브러리 디펜던시 코드
 │ │ ├── api/ # apiClient 초기화 코드
 │ │ ├── errors/ # 에러 바운더리, Fallback 컴포넌트
 │ │ ├── hooks/ # 공통 훅
@@ -270,7 +270,7 @@ m/
 
 ### 3. Mobile App - apiClient 초기화
 
-- **위치**: `apps/mobile/src/shared/api/apiClient.ts`
+- **위치**: `apps/mobile/src/configs/api/apiClient.ts`
 - **목적**: @mockly/api에서 제공하는 apiClient 인스턴스화
 - **구현 내용**:
   - apiClient 생성 (baseURL 환경변수 사용)
