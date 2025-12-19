@@ -32,7 +32,9 @@ export const ProgressBar = ({ style, height = 8, duration = 600, ...props }: Pro
 
   useEffect(() => {
     animatedWidth.value = withTiming(percent, { duration });
-  }, [percent, duration, animatedWidth]);
+    // animatedWidth is a stable Reanimated shared value
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [percent, duration]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     width: `${animatedWidth.value}%`,
