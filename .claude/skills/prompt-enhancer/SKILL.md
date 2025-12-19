@@ -215,7 +215,7 @@ m/
 │ │ ├── features/ # 앱 기능 관련 코드
 │ │ │ ├── auth/ # auth 기능, 스토어, 컴포넌트
 │ │ │ └── interview/ # interview 기능, 스토어, 컴포넌트
-│ │ └── shared/ # 공용 코드
+│ │ └── libs/ # 라이브러리 디펜던시 코드
 │ │ ├── api/ # apiClient 초기화 코드
 │ │ ├── errors/ # 에러 바운더리, Fallback 컴포넌트
 │ │ ├── hooks/ # 공통 훅

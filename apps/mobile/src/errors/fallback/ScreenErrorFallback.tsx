@@ -3,13 +3,11 @@ import { View, TouchableOpacity } from 'react-native';
 import { tw, Text } from '@mockly/design-system';
 
 type ScreenErrorFallbackProps = {
-  screenName: string;
   message?: string;
   onRetry?: () => void;
 };
 
 export function ScreenErrorFallback({
-  screenName,
   message,
   onRetry,
 }: ScreenErrorFallbackProps): React.ReactElement {
@@ -38,7 +36,7 @@ export function ScreenErrorFallback({
         align="center"
         style={tw`mb-6`}
       >
-        {screenName} 화면 로드 중 문제가 발생했습니다
+        화면 로드 중 문제가 발생했습니다
       </Text>
 
       <TouchableOpacity

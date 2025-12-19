@@ -13,7 +13,7 @@ export const LoggedInNavigator = () => {
   return (
     <Stack.Navigator
       screenLayout={({ children }) => (
-        <ScreenErrorBoundary screenName="">
+        <ScreenErrorBoundary>
           <ProductBottomSheetProvider>{children}</ProductBottomSheetProvider>
         </ScreenErrorBoundary>
       )}

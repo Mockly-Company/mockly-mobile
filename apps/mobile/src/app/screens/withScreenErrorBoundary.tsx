@@ -8,7 +8,7 @@ export function withScreenErrorBoundary<P extends Record<string, unknown>>(
 
   const ComponentWithBoundary: React.FC<P> = props => {
     return (
-      <ScreenErrorBoundary screenName={name}>
+      <ScreenErrorBoundary>
         <Wrapped {...props} />
       </ScreenErrorBoundary>
     );
