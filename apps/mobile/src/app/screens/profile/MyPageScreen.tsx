@@ -9,7 +9,7 @@ import { useProductBottomSheet } from '../product/ProductBottomSheetProvider';
 import { useUserProfile } from '@features/user';
 import { useQueryClient } from '@tanstack/react-query';
 import { queries } from '@shared/api/QueryKeys';
-import { useRefreshControl } from '@shared/hooks/useRefreshConftrol';
+import { useRefreshControl } from '@shared/hooks/useRefreshControl';
 
 export const MyPageScreen = () => {
   const { user, subscription } = useUserProfile();
@@ -80,7 +80,11 @@ type SubscriptionChangeProps = {
 };
 const SubscriptionChange = ({ handlePromotion }: SubscriptionChangeProps) => {
   return (
-    <Button onPress={handlePromotion}>
+    <Button
+      onPress={handlePromotion}
+      accessibilityLabel="플랜 교체"
+      accessibilityHint="플랜 선택 화면으로 이동합니다."
+    >
       <Button.Text>플랜 변경</Button.Text>
     </Button>
   );
@@ -91,7 +95,13 @@ interface PaymentHistoryButtonProps {
 }
 const PaymentHistoryButton = ({ onPress }: PaymentHistoryButtonProps) => {
   return (
-    <Button onPress={onPress} variant="outline" style={tw`w-full`}>
+    <Button
+      onPress={onPress}
+      variant="outline"
+      style={tw`w-full`}
+      accessibilityLabel="결제 내역"
+      accessibilityHint="결제 내역 화면으로 이동합니다"
+    >
       <Button.Text>결제 내역 보기</Button.Text>
     </Button>
   );
@@ -102,7 +112,12 @@ type CancelSubscription = {
 };
 const CancelSubscription = ({ handleCancel }: CancelSubscription) => {
   return (
-    <Button variant="error" onPress={handleCancel}>
+    <Button
+      variant="error"
+      onPress={handleCancel}
+      accessibilityLabel="구독 취소"
+      accessibilityHint="구독 취소 화면으로 이동합니다"
+    >
       <Button.Text>구독 취소</Button.Text>
     </Button>
   );

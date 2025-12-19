@@ -126,13 +126,21 @@ export const SubscriptionCancelScreen = ({ navigation }: Props) => {
         </View>
 
         <View style={tw`gap-3`}>
-          <Button variant="outline" onPress={handleCancel} disabled={isPending}>
+          <Button
+            variant="outline"
+            onPress={handleCancel}
+            disabled={isPending}
+            accessibilityLabel="구독 유지"
+            accessibilityHint="마이페이지로 이동합니다"
+          >
             <Button.Text>계속 사용하기</Button.Text>
           </Button>
           <Button
             onPress={handleConfirmDelete}
             disabled={isPending}
             style={tw`bg-red-500`}
+            accessibilityLabel="구독 취소"
+            accessibilityHint="구독을 취소합니다"
           >
             <Button.Text>
               {isPending ? '취소 중...' : '구독 취소하기'}

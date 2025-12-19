@@ -7,7 +7,7 @@ import { PaymentHistoryCard } from './components/PaymentHistoryCard';
 
 import { queries } from '@shared/api/QueryKeys';
 import { useSuspensePagingQuery } from '@shared/api/hooks/usePagingQuery';
-import { useRefreshControl } from '@shared/hooks/useRefreshConftrol';
+import { useRefreshControl } from '@shared/hooks/useRefreshControl';
 import { SuspenseFallback } from '@app/components/Fallback/SuspenseFallback';
 
 export function PaymentHistoryScreen() {
@@ -45,9 +45,8 @@ const PaymentHistories = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={tw`pb-8`}
       refreshControl={RefreshControl}
-      renderItem={payment => (
-        <PaymentHistoryCard key={payment.item.id} payment={payment.item} />
-      )}
+      keyExtractor={item => item.id}
+      renderItem={payment => <PaymentHistoryCard payment={payment.item} />}
     />
   );
 };

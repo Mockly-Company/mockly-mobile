@@ -13,6 +13,7 @@ import { TokenUsageCard } from '@features/subscription';
 import { useUserProfile } from '@features/user';
 import { PlanType } from '@mockly/domain';
 import { HomeSection } from './components/HomeSection';
+import React from 'react';
 
 export const HomeScreen = () => {
   const { recentLogs } = useInterviewStore();
@@ -101,84 +102,89 @@ type GreetingHeaderProps = {
   title: string;
   subTitle: string;
 };
-const GreetingHeader = ({ title, subTitle }: GreetingHeaderProps) => {
-  return (
-    <FadeInAnimation
-      direction={'down'}
-      delay={60}
-      style={tw`mb-md`}
-      useSpring={true}
-    >
-      <Text variant="h2" style={tw`font-bold text-text dark:text-white`}>
-        {title}
-      </Text>
-      <Text
-        variant="body"
-        style={tw`mt-xs text-text-secondary dark:text-text-secondary-dark`}
+const GreetingHeader = React.memo(
+  ({ title, subTitle }: GreetingHeaderProps) => {
+    return (
+      <FadeInAnimation
+        direction={'down'}
+        delay={60}
+        style={tw`mb-md`}
+        useSpring={true}
       >
-        {subTitle}
-      </Text>
-    </FadeInAnimation>
-  );
-};
+        <Text variant="h2" style={tw`font-bold text-text dark:text-white`}>
+          {title}
+        </Text>
+        <Text
+          variant="body"
+          style={tw`mt-xs text-text-secondary dark:text-text-secondary-dark`}
+        >
+          {subTitle}
+        </Text>
+      </FadeInAnimation>
+    );
+  },
+);
+GreetingHeader.displayName = 'Home_GreetingHeader';
 
 type UserDashboardProps = {
   sessionCount: number;
   totalTimeInMin: number;
   averageScore: number;
 };
-const UserDashboard = ({
-  sessionCount,
-  totalTimeInMin,
-  averageScore,
-}: UserDashboardProps) => {
-  return (
-    <FadeInAnimation
-      direction={'down'}
-      delay={120}
-      style={tw`mb-xl`}
-      useSpring={true}
-    >
-      <View style={tw`flex-row gap-md`}>
-        <View style={tw`flex-1`}>
-          <StatCard
-            label="연습 횟수"
-            value={`${sessionCount}`}
-            color="primary"
-          />
+const UserDashboard = React.memo(
+  ({ sessionCount, totalTimeInMin, averageScore }: UserDashboardProps) => {
+    return (
+      <FadeInAnimation
+        direction={'down'}
+        delay={120}
+        style={tw`mb-xl`}
+        useSpring={true}
+      >
+        <View style={tw`flex-row gap-md`}>
+          <View style={tw`flex-1`}>
+            <StatCard
+              label="연습 횟수"
+              value={`${sessionCount}`}
+              color="primary"
+            />
+          </View>
+          <View style={tw`flex-1`}>
+            <StatCard
+              label="총 시간"
+              value={formatMinutesToHoursMinutes(totalTimeInMin, 'en')}
+              color="success"
+            />
+          </View>
+          <View style={tw`flex-1`}>
+            <StatCard
+              label="평균 점수"
+              value={`${averageScore}`}
+              color="secondary"
+            />
+          </View>
         </View>
-        <View style={tw`flex-1`}>
-          <StatCard
-            label="총 시간"
-            value={formatMinutesToHoursMinutes(totalTimeInMin, 'en')}
-            color="success"
-          />
-        </View>
-        <View style={tw`flex-1`}>
-          <StatCard
-            label="평균 점수"
-            value={`${averageScore}`}
-            color="secondary"
-          />
-        </View>
-      </View>
-    </FadeInAnimation>
-  );
-};
+      </FadeInAnimation>
+    );
+  },
+);
+UserDashboard.displayName = 'HOME_UserDashboard';
 
 type PlanUpgradePromotionProps = { currentPlan: Exclude<PlanType, 'PREMIUM'> };
-const PlanUpgradePromotion = ({ currentPlan }: PlanUpgradePromotionProps) => {
-  return (
-    <FadeInAnimation
-      direction={'down'}
-      delay={180}
-      style={tw`mb-xl`}
-      useSpring={true}
-    >
-      <UpgradeBanner currentPlan={currentPlan} />
-    </FadeInAnimation>
-  );
-};
+const PlanUpgradePromotion = React.memo(
+  ({ currentPlan }: PlanUpgradePromotionProps) => {
+    return (
+      <FadeInAnimation
+        direction={'down'}
+        delay={180}
+        style={tw`mb-xl`}
+        useSpring={true}
+      >
+        <UpgradeBanner currentPlan={currentPlan} />
+      </FadeInAnimation>
+    );
+  },
+);
+PlanUpgradePromotion.displayName = 'Home_PlanUpgradePromotion';
 
 const QUICKS: {
   variant: 'primary' | 'surface';

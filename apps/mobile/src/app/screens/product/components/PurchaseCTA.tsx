@@ -17,6 +17,8 @@ export const PurchaseCTA = ({
       disabled={disabled}
       size="medium"
       style={tw`w-full`}
+      accessibilityLabel="주문 시작"
+      accessibilityHint="선택한 플랜으로 주문을 시작합니다"
     >
       <Button.Text>{content}</Button.Text>
     </Button>

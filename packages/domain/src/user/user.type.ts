@@ -5,6 +5,7 @@ export const User = z.object({
   id: z.string(),
   email: z.string(),
   name: z.string(),
+  phoneNumber: z.string().nullish(),
 });
 
 export type User = z.infer<typeof User>;

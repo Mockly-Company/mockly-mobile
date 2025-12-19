@@ -25,9 +25,11 @@ export const SubscriptionPayment = ({
   onError,
   onComplete,
 }: PaymentProps) => {
+  // TODO: phoneNumber 수집 논의
   const customer = {
     fullName: user.name,
     email: user.email,
+    phoneNumber: user.phoneNumber || '010-0000-0000',
   };
   const paymentProductProps = {
     orderName: product.name,
@@ -46,7 +48,6 @@ export const SubscriptionPayment = ({
       request={{
         customer: {
           ...customer,
-          phoneNumber: '010-0000-0000',
         },
         issueId: paymentId,
         issueName: paymentProductProps.orderName,

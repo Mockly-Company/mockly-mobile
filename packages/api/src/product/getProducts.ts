@@ -1,7 +1,8 @@
+import { PlanFeatures } from '@mockly/domain';
 import { apiClient } from '../client';
 
 interface GetProductsResponseDto {
-  Products: string;
+  Products: PlanFeatures[];
   expiredAt: string;
 }
 
