@@ -32,8 +32,11 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '^@app/(.*)$': '<rootDir>/src/app/$1',
     '^@features/(.*)$': '<rootDir>/src/features/$1',
-    '^@lib/(.*)$': '<rootDir>/src/lib/$1',
-    '^@shared/(.*)$': '<rootDir>/src/shared/$1',
+    '^@libs/(.*)$': '<rootDir>/src/libs/$1',
+    '^@configs/(.*)$': '<rootDir>/src/configs/$1',
+    '^@utils/(.*)$': '<rootDir>/src/utils/$1',
+    '^@hooks/(.*)$': '<rootDir>/src/hooks/$1',
+    '^@errors/(.*)$': '<rootDir>/src/errors/$1',
   },
   testMatch: ['**/__tests__/**/*.(test|spec).(ts|tsx|js)'],
   haste: {

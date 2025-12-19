@@ -6,11 +6,11 @@ import { SubscriptionParamList } from '@app/navigation/types';
 
 import { MockProducts } from '@mockly/domain';
 
-import { toast } from '@shared/utils/toast';
+import { toast } from '@libs/toast';
 import { useNavigation } from '@react-navigation/native';
 import { useUserProfile } from '@features/user';
 import { useMutation } from '@tanstack/react-query';
-import { queries } from '@shared/api/QueryKeys';
+import { queries } from '@configs/queryClient/QueryKeys';
 import api from '@mockly/api';
 
 type Props = StackScreenProps<SubscriptionParamList, 'SubscriptionCancel'>;

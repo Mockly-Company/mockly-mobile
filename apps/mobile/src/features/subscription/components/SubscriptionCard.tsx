@@ -3,7 +3,7 @@ import { tw, Text, Card, Badge } from '@mockly/design-system';
 import { PlanType, ProductService } from '@mockly/domain';
 import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
-import { queries } from '@shared/api/QueryKeys';
+import { queries } from '@configs/queryClient/QueryKeys';
 
 type SubscriptionCardProps = {
   userId: string;

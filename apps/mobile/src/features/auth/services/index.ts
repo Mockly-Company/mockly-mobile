@@ -7,7 +7,7 @@ import type { AuthProvider } from '../types';
 import { BaseAuthService } from './BaseAuthService';
 import { GoogleAuthService } from './AuthService.google';
 import { AppleAuthService } from './AuthService.apple';
-import { AppError, ErrorCoverage } from '@shared/errors/AppError';
+import { AppError, ErrorCoverage } from '@errors/AppError';
 
 // Provider별 AuthService 싱글톤 인스턴스
 const authServiceInstances = new Map<AuthProvider, BaseAuthService>();

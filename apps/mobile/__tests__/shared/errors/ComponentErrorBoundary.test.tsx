@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
-import { ComponentErrorBoundary } from '@shared/errors/boundaries/ComponentErrorBoundary';
-import { AppError, ErrorCoverage, ErrorCode } from '@shared/errors/AppError';
+import { ComponentErrorBoundary } from '@errors/boundaries/ComponentErrorBoundary';
+import { AppError, ErrorCoverage, ErrorCode } from '@errors/AppError';
 
 const ThrowError: React.FC<{ error: Error }> = ({ error }) => {
   throw error;

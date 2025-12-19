@@ -1,25 +1,26 @@
-import { initializeApiClient } from '@shared/api/initializeApiClient';
+import { initializeApiClient } from '@configs/apiClient/initializeApiClient';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   createNavigationContainerRef,
   NavigationContainer,
 } from '@react-navigation/native';
-import { GlobalErrorBoundary } from './src/shared/errors';
-import { useNetworkMonitor } from './src/shared/hooks/useNetworkMonitor';
-import { Toast } from './src/app/components/Toast/Toast';
-import { useDeviceColorScheme } from '@shared/hooks/useDeviceColorScheme';
 
-import { hideNativeSplashScreen } from '@shared/utils/NativeSplashScreen';
+import { useNetworkMonitor } from '@hooks/useNetworkMonitor';
+import { Toast } from '@app/components/Toast/Toast';
+import { useDeviceColorScheme } from '@hooks/useDeviceColorScheme';
+
+import { hideNativeSplashScreen } from '@libs/NativeSplashScreen';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { RootNavigator } from '@app/navigation/RootNavigator';
-import { deviceInfo } from '@shared/utils/deviceInfo';
+import { deviceInfo } from '@libs/deviceInfo';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { QueryClientProvider } from '@shared/api/QueryClientProvider';
+import { QueryClientProvider } from '@configs/queryClient/QueryClientProvider';
 import { LoggedInStackParamList } from '@app/navigation/types';
 
 import { useErrorBoundary } from 'react-error-boundary';
 import { useInitializeAuthAndGetProfile } from '@features/auth/hooks';
+import { GlobalErrorBoundary } from '@errors/boundaries';
 
 export const navigationRef =
   createNavigationContainerRef<LoggedInStackParamList>();

@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
-import { GlobalErrorBoundary } from '@shared/errors/boundaries/GlobalErrorBoundary';
-import { AppError, ErrorCoverage, ErrorCode } from '@shared/errors/AppError';
+import { GlobalErrorBoundary } from '@errors/boundaries/GlobalErrorBoundary';
+import { AppError, ErrorCoverage, ErrorCode } from '@errors/AppError';
 import RNRestart from 'react-native-restart';
 
 // Mock dependencies
@@ -151,7 +151,7 @@ describe('GlobalErrorBoundary', () => {
 
   describe('에러 로깅', () => {
     it('모든 에러는 logger.logException으로 로깅되어야 함', () => {
-      const { logger } = require('@shared/utils/logger');
+      const { logger } = require('@utils/logger');
       const error = new AppError(
         new Error('Global error'),
         ErrorCoverage.GLOBAL,

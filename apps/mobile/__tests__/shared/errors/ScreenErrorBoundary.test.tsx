@@ -5,8 +5,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { Text } from 'react-native';
-import { ScreenErrorBoundary } from '@shared/errors/boundaries/ScreenErrorBoundary';
-import { AppError, ErrorCoverage, ErrorCode } from '@shared/errors/AppError';
+import { ScreenErrorBoundary } from '@errors/boundaries/ScreenErrorBoundary';
+import { AppError, ErrorCoverage, ErrorCode } from '@errors/AppError';
 
 const ThrowError: React.FC<{ error: Error }> = ({ error }) => {
   throw error;
@@ -121,7 +121,7 @@ describe('ScreenErrorBoundary', () => {
 
   describe('에러 로깅', () => {
     it('SCREEN 에러는 logger.logException으로 로깅되어야 함', () => {
-      const { logger } = require('@shared/utils/logger');
+      const { logger } = require('@utils/logger');
       const error = new AppError(
         new Error('Screen error'),
         ErrorCoverage.SCREEN,
@@ -141,7 +141,7 @@ describe('ScreenErrorBoundary', () => {
     });
 
     it('알 수 없는 에러는 logger.logException으로 로깅되어야 함', () => {
-      const { logger } = require('@shared/utils/logger');
+      const { logger } = require('@utils/logger');
       const error = new Error('Unknown error');
 
       render(

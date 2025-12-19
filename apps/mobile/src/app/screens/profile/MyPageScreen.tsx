@@ -8,8 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useProductBottomSheet } from '../product/ProductBottomSheetProvider';
 import { useUserProfile } from '@features/user';
 import { useQueryClient } from '@tanstack/react-query';
-import { queries } from '@shared/api/QueryKeys';
-import { useRefreshControl } from '@shared/hooks/useRefreshControl';
+import { queries } from '@configs/queryClient/QueryKeys';
+import { useRefreshControl } from '@hooks/useRefreshControl';
 
 export const MyPageScreen = () => {
   const { user, subscription } = useUserProfile();

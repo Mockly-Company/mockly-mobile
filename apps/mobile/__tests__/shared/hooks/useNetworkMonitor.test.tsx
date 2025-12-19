@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react-native';
 import NetInfo from '@react-native-community/netinfo';
-import { useNetworkMonitor } from '@shared/hooks/useNetworkMonitor';
-import { toast } from '@shared/utils/toast';
+import { useNetworkMonitor } from '@hooks/useNetworkMonitor';
+import { toast } from '@libs/toast';
 
 jest.mock('@react-native-community/netinfo');
-jest.mock('@shared/utils/toast');
+jest.mock('@libs/toast');
 
 type NetInfoCallback = (state: { isConnected: boolean | null }) => void;
 

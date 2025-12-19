@@ -27,8 +27,11 @@ const config = {
     extraNodeModules: {
       '@app': path.resolve(workspaceRoot, 'apps/mobile/src/app'),
       '@features': path.resolve(workspaceRoot, 'apps/mobile/src/features'),
-      '@lib': path.resolve(workspaceRoot, 'apps/mobile/src/lib'),
-      '@shared': path.resolve(workspaceRoot, 'apps/mobile/src/shared'),
+      '@libs': path.resolve(workspaceRoot, 'apps/mobile/src/libs'),
+      '@configs': path.resolve(workspaceRoot, 'apps/mobile/src/configs'),
+      '@errors': path.resolve(workspaceRoot, 'apps/mobile/src/errors'),
+      '@hooks': path.resolve(workspaceRoot, 'apps/mobile/src/hooks'),
+      '@utils': path.resolve(workspaceRoot, 'apps/mobile/src/utils'),
       '@mockly/domain': path.resolve(workspaceRoot, 'packages/domain'),
       '@mockly/design-system': path.resolve(
         workspaceRoot,

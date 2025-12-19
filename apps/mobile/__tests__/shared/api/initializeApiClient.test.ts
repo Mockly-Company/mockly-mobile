@@ -1,5 +1,5 @@
 jest.mock('@features/auth/store');
-jest.mock('@shared/utils/deviceInfo', () => ({
+jest.mock('@libs/deviceInfo', () => ({
   deviceInfo: {
     initializeDevice: jest.fn().mockResolvedValue('mock-device-id'),
   },
@@ -7,8 +7,8 @@ jest.mock('@shared/utils/deviceInfo', () => ({
 
 import { useAuthStore } from '@features/auth/store';
 import { localStorage } from '@features/auth/localStorage';
-import { initializeApiClient } from '@shared/api/initializeApiClient';
-import { toast } from '@shared/utils/toast';
+import { initializeApiClient } from '@configs/apiClient/initializeApiClient';
+import { toast } from '@libs/toast';
 import type { AxiosRequestConfig, AxiosError } from '@mockly/api';
 
 // Use global mock provided in jest.setup.js

@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ScreenErrorFallback, ResourceNotFoundFallback } from '../fallback';
 import { AppError } from '../AppError';
-import { logger } from '@shared/utils/logger';
+import { logger } from '@utils/logger';
 
 interface Props {
   children: ReactNode;

@@ -270,7 +270,7 @@ m/
 
 ### 3. Mobile App - apiClient 초기화
 
-- **위치**: `apps/mobile/src/shared/api/apiClient.ts`
+- **위치**: `apps/mobile/src/configs/api/apiClient.ts`
 - **목적**: @mockly/api에서 제공하는 apiClient 인스턴스화
 - **구현 내용**:
   - apiClient 생성 (baseURL 환경변수 사용)

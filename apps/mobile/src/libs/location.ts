@@ -5,7 +5,7 @@
 
 import Geolocation from '@react-native-community/geolocation';
 import { PermissionsAndroid, Platform } from 'react-native';
-import { logger } from './logger';
+import { logger } from '@utils/logger';
 
 export interface LocationCoords {
   latitude: number;

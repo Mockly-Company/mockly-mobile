@@ -12,7 +12,7 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { queries } from '@shared/api/QueryKeys';
+import { queries } from '@configs/queryClient/QueryKeys';
 
 /**
  * 인증 상태 및 기능을 사용하기 위한 훅

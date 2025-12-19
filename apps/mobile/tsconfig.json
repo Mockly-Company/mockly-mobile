@@ -8,9 +8,12 @@
       "@mockly/api": ["../../packages/api/src"],
       "@mockly/config": ["../../packages/config/src"],
       "@app/*": ["src/app/*"],
+      "@configs/*": ["src/configs/*"],
+      "@errors/*": ["src/errors/*"],
       "@features/*": ["src/features/*"],
-      "@lib/*": ["src/lib/*"],
-      "@shared/*": ["src/shared/*"]
+      "@hooks/*": ["src/hooks/*"],
+      "@libs/*": ["src/libs/*"],
+      "@utils/*": ["src/utils/*"]
     },
     "types": ["jest", "react-native", "node"],
     "lib": ["ES2015", "DOM"],

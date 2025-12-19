@@ -17,7 +17,7 @@ jest.mock('@mockly/api', () => ({
 }));
 
 // deviceInfo 모킹
-jest.mock('@shared/utils/deviceInfo', () => ({
+jest.mock('@libs/deviceInfo', () => ({
   deviceInfo: {
     getDevice: jest.fn().mockReturnValue(''),
     getDeviceName: jest.fn().mockResolvedValue('unknown'),

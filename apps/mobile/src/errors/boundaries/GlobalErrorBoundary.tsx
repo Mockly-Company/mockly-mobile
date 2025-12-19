@@ -3,7 +3,7 @@ import React, { ReactNode } from 'react';
 import RNRestart from 'react-native-restart';
 import { ErrorBoundary } from 'react-error-boundary';
 import { GlobalErrorFallback } from '../fallback';
-import { logger } from '@shared/utils/logger';
+import { logger } from '@utils/logger';
 import { AppError } from '../AppError';
 
 interface Props {

@@ -5,10 +5,10 @@ import {
   LocationInfo,
 } from '@mockly/domain';
 import type { AuthConfig, AuthorizationResult, AuthProvider } from '../types';
-import { AppError, ErrorCoverage } from '@shared/errors';
-import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';
+import { AppError, ErrorCoverage } from '@errors/AppError';
+import { deviceInfo as deviceInfoFromUtil } from '@libs/deviceInfo';
 import api from '@mockly/api';
-import { capitalize } from '@shared/utils/stringUtils';
+import { capitalize } from '@utils/stringUtils';
 import { localStorage } from '../localStorage';
 
 /**

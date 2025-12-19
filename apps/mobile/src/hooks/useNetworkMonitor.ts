@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import NetInfo from '@react-native-community/netinfo';
-import { toast } from '@shared/utils/toast';
+import { toast } from '@libs/toast';
 
 /**
  * 네트워크 연결 상태를 모니터링하고 Toast로 알림

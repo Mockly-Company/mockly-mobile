@@ -17,11 +17,11 @@ apps/
       features/     # 앱 기능 관련 코드
         auth/       # auth 기능, 스토어, 컴포넌트
         interview/  # interview 기능, 스토어, 컴포넌트
-      shared/       # 공용 코드
-        api/        # apiClient 초기화 코드
-        errors/     # 에러 바운더리, Fallback 컴포넌트
-        hooks/      # 공통 훅 (useNetworkMonitor.ts 등)
-        utils/      # 공통 함수 (toast, deviceInfo, location)
+      libs/         # 의존성 있는 libs
+      errors/       # 에러 바운더리, Fallback 컴포넌트
+      hooks/        # 공통 훅 (useNetworkMonitor.ts 등)
+      utils/        # 공통 함수 (toast, deviceInfo, location)
+      configs/      # 설정 코드 (apiClient, queryClient)
     __tests__/      # 테스트 파일
     android/        # Android 네이티브 코드
     ios/            # iOS 네이티브 코드

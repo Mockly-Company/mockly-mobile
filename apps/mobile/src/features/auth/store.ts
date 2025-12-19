@@ -8,12 +8,13 @@ import { create } from 'zustand';
 
 import { getAuthService } from './services';
 import type { AuthProvider } from './types';
-import { AppError, ErrorCoverage } from '@shared/errors';
-import { logger } from '@shared/utils/logger';
+
+import { logger } from '@utils/logger';
 import { localStorage } from './localStorage';
 import api from '@mockly/api';
 import { AccessRefreshToken } from '@mockly/domain';
-import { deviceInfo as deviceInfoFromUtil } from '@shared/utils/deviceInfo';
+import { deviceInfo as deviceInfoFromUtil } from '@libs/deviceInfo';
+import { AppError, ErrorCoverage } from '@errors/AppError';
 type AuthState = LoginAuthState | LogoutAuthState;
 type LoginAuthState = {
   provider: AuthProvider;

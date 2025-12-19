@@ -14,8 +14,11 @@ module.exports = function (api) {
           alias: {
             '@app': '../mobile/src/app',
             '@features': '../mobile/src/features',
-            '@lib': '../mobile/src/lib',
-            '@shared': '../mobile/src/shared',
+            '@libs': '../mobile/src/libs',
+            '@configs': '../mobile/src/configs',
+            '@errors': '../mobile/src/errors',
+            '@hooks': '../mobile/src/hooks',
+            '@utils': '../mobile/src/utils',
             '@mobile': '../mobile/src',
             '@mockly/domain': '../../packages/domain',
             '@mockly/design-system': '../../packages/design-system',

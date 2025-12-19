@@ -7,14 +7,14 @@ import { InterviewCard } from '@app/screens/home/components/InterviewCard';
 import { FeatureCard } from './components/FeatureCard';
 import { StatCard } from './components/StatCard';
 import { QuickStartAction } from './components/QuickStartAction';
-import { formatMinutesToHoursMinutes } from '@shared/utils/timeFormatter';
+import { formatMinutesToHoursMinutes } from '@utils/timeFormatter';
 import { UpgradeBanner } from './components/UpgradeBanner';
 import { TokenUsageCard } from '@features/subscription';
 import { useUserProfile } from '@features/user';
 import { PlanType } from '@mockly/domain';
 import { HomeSection } from './components/HomeSection';
 import React from 'react';
-import { toast } from '@shared/utils/toast';
+import { toast } from '@libs/toast';
 
 export const HomeScreen = () => {
   const { recentLogs } = useInterviewStore();
