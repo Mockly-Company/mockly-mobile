@@ -1,15 +1,15 @@
 import { PortOneController, Payment } from '@portone/react-native-sdk';
-import { ComponentProps, createRef } from 'react';
+import { ComponentProps, createRef, useMemo } from 'react';
 import { SubscriptionProduct, User } from '@mockly/domain';
 
 import { tw } from '@mockly/design-system';
 import { PAYMENT_PG_STORE_ID, PAYMENT_PG_CHANNEL_KEY } from '@env';
+import { v7 } from 'uuid';
 type PaymentProps = ComponentProps<typeof Payment>;
 
 type SinglePaymentProps = {
   user: User;
   product: SubscriptionProduct;
-  paymentId: string;
   onError: PaymentProps['onError'];
   onComplete: PaymentProps['onComplete'];
 };
@@ -19,7 +19,6 @@ const CHANNEL_KEY = PAYMENT_PG_CHANNEL_KEY;
 export const SinglePayment = ({
   user,
   product,
-  paymentId,
   onError,
   onComplete,
 }: SinglePaymentProps) => {
@@ -37,14 +36,15 @@ export const SinglePayment = ({
     interval: `${product.billingPeriod}m`,
   };
   const controller = createRef<PortOneController>();
+  const paymentId = useMemo(() => v7(), []);
 
   return (
     <Payment
       ref={controller}
       request={{
         customer,
-        paymentId: paymentId,
         storeId: STORE_KEY,
+        paymentId: paymentId,
         channelKey: CHANNEL_KEY,
         ...paymentProductProps,
         totalAmount: 1000,

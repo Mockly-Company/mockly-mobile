@@ -11,7 +11,7 @@ interface UpgradeBannerProps {
 export function UpgradeBanner({ currentPlan }: UpgradeBannerProps) {
   const nextPlan = ProductService.getNextPlan(currentPlan);
   const { expand } = useProductBottomSheet();
-  if (!nextPlan || currentPlan === PlanType.enum.PREMIUM) {
+  if (!nextPlan || currentPlan === PlanType.enum.Premium) {
     return null;
   }
 
@@ -23,7 +23,7 @@ export function UpgradeBanner({ currentPlan }: UpgradeBannerProps) {
   };
 
   return (
-    <TouchableOpacity onPress={handleUpgrade} activeOpacity={0.8}>
+    <TouchableOpacity activeOpacity={0.8} onPress={handleUpgrade}>
       <LinearGradient
         colors={['#a855f7', '#ec4899']}
         style={tw`p-4 rounded-lg mb-4`}

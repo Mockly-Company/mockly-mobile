@@ -8,9 +8,10 @@ import { useNavigation } from '@react-navigation/native';
 
 import { toast } from '@libs/toast';
 import { useUserProfile } from '@features/user';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { queries } from '@configs/queryClient/QueryKeys';
 import api from '@mockly/api';
+import dayjs from 'dayjs';
 
 type Props = StackScreenProps<SubscriptionParamList, 'SubscriptionChange'>;
 
@@ -19,7 +20,10 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
   const navigation = useNavigation();
 
   const { subscription: useSubscription } = useUserProfile();
-
+  const { data: expectedReceipt } = useSuspenseQuery({
+    ...queries.subscription.getExpectedChangeAmount(planType),
+    gcTime: 0,
+  });
   const { mutate: changeSubscription, isPending } = useMutation({
     mutationKey: queries.subscription.change().queryKey,
     mutationFn: api.subscription.patchUserSubscription,
@@ -32,15 +36,18 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
     },
   });
 
-  const handleConfirmChange = () => {
-    changeSubscription({ plan: planType });
-  };
-  if (useSubscription.planType === 'FREE') {
+  if (useSubscription.type === 'Free') {
     navigation.navigate('MainTabs', { screen: 'Home' });
     return;
   }
   const newSubscription = MockProducts[planType];
-  const userSubscription = MockProducts[useSubscription.planType];
+  const userSubscription = MockProducts[useSubscription.planSnapshot.name];
+  const handleConfirmChange = () => {
+    changeSubscription({
+      confirmedAmount: newSubscription.price,
+      targetPlanId: newSubscription.id,
+    });
+  };
 
   const handleCancel = () => {
     navigation.goBack();
@@ -106,28 +113,76 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
             플랜 변경 안내
           </Text>
           <Text variant="caption" color="textSecondary">
-            • 남은 기간에 대해 일할 계산되어 &quot;이번달 결제 금액&quot;만큼
-            결제일에 결제됩니다.{'\n'}• 기존 플랜은 즉시 변경됩니다{'\n'}
+            • 남은 기간에 대해 일할 계산되어 즉시 결제됩니다.{'\n'}• 기존 플랜은
+            즉시 변경됩니다.{'\n'}• 다음 결제일부터는 새 플랜 금액으로 정기
+            결제됩니다.
           </Text>
         </View>
 
+        {/* 즉시 결제 금액 */}
+        <Card variant="elevated" padding="lg" style={tw`rounded-lg mb-4`}>
+          <Text variant="caption" color="textSecondary" style={tw`mb-2`}>
+            즉시 결제 금액
+          </Text>
+          <Text variant="h2" color="primary" style={tw`mb-1`}>
+            {expectedReceipt.immediateAmount.toLocaleString()}원
+          </Text>
+          <Text variant="caption" color="textSecondary">
+            기존 플랜 남은 기간 차액
+          </Text>
+        </Card>
+
+        {/* 결제 상세 정보 */}
         <View
           style={tw`p-4 border border-surface dark:border-surface-dark rounded-lg mb-8`}
         >
-          <View style={tw`flex-row justify-between mb-2`}>
-            <Text variant="body" color="textSecondary">
-              이번달 결제 금액
-            </Text>
+          <View
+            style={tw`flex-row justify-between mb-3 pb-3 border-b border-gray-200`}
+          >
             <Text variant="body" weight="semibold">
-              {newSubscription.price.toLocaleString()}원
+              결제 상세
             </Text>
           </View>
           <View style={tw`flex-row justify-between mb-2`}>
             <Text variant="body" color="textSecondary">
-              정기 결제 금액
+              현재 플랜 ({expectedReceipt.currentPlan.name})
+            </Text>
+            <Text variant="body">
+              {expectedReceipt.currentPlan.price.toLocaleString()}원
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-between mb-2`}>
+            <Text variant="body" color="textSecondary">
+              변경 플랜 ({expectedReceipt.targetPlan.name})
+            </Text>
+            <Text variant="body">
+              {expectedReceipt.targetPlan.price.toLocaleString()}원
+            </Text>
+          </View>
+          <View
+            style={tw`flex-row justify-between mb-3 pt-3 border-t border-gray-200`}
+          >
+            <Text variant="body" weight="semibold">
+              즉시 결제 금액
+            </Text>
+            <Text variant="h4" color="primary">
+              {expectedReceipt.immediateAmount.toLocaleString()}원
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-between mb-2`}>
+            <Text variant="body" color="textSecondary">
+              다음 정기 결제 금액
             </Text>
             <Text variant="body" weight="semibold">
-              {newSubscription.price.toLocaleString()}원
+              {expectedReceipt.nextBillingAmount.toLocaleString()}원
+            </Text>
+          </View>
+          <View style={tw`flex-row justify-between mb-2`}>
+            <Text variant="body" color="textSecondary">
+              다음 결제일
+            </Text>
+            <Text variant="body">
+              {dayjs(expectedReceipt.nextBillingDate).format('YYYY년 M월 D일')}
             </Text>
           </View>
           <View style={tw`flex-row justify-between`}>

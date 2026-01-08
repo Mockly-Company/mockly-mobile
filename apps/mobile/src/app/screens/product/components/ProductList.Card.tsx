@@ -37,7 +37,7 @@ const productCardVariants = cva({
 export const ProductCard = React.memo(
   ({ planType, isSelected, isCurrent, onSelect }: ProductCardProps) => {
     const planDetails = PLAN_FEATURES[planType];
-    const isRecommendedProduct = planType === PlanType.enum.PRO;
+    const isRecommendedProduct = planType === PlanType.enum.Pro;
 
     return (
       <TouchableOpacity

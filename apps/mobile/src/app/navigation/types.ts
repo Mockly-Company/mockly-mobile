@@ -9,6 +9,7 @@ export type LoggedInStackParamList = {
   MainTabs: NavigatorScreenParams<TabParamList>;
   Payments: NavigatorScreenParams<PaymentParamList>;
   Subscription: NavigatorScreenParams<SubscriptionParamList>;
+  PhoneVerification: undefined;
 };
 
 export type TabParamList = {
@@ -21,24 +22,25 @@ export type TabParamList = {
 
 export type PaymentParamList = {
   SubscriptionPayment: {
-    paymentUid: string;
     amount: number;
     orderName: string;
     billingPeriod: number /** n months */;
     currency: 'KRW' | 'USD';
     planType: PaidPlanType;
+    planId: number;
   };
-  SinglePayment: { planType: PaidPlanType; paymentId: string };
+  SinglePayment: { planType: PaidPlanType };
   PaymentSuccess: undefined;
   PaymentHistory: undefined;
   PaymentFail: undefined;
   SubscriptionPaymentChange: { planType: PaidPlanType };
+  PaymentInvoice: { paymentId: string };
 };
 
 export type SubscriptionParamList = {
   SubscriptionChange: { planType: PaidPlanType };
   SubscriptionCancel: undefined;
-  Subscribe: { planType: PaidPlanType; orderId: string };
+  Subscribe: { planType: PaidPlanType };
 };
 
 declare global {

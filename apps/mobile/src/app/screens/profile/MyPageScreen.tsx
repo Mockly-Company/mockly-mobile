@@ -12,8 +12,8 @@ import { queries } from '@configs/queryClient/QueryKeys';
 import { useRefreshControl } from '@hooks/useRefreshControl';
 
 export const MyPageScreen = () => {
-  const { user, subscription } = useUserProfile();
-  const isPaidPlan = subscription.planType !== 'FREE';
+  const { subscription } = useUserProfile();
+  const isPaidPlan = subscription.type !== 'Free';
 
   const { expand } = useProductBottomSheet();
   const handleUpgrade = () => {
@@ -45,9 +45,9 @@ export const MyPageScreen = () => {
       <Spacer size="2xl" />
       <UserBaseProfile />
 
-      <SubscriptionCard userId={user.id} />
+      <SubscriptionCard />
 
-      <TokenUsageCard userId={user.id} />
+      <TokenUsageCard />
 
       {isPaidPlan && <SubscriptionChange handlePromotion={handleUpgrade} />}
 

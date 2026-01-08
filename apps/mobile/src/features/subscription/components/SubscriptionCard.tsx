@@ -5,18 +5,25 @@ import dayjs from 'dayjs';
 import { useQuery } from '@tanstack/react-query';
 import { queries } from '@configs/queryClient/QueryKeys';
 
-type SubscriptionCardProps = {
-  userId: string;
-};
-
-export function SubscriptionCard({ userId }: SubscriptionCardProps) {
-  const { data: subscription } = useQuery(queries.subscription.detail(userId));
-
+export function SubscriptionCard() {
+  const { data: subscription, isSuccess } = useQuery(
+    queries.subscription.detail(),
+  );
+  const isPaid = isSuccess && subscription?.type === 'Paid';
   return (
     <Card style={tw`p-4`}>
-      <Header title="현재 구독" planType={subscription?.planType} />
-      <DateDisplay title="시작일" date={subscription?.startedAt} />
-      <DateDisplay title="만료일" date={subscription?.expiresAt} />
+      <Header
+        title="현재 구독"
+        planType={isPaid ? subscription.planSnapshot.name : PlanType.enum.Free}
+      />
+      <DateDisplay
+        title="시작일"
+        date={isPaid ? subscription.startedAt : undefined}
+      />
+      <DateDisplay
+        title="만료일"
+        date={isPaid ? subscription.endedAt : undefined}
+      />
     </Card>
   );
 }
@@ -27,7 +34,7 @@ type HeaderProps = {
 };
 
 const Header = ({ title, planType }: HeaderProps) => {
-  const isPaid = planType !== 'FREE';
+  const isPaid = planType !== PlanType.enum.Free;
   return (
     <View style={tw`flex-row justify-between items-center mb-3`}>
       <Text variant="h3">{title}</Text>

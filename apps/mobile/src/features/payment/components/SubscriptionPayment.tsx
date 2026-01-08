@@ -1,9 +1,10 @@
 import { PortOneController, IssueBillingKey } from '@portone/react-native-sdk';
-import { ComponentProps, createRef } from 'react';
+import { ComponentProps, createRef, useMemo } from 'react';
 import { SubscriptionProduct, User } from '@mockly/domain';
 
 import { tw } from '@mockly/design-system';
 import { PAYMENT_PG_STORE_ID, PAYMENT_PG_CHANNEL_KEY } from '@env';
+import { v7 } from 'uuid';
 
 type IssueBillingKeyProps = ComponentProps<typeof IssueBillingKey>;
 
@@ -13,7 +14,6 @@ const CHANNEL_KEY = PAYMENT_PG_CHANNEL_KEY;
 type PaymentProps = {
   user: User;
   product: Omit<SubscriptionProduct, 'id'>;
-  paymentId: string;
   onError: IssueBillingKeyProps['onError'];
   onComplete: IssueBillingKeyProps['onComplete'];
 };
@@ -21,7 +21,6 @@ type PaymentProps = {
 export const SubscriptionPayment = ({
   user,
   product,
-  paymentId,
   onError,
   onComplete,
 }: PaymentProps) => {
@@ -41,26 +40,32 @@ export const SubscriptionPayment = ({
     interval: `${product.billingPeriod}m`,
   };
   const controller = createRef<PortOneController>();
-
+  const issueId = useMemo(() => v7(), []);
   return (
     <IssueBillingKey
       ref={controller}
       request={{
         customer: {
           ...customer,
+          customerId: issueId,
         },
-        issueId: paymentId,
+        issueId: issueId,
         issueName: paymentProductProps.orderName,
         storeId: STORE_KEY,
         channelKey: CHANNEL_KEY,
         ...paymentProductProps,
         billingKeyMethod: 'CARD',
+        // easyPay: {
+        //   easyPayProvider: 'NAVERPAY',
+        //   availablePayMethods: ['CARD', 'CHARGE'],
+        // },
         productType: 'PRODUCT_TYPE_DIGITAL',
         offerPeriod: offerPeriod,
+        // redirectUrl: 'com.mockly.mobile://',
       }}
       onError={onError}
       onComplete={onComplete}
-      style={tw`bg-background dark:bg-background-dark`}
+      style={tw`bg-background`}
     />
   );
 };

@@ -11,7 +11,9 @@ interface PremiumBadgeButtonProps {
 export function UpgradeButton({ onPress }: PremiumBadgeButtonProps) {
   const { subscription } = useUserProfile();
 
-  const isPremium = subscription.planType === PlanType.enum.PREMIUM;
+  const isPremium =
+    subscription.type === 'Paid' &&
+    subscription.planSnapshot.name === PlanType.enum.Premium;
   if (isPremium) return;
 
   return (

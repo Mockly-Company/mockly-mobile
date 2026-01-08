@@ -16,7 +16,7 @@ export const SinglePaymentScreen = ({
   navigation,
 }: PaymentScreenProps) => {
   const { user } = useUserProfile();
-  const { planType, paymentId } = route.params;
+  const { planType } = route.params;
   const product = MockProducts[planType];
 
   return (
@@ -25,7 +25,6 @@ export const SinglePaymentScreen = ({
         <SinglePayment
           user={user}
           product={product}
-          paymentId={paymentId}
           onError={() => {
             navigation.popTo('PaymentFail');
           }}

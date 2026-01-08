@@ -6,9 +6,9 @@ import { PaidPlanType, PlanType } from '@mockly/domain';
 import { PropsWithChildren } from 'react';
 
 const PLAN_TYPES: PaidPlanType[] = [
-  PlanType.enum.BASIC,
-  PlanType.enum.PRO,
-  PlanType.enum.PREMIUM,
+  PlanType.enum.Basic,
+  PlanType.enum.Pro,
+  PlanType.enum.Premium,
 ];
 
 export const ProductList = ({
