@@ -30,9 +30,21 @@ export async function updateUserProfile(
       name: dto.name,
     },
     subscription: {
-      id: 'mock-123',
-      name: '플랜',
-      planType: 'BASIC',
+      type: 'Paid',
+      subscriptionId: 'sub_mock_123',
+      status: 'Active',
+      planSnapshot: {
+        name: 'Basic',
+        price: '4900',
+        billingCycle: 'Monthly',
+        features: [],
+      },
+      startedAt: new Date(),
+      endedAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      nextBillingAmount: 4900,
+      cancelAtPeriodEnd: false,
+      canceledAt: null,
     },
   };
 }

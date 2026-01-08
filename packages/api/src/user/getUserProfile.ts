@@ -16,9 +16,11 @@ export async function getUserProfile(): Promise<UserProfile> {
   return {
     user,
     subscription: {
-      id: 'mock-1',
-      name: 'free',
-      planType: 'FREE',
+      type: 'Free',
+      planSnapshot: {
+        name: 'Free',
+        price: '0',
+      },
     },
   };
 }

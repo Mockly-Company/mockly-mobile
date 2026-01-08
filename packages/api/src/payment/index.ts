@@ -1,3 +1,3 @@
-export * from './getPaymentHistory';
-export * from './postPaymentBillKey';
-export * from './postPaymentUId';
+export * from './getPayments';
+export * from './getPaymentInvoice';
+export * from './getPaymentDetail';

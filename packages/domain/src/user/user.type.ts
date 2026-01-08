@@ -1,5 +1,5 @@
 import z from 'zod';
-import { PlanType } from '../product';
+import { Subscription } from '../subscription';
 
 export const User = z.object({
   id: z.string(),
@@ -11,9 +11,5 @@ export const User = z.object({
 export type User = z.infer<typeof User>;
 export interface UserProfile {
   user: User;
-  subscription: {
-    id: string;
-    name: string;
-    planType: PlanType;
-  };
+  subscription: Subscription;
 }

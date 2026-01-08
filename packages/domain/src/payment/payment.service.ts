@@ -12,7 +12,7 @@ export class PaymentService {
   static getPaymentStatusText(status: PaymentStatus): string {
     const statusTextMap: Record<PaymentStatus, string> = {
       [PaymentStatus.enum.PENDING]: '결제 대기',
-      [PaymentStatus.enum.COMPLETED]: '결제 완료',
+      [PaymentStatus.enum.PAID]: '결제 완료',
       [PaymentStatus.enum.FAILED]: '결제 실패',
       [PaymentStatus.enum.CANCELLED]: '결제 취소',
       [PaymentStatus.enum.REFUNDED]: '환불 완료',

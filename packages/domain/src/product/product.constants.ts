@@ -22,8 +22,8 @@ export interface PlanFeatures {
 }
 
 export const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
-  [PlanType.enum.FREE]: {
-    planType: PlanType.enum.FREE,
+  [PlanType.enum.Free]: {
+    planType: PlanType.enum.Free,
     name: '무료',
     price: 0,
     monthlyTokenLimit: 30000,
@@ -46,8 +46,8 @@ export const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
       '공개 모의면접 참여 (월 2회)',
     ],
   },
-  [PlanType.enum.BASIC]: {
-    planType: PlanType.enum.BASIC,
+  [PlanType.enum.Basic]: {
+    planType: PlanType.enum.Basic,
     name: 'Basic',
     price: 4900,
     monthlyTokenLimit: 200000,
@@ -70,8 +70,8 @@ export const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
       '온라인 모의면접 참여',
     ],
   },
-  [PlanType.enum.PRO]: {
-    planType: PlanType.enum.PRO,
+  [PlanType.enum.Pro]: {
+    planType: PlanType.enum.Pro,
     name: 'Pro',
     price: 9900,
     monthlyTokenLimit: 400000,
@@ -96,8 +96,8 @@ export const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
       '전문가 프로필 열람',
     ],
   },
-  [PlanType.enum.PREMIUM]: {
-    planType: PlanType.enum.PREMIUM,
+  [PlanType.enum.Premium]: {
+    planType: PlanType.enum.Premium,
     name: 'Premium',
     price: 14900,
     monthlyTokenLimit: 700000,
@@ -128,24 +128,24 @@ export const PLAN_FEATURES: Record<PlanType, PlanFeatures> = {
 
 // 플랜 순서 (업그레이드 순서)
 export const PLAN_HIERARCHY = [
-  PlanType.enum.FREE,
-  PlanType.enum.BASIC,
-  PlanType.enum.PRO,
-  PlanType.enum.PREMIUM,
+  PlanType.enum.Free,
+  PlanType.enum.Basic,
+  PlanType.enum.Pro,
+  PlanType.enum.Premium,
 ] as const;
 
 // 플랜 색상 (UI용)
 export const PLAN_COLORS: Record<PlanType, string> = {
-  [PlanType.enum.FREE]: 'gray',
-  [PlanType.enum.BASIC]: 'blue',
-  [PlanType.enum.PRO]: 'purple',
-  [PlanType.enum.PREMIUM]: 'yellow',
+  [PlanType.enum.Free]: 'gray',
+  [PlanType.enum.Basic]: 'blue',
+  [PlanType.enum.Pro]: 'purple',
+  [PlanType.enum.Premium]: 'yellow',
 };
 
 // 플랜 아이콘 (UI용)
 export const PLAN_ICONS: Record<PlanType, string> = {
-  [PlanType.enum.FREE]: '🆓',
-  [PlanType.enum.BASIC]: '⭐',
-  [PlanType.enum.PRO]: '✨',
-  [PlanType.enum.PREMIUM]: '👑',
+  [PlanType.enum.Free]: '🆓',
+  [PlanType.enum.Basic]: '⭐',
+  [PlanType.enum.Pro]: '✨',
+  [PlanType.enum.Premium]: '👑',
 };

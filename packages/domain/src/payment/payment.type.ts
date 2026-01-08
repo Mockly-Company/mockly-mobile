@@ -1,21 +1,39 @@
 import { z } from 'zod';
+import { DateFromString } from '../utils';
 
 export const CURRENCY = z.enum(['KRW', 'USD']);
 export type CURRENCY = z.infer<typeof CURRENCY>;
 
-export const PaymentStatus = z.enum(['PENDING', 'COMPLETED', 'FAILED', 'CANCELLED', 'REFUNDED']);
+export const PaymentStatus = z.enum(['PENDING', 'PAID', 'FAILED', 'CANCELLED', 'REFUNDED']);
+export const PaymentMethod = z.enum(['CARD', 'EASY_PAY']);
 export type PaymentStatus = z.infer<typeof PaymentStatus>;
+export const BillingCycle = z.enum(['MONTHLY', 'YEARLY']);
 
 // 결제 내역
-export const PaymentHistorySchema = z.object({
+export const PaymentSchema = z.object({
   id: z.string(),
-  userId: z.string(),
-  planName: z.string(),
   amount: z.number(),
   currency: CURRENCY,
   status: PaymentStatus,
-  paidAt: z.date().optional(),
-  receiptUrl: z.string().optional(),
+  paymentMethod: PaymentMethod,
+  paidAt: DateFromString.optional(),
+  product: z.object({
+    name: z.string(),
+    price: z.number(),
+    billingCycle: BillingCycle,
+  }),
 });
 
-export type PaymentHistory = z.infer<typeof PaymentHistorySchema>;
+export const Invoice = z.object({
+  id: z.string(),
+  amount: 9900,
+  currency: CURRENCY,
+  status: PaymentStatus,
+  startedAt: z.date(),
+  endedAt: z.date().optional(),
+  paidAt: z.date().optional(),
+});
+
+export type PaymentListItem = Omit<Payment, 'product' | ('paymentMethod' & { name: string })>;
+export type Payment = z.infer<typeof PaymentSchema>;
+export type Invoice = z.infer<typeof Invoice>;

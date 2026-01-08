@@ -1,63 +1,74 @@
-import { PlanType, Subscription } from '@mockly/domain';
+import {
+  DateFromString,
+  FreeSubscriptionSchema,
+  PaidSubscription,
+  PaidSubscriptionSchema,
+  Subscription,
+} from '@mockly/domain';
+import { apiClient } from '../client';
+import z from 'zod';
+const PaidSubscriptionResponseSchema = PaidSubscriptionSchema.omit({ type: true }).extend({
+  startedAt: DateFromString,
+  endedAt: DateFromString,
+  nextBillingDate: DateFromString,
+  canceledAt: DateFromString.nullable(),
+});
 
-interface GetUserSubscriptionResponseDto {
-  subscription: {
-    plan_type: PlanType;
-    is_active: boolean;
-    limit: number;
-    usage: number;
-    started_at: number;
-    expires_at: number;
-  };
-}
+const FreeSubscriptionResponseSchema = FreeSubscriptionSchema.omit({ type: true });
 
-export async function getUserSubscription(userId: string): Promise<Subscription> {
-  // const response = await apiClient.get<GetUserSubscriptionResponseDto>('/payments/subscription');
-  const response = await getMockPlanResponse(userId);
-  const { plan_type, is_active, started_at, expires_at, usage, limit } = response.data.subscription;
+const GetUserSubscriptionResponseDtoSchema = z.union([
+  PaidSubscriptionResponseSchema,
+  FreeSubscriptionResponseSchema,
+]);
 
-  const baseSubscription = {
-    isActive: is_active,
-    limit: limit,
-    usage: usage,
-  };
-  const isFreePlan = plan_type === PlanType.enum.FREE;
-  if (isFreePlan) {
+type GetUserSubscriptionResponseDtoRaw = z.input<typeof GetUserSubscriptionResponseDtoSchema>;
+type GetUserSubscriptionResponseDto = z.infer<typeof GetUserSubscriptionResponseDtoSchema>;
+
+export async function getUserSubscription(): Promise<Subscription> {
+  // MOCK
+  try {
+    const response = await apiClient.get<GetUserSubscriptionResponseDtoRaw>('/api/subscriptions');
+    const subscription = GetUserSubscriptionResponseDtoSchema.parse(response.data);
+
+    if (isPaidSubscription(subscription)) {
+      return {
+        type: 'Paid',
+        ...subscription,
+      };
+    }
+
     return {
-      ...baseSubscription,
-      planType: plan_type,
-      startedAt: null,
-      expiresAt: null,
+      type: 'Free',
+      ...subscription,
     };
+  } catch {
+    return PAID_MOCK;
   }
-
-  return {
-    ...baseSubscription,
-    planType: plan_type,
-    startedAt: new Date(started_at),
-    expiresAt: new Date(expires_at),
-  };
 }
-let usage = 150000;
-const getMockPlanResponse = (_userId: string) => {
-  return new Promise<typeof MockPlanResponse>(resolve =>
-    setTimeout(() => {
-      MockPlanResponse.data.subscription.usage = usage;
-      usage += 20000;
-      resolve(MockPlanResponse);
-    }, 1500)
-  );
+
+const PAID_MOCK: Subscription = {
+  type: 'Paid',
+  subscriptionId: 'sub_20250101_001',
+  status: 'Active',
+  planSnapshot: {
+    name: 'Pro',
+    price: '14900',
+    billingCycle: 'Monthly',
+    features: ['기능 A', '기능 B', '기능 C'],
+  },
+  startedAt: new Date('2025-01-01T00:00:00Z'),
+  endedAt: new Date('2025-12-31T23:59:59Z'),
+  nextBillingDate: new Date('2025-02-01T00:00:00Z'),
+  nextBillingAmount: 14900,
+  cancelAtPeriodEnd: false,
+  canceledAt: null,
 };
 
-const MockPlanResponse: { data: GetUserSubscriptionResponseDto } = {
-  data: {
-    subscription: {
-      expires_at: new Date().getTime(), // milliseconds timestamp
-      started_at: new Date().getTime(), // milliseconds timestamp
-      limit: 300000,
-      usage: 150000,
-      is_active: true,
-      plan_type: 'FREE',
-    },
-  },
+const isPaidSubscription = (
+  subscription: GetUserSubscriptionResponseDto
+): subscription is Omit<PaidSubscription, 'type'> => {
+  if ('status' in subscription) {
+    return true;
+  }
+  return false;
 };
