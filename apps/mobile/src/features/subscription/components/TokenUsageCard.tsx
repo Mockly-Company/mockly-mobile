@@ -20,7 +20,7 @@ export function TokenUsageCard() {
       </Progress>
 
       <Text variant="caption" style={tw`text-gray-600`}>
-        {usagePercent.toFixed(0) ?? 0}% 사용 중
+        {usagePercent.toFixed(0)}% 사용 중
       </Text>
     </Card>
   );

@@ -43,7 +43,7 @@ export const queries = createQueryKeyStore({
   payment: {
     all: null,
     list: (params: { size: number }) => ({
-      queryKey: [params],
+      queryKey: ['payment', params],
       queryFn: ctx =>
         api.payment.getPayments({
           queryParams: {

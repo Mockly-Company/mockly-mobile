@@ -37,7 +37,7 @@ const PaymentHistories = () => {
 
   const payments = useMemo(
     () => paymentPages.pages.flatMap(page => page.payments),
-    [paymentPages],
+    [paymentPages.pages],
   );
 
   const noHistory = payments.length === 0;

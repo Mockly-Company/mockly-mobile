@@ -48,7 +48,6 @@ export const SubscriptionPaymentScreen = ({
             if (pgCode === 'CANCEL') {
               navigation.pop();
             } else {
-              console.log(complete, 'ㅎㅇ');
               payAndSubscribe({
                 plan: {
                   expectedPrice: amount,
@@ -57,11 +56,9 @@ export const SubscriptionPaymentScreen = ({
                 billingKey: complete.billingKey,
               })
                 .then(() => {
-                  console.log('성공');
                   navigation.popTo('PaymentSuccess');
                 })
                 .catch(() => {
-                  console.log('실패');
                   navigation.popTo('PaymentFail');
                 });
             }

@@ -26,7 +26,7 @@ export const PaymentSchema = z.object({
 
 export const Invoice = z.object({
   id: z.string(),
-  amount: 9900,
+  amount: z.number(),
   currency: CURRENCY,
   status: PaymentStatus,
   startedAt: z.date(),
@@ -34,6 +34,8 @@ export const Invoice = z.object({
   paidAt: z.date().optional(),
 });
 
-export type PaymentListItem = Omit<Payment, 'product' | ('paymentMethod' & { name: string })>;
 export type Payment = z.infer<typeof PaymentSchema>;
 export type Invoice = z.infer<typeof Invoice>;
+export type PaymentListItem = Omit<Payment, 'product'> & {
+  paymentMethod: string;
+};

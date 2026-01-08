@@ -21,6 +21,7 @@ export function PaymentInvoiceScreen() {
   );
 }
 
+const TAX_RATE = 0.1;
 const PaymentInvoice = () => {
   const route = useRoute<PaymentInvoiceRouteProp>();
   const { paymentId } = route.params;
@@ -30,16 +31,13 @@ const PaymentInvoice = () => {
   );
 
   const isPaid = invoice.status === PaymentStatus.enum.PAID;
-  const taxRate = 0.1; // 10% VAT
   const subtotal = invoice.amount;
-  const tax = Math.round(subtotal * taxRate);
+  const tax = Math.round(subtotal * TAX_RATE);
   const totalExcludingTax = subtotal;
   const total = subtotal + tax;
 
   const billingPeriodStart = dayjs(invoice.startedAt);
-  const billingPeriodEnd = invoice.endedAt
-    ? dayjs(invoice.endedAt)
-    : billingPeriodStart.add(1, 'month');
+  const billingPeriodEnd = dayjs(invoice.endedAt);
 
   return (
     <ScrollView

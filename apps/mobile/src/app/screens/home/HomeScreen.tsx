@@ -173,9 +173,9 @@ const UserDashboard = React.memo(
     );
   },
 );
-UserDashboard.displayName = 'HOME_UserDashboard';
+UserDashboard.displayName = 'Home_UserDashboard';
 
-type PlanUpgradePromotionProps = { currentPlan: Exclude<PlanType, 'PREMIUM'> };
+type PlanUpgradePromotionProps = { currentPlan: Exclude<PlanType, 'Premium'> };
 const PlanUpgradePromotion = React.memo(
   ({ currentPlan }: PlanUpgradePromotionProps) => {
     return (

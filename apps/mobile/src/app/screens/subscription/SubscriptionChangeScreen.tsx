@@ -12,6 +12,7 @@ import { useMutation, useSuspenseQuery } from '@tanstack/react-query';
 import { queries } from '@configs/queryClient/QueryKeys';
 import api from '@mockly/api';
 import dayjs from 'dayjs';
+import { useLayoutEffect } from 'react';
 
 type Props = StackScreenProps<SubscriptionParamList, 'SubscriptionChange'>;
 
@@ -19,7 +20,7 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
   const { planType } = route.params;
   const navigation = useNavigation();
 
-  const { subscription: useSubscription } = useUserProfile();
+  const { subscription } = useUserProfile();
   const { data: expectedReceipt } = useSuspenseQuery({
     ...queries.subscription.getExpectedChangeAmount(planType),
     gcTime: 0,
@@ -36,12 +37,16 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
     },
   });
 
-  if (useSubscription.type === 'Free') {
-    navigation.navigate('MainTabs', { screen: 'Home' });
-    return;
+  useLayoutEffect(() => {
+    if (subscription.type === 'Free') {
+      navigation.navigate('MainTabs', { screen: 'Home' });
+    }
+  }, []);
+  if (subscription.type === 'Free') {
+    return null;
   }
   const newSubscription = MockProducts[planType];
-  const userSubscription = MockProducts[useSubscription.planSnapshot.name];
+  const userSubscription = MockProducts[subscription.planSnapshot.name];
   const handleConfirmChange = () => {
     changeSubscription({
       confirmedAmount: newSubscription.price,
