@@ -25,7 +25,7 @@ export class ProductService {
 
   // 유료 플랜인지 확인하는 타입 가드
   static isPaidPlan(planType: PlanType): planType is PaidPlanType {
-    return planType !== 'FREE';
+    return planType !== 'Free';
   }
 
   // 플랜 이름 조회

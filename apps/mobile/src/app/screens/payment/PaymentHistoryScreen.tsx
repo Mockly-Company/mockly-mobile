@@ -9,6 +9,9 @@ import { queries } from '@configs/queryClient/QueryKeys';
 import { useSuspensePagingQuery } from '@hooks/usePagingQuery';
 import { useRefreshControl } from '@hooks/useRefreshControl';
 import { SuspenseFallback } from '@app/components/Fallback/SuspenseFallback';
+import { useNavigation } from '@react-navigation/native';
+import type { StackNavigationProp } from '@react-navigation/stack';
+import type { PaymentParamList } from '@app/navigation/types';
 
 export function PaymentHistoryScreen() {
   return (
@@ -21,21 +24,23 @@ export function PaymentHistoryScreen() {
   );
 }
 
+type PaymentNavigationProp = StackNavigationProp<PaymentParamList>;
+
 const PaymentHistories = () => {
-  const { data: paymentHistories, refetch } = useSuspensePagingQuery({
-    ...queries.payment.list(10),
-    gcTime: 0,
-    staleTime: 0,
+  const navigation = useNavigation<PaymentNavigationProp>();
+  const { data: paymentPages, refetch } = useSuspensePagingQuery({
+    ...queries.payment.list({ size: 10 }),
   });
   const RefreshControl = useRefreshControl(async () => {
     await refetch();
   });
+
   const payments = useMemo(
-    () => paymentHistories.pages.flatMap(page => page.payments),
-    [paymentHistories],
+    () => paymentPages.pages.flatMap(page => page.payments),
+    [paymentPages.pages],
   );
 
-  const noHistory = paymentHistories.pages.length === 0;
+  const noHistory = payments.length === 0;
   if (noHistory) return <NoHistory />;
 
   return (
@@ -46,7 +51,16 @@ const PaymentHistories = () => {
       contentContainerStyle={tw`pb-8`}
       refreshControl={RefreshControl}
       keyExtractor={item => item.id}
-      renderItem={payment => <PaymentHistoryCard payment={payment.item} />}
+      renderItem={payment => (
+        <PaymentHistoryCard
+          payment={payment.item}
+          onPress={() =>
+            navigation.navigate('PaymentInvoice', {
+              paymentId: payment.item.id,
+            })
+          }
+        />
+      )}
     />
   );
 };

@@ -3,15 +3,13 @@ import { tw, Text, Card, Progress } from '@mockly/design-system';
 import { useQuery } from '@tanstack/react-query';
 import { queries } from '@configs/queryClient/QueryKeys';
 
-type TokenUsageCardProps = {
-  userId: string;
-};
+export function TokenUsageCard() {
+  const { data: subscriptionDashboard } = useQuery(
+    queries.subscription.dashboard(),
+  );
 
-export function TokenUsageCard({ userId }: TokenUsageCardProps) {
-  const { data: subscription } = useQuery(queries.subscription.detail(userId));
-
-  const usage = subscription?.usage || 0;
-  const limit = subscription?.limit || 0;
+  const usage = subscriptionDashboard?.usage || 0;
+  const limit = subscriptionDashboard?.limit || 0;
   const usagePercent = Math.min(Math.floor((usage / limit) * 100), 100);
   return (
     <Card style={tw`p-4 mb-4 w-full`}>

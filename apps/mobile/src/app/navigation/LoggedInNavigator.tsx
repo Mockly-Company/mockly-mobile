@@ -6,6 +6,7 @@ import { ScreenErrorBoundary } from '@errors/boundaries';
 
 import { ProductBottomSheetProvider } from '@app/screens/product/ProductBottomSheetProvider';
 import { SubscriptionNavigator } from './SubscriptionNavigator/SubscriptionNavigator';
+import { PhoneVerificationScreen } from '@app/screens/auth/PhoneVerificationScreen';
 
 const Stack = createStackNavigator<LoggedInStackParamList>();
 
@@ -32,6 +33,14 @@ export const LoggedInNavigator = () => {
         name="Subscription"
         component={SubscriptionNavigator}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PhoneVerification"
+        component={PhoneVerificationScreen}
+        options={{
+          headerShown: true,
+          title: '휴대전화 인증',
+        }}
       />
     </Stack.Navigator>
   );

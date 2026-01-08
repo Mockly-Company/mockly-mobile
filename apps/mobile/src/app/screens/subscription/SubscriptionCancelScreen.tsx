@@ -31,12 +31,12 @@ export const SubscriptionCancelScreen = ({ navigation }: Props) => {
     },
   });
 
-  if (userSubscription.planType === 'FREE') {
+  if (userSubscription.type === 'Free') {
     naviagtion.navigate('MainTabs', { screen: 'Home' });
     return;
   }
 
-  const currentProduct = MockProducts[userSubscription.planType];
+  const currentProduct = MockProducts[userSubscription.planSnapshot.name];
 
   const handleCancelSubscription = () => {
     deleteUserSubscription();

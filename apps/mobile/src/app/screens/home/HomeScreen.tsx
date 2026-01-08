@@ -18,7 +18,7 @@ import { toast } from '@libs/toast';
 
 export const HomeScreen = () => {
   const { recentLogs } = useInterviewStore();
-  const { user, subscription } = useUserProfile();
+  const { subscription } = useUserProfile();
 
   const sessionCount = recentLogs.length;
   const totalMin = recentLogs.reduce(
@@ -31,8 +31,11 @@ export const HomeScreen = () => {
       )
     : 0;
 
-  const { planType } = subscription;
-  const notPremium = planType !== 'PREMIUM';
+  const planType =
+    subscription.type === 'Paid'
+      ? subscription.planSnapshot.name
+      : PlanType.enum.Free;
+  const notPremium = planType !== PlanType.enum.Premium;
 
   return (
     <View style={tw`flex-1`} testID="home-screen">
@@ -56,7 +59,7 @@ export const HomeScreen = () => {
 
         {notPremium && <PlanUpgradePromotion currentPlan={planType} />}
 
-        <TokenUsageCard userId={user.id} />
+        <TokenUsageCard />
 
         <HomeSection
           title="빠른 시작"
@@ -170,9 +173,9 @@ const UserDashboard = React.memo(
     );
   },
 );
-UserDashboard.displayName = 'HOME_UserDashboard';
+UserDashboard.displayName = 'Home_UserDashboard';
 
-type PlanUpgradePromotionProps = { currentPlan: Exclude<PlanType, 'PREMIUM'> };
+type PlanUpgradePromotionProps = { currentPlan: Exclude<PlanType, 'Premium'> };
 const PlanUpgradePromotion = React.memo(
   ({ currentPlan }: PlanUpgradePromotionProps) => {
     return (

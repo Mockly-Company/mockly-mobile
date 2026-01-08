@@ -8,6 +8,7 @@ import {
   PaymentSuccessScreen,
 } from '@app/screens/payment';
 import { PaymentFailScreen } from '@app/screens/payment/PaymentFailScreen';
+import { PaymentInvoiceScreen } from '@app/screens/payment/PaymentInvoiceScreen';
 
 const Stack = createStackNavigator<PaymentParamList>();
 
@@ -40,6 +41,13 @@ export const PaymentNavigator = () => {
         name="PaymentFail"
         component={PaymentFailScreen}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PaymentInvoice"
+        component={PaymentInvoiceScreen}
+        options={{
+          title: '청구서',
+        }}
       />
     </Stack.Navigator>
   );

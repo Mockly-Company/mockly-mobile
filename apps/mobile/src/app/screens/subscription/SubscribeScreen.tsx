@@ -15,19 +15,13 @@ import { useUserProfile } from '@features/user';
 import { MockProducts, PaidPlanType } from '@mockly/domain';
 import { PLAN_FEATURES } from '@mockly/domain';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import api from '@mockly/api';
-import { queries } from '@configs/queryClient/QueryKeys';
+
 import dayjs from 'dayjs';
 
 type Props = StackScreenProps<SubscriptionParamList, 'Subscribe'>;
 
 export const SubscribeScreen = ({ route }: Props) => {
-  const { planType, orderId } = route.params;
-  const { mutateAsync: createPaymentId, isPending } = useMutation({
-    mutationKey: queries.payment.issueId().queryKey,
-    mutationFn: api.payment.postPaymentUId,
-  });
+  const { planType } = route.params;
 
   const { subscription: userSubscription } = useUserProfile();
 
@@ -37,27 +31,23 @@ export const SubscribeScreen = ({ route }: Props) => {
   const selectedProduct = MockProducts[planType];
 
   const handlePayment = async () => {
-    const isAlreadySubscribedPlan = userSubscription.planType === planType;
+    const isAlreadySubscribedPlan =
+      userSubscription.type === 'Paid' &&
+      userSubscription.planSnapshot.name === planType;
     if (isAlreadySubscribedPlan) {
       navigation.navigate('MainTabs', { screen: 'Home' });
       return;
     }
 
-    const { paymentUid } = await createPaymentId({
-      amount: selectedProduct.price,
-      orderId: orderId,
-      planId: planType,
-    });
-
     navigation.navigate('Payments', {
       screen: 'SubscriptionPayment',
       params: {
         amount: selectedProduct.price,
-        paymentUid,
         orderName: selectedProduct.name,
         billingPeriod: selectedProduct.billingPeriod,
         currency: selectedProduct.currency,
         planType: selectedProduct.planType,
+        planId: selectedProduct.id,
       },
     });
   };
@@ -88,13 +78,13 @@ export const SubscribeScreen = ({ route }: Props) => {
 
         <PaymentButton
           onPress={handlePayment}
-          disabled={!isTermsAgreed || isPending}
-          isLoading={isPending}
+          disabled={!isTermsAgreed}
+          isLoading={false}
         />
 
         <Spacer size="lg" />
 
-        <CancelButton onPress={handleCancel} disabled={isPending} />
+        <CancelButton onPress={handleCancel} disabled={false} />
       </ScrollView>
     </SafeAreaView>
   );

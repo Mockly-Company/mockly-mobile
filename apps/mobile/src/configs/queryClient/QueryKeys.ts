@@ -15,12 +15,23 @@ export const queries = createQueryKeyStore({
     cancel: () => ({
       queryKey: ['delete'],
     }),
-    detail: (userId: string) => ({
-      queryKey: [userId],
-      queryFn: () => api.subscription.getUserSubscription(userId),
+    detail: () => ({
+      queryKey: ['detail'],
+      queryFn: () => api.subscription.getUserSubscription(),
     }),
     change: () => ({
       queryKey: ['change'],
+    }),
+    create: () => ({
+      queryKey: ['create'],
+    }),
+    getExpectedChangeAmount: (planType: string) => ({
+      queryKey: ['expected-change-amount', planType],
+      queryFn: () => api.subscription.getExpectedSubscriptionAmount(planType),
+    }),
+    dashboard: () => ({
+      queryKey: ['dashboard'],
+      queryFn: () => api.subscription.getSubscriptionDashboard(),
     }),
   },
   order: {
@@ -31,16 +42,29 @@ export const queries = createQueryKeyStore({
   },
   payment: {
     all: null,
-    list: (limit: number = 10) => ({
-      queryKey: [limit],
+    list: (params: { size: number }) => ({
+      queryKey: ['payment', params],
       queryFn: ctx =>
-        api.payment.getPaymentHistory(ctx.pageParam as number, limit),
+        api.payment.getPayments({
+          queryParams: {
+            page: ctx.pageParam as number,
+            size: params.size,
+          },
+        }),
     }),
     issueId: () => ({
       queryKey: ['id'],
     }),
     create: () => ({
       queryKey: ['create'],
+    }),
+    invoice: (paymentId: string) => ({
+      queryKey: ['invoice', paymentId],
+      queryFn: () => api.payment.getPaymentInvoice(paymentId),
+    }),
+    detail: (paymentId: string) => ({
+      queryKey: ['detail', paymentId],
+      queryFn: () => api.payment.getPaymentDetail(paymentId),
     }),
   },
   product: {

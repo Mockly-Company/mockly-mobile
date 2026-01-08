@@ -1,17 +1,13 @@
 import { useCallback, useState, RefObject, PropsWithChildren } from 'react';
 import { View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useMutation } from '@tanstack/react-query';
 import GoHomeBottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 
 import { Text, tw } from '@mockly/design-system';
 import { PaidPlanType } from '@mockly/domain';
-import api from '@mockly/api';
 
 import { BottomSheet } from '@app/components/BottomSheet/BottomSheet';
 import { useUserProfile } from '@features/user';
-import { queries } from '@configs/queryClient/QueryKeys';
-import { toast } from '@libs/toast';
 
 import { ProductBanner } from './components/ProductBanner';
 import { ProductList } from './components/ProductList';
@@ -41,16 +37,10 @@ export const ProductsScreen = ({
   const [selectedPlanType, setSelectedPlanType] = useState<PaidPlanType | null>(
     null,
   );
-  const { mutateAsync: createOrder, isPending: isCreatingOrder } = useMutation({
-    mutationKey: queries.order.issueId().queryKey,
-    mutationFn: api.order.postSubscriptionOrder,
-    onError: () => toast.warning('주문 생성 실패'),
-  });
 
   const getActionType = (): ActionType => {
     if (!selectedPlanType) return 'notSelected';
-    if (isCreatingOrder) return 'loading';
-    return userSubscription.planType === 'FREE' ? 'subscribe' : 'change';
+    return userSubscription.type === 'Free' ? 'subscribe' : 'change';
   };
 
   const actionType = getActionType();
@@ -67,18 +57,13 @@ export const ProductsScreen = ({
   }, [navigation]);
 
   const handleSubscribe = useCallback(
-    async (planType: PaidPlanType) => {
-      const { orderId } = await createOrder({
-        planId: 'mock-plan',
-        planType,
-      });
-
+    (planType: PaidPlanType) => {
       navigation.navigate('Subscription', {
         screen: 'Subscribe',
-        params: { orderId, planType },
+        params: { planType },
       });
     },
-    [createOrder, navigation],
+    [navigation],
   );
   const handleChangeSubscription = useCallback(
     (planType: PaidPlanType) => {
@@ -90,12 +75,12 @@ export const ProductsScreen = ({
     [navigation],
   );
 
-  const handlePurchase = useCallback(async () => {
+  const handlePurchase = useCallback(() => {
     if (!selectedPlanType) return;
 
     switch (actionType) {
       case 'subscribe':
-        await handleSubscribe(selectedPlanType);
+        handleSubscribe(selectedPlanType);
         break;
       case 'change':
         handleChangeSubscription(selectedPlanType);
@@ -128,7 +113,11 @@ export const ProductsScreen = ({
           <ProductList
             selectedType={selectedPlanType}
             onSelect={setSelectedPlanType}
-            usingPlanType={userSubscription.planType}
+            usingPlanType={
+              userSubscription.type === 'Paid'
+                ? userSubscription.planSnapshot.name
+                : null
+            }
           />
           <ProductDetail planType={selectedPlanType} />
           <ProductSummary planType={selectedPlanType} />
