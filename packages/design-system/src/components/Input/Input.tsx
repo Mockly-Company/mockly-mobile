@@ -1,14 +1,19 @@
-import React, { useId, useMemo } from 'react';
+import React, { RefObject, useId, useMemo } from 'react';
 import { TextInput, View, Text, TextInputProps, ViewStyle } from 'react-native';
 import { cva } from 'cva';
 import { tw } from '../../lib/tw';
 import { colors } from '../../theme';
 
 const inputVariants = cva({
-  base: 'bg-surface dark:bg-surface border border-border dark:border-border rounded-md px-md py-md text-md text-text dark:text-text',
+  base: ' px-md py-md text-md text-text dark:text-text-dark',
   variants: {
     hasError: {
       true: 'border-error dark:border-error',
+    },
+    variant: {
+      outlined: 'border bg-surface dark:bg-surface border-border dark:border-border',
+      rounded: 'border bg-surface dark:bg-surface border-border dark:border-border rounded-md',
+      underlined: 'border-b border-b-border',
     },
   },
 });
@@ -18,6 +23,8 @@ export interface InputProps extends TextInputProps {
   error?: string;
   containerStyle?: ViewStyle;
   placeholderTextColor?: string;
+  ref?: RefObject<TextInput | null>;
+  variant?: 'outlined' | 'underlined' | 'rounded';
 }
 
 export const Input: React.FC<InputProps> = ({
@@ -26,17 +33,16 @@ export const Input: React.FC<InputProps> = ({
   containerStyle,
   style,
   placeholderTextColor,
+  variant = 'outlined',
   ...props
 }) => {
-  const inputStyle = useMemo(() => tw.style(inputVariants({ hasError: !!error })), [error]);
-
   const inputId = useId();
   const labelId = `${inputId}-label`;
   const errorId = `${inputId}-error`;
   const placeholderColor = useMemo(
     () =>
       placeholderTextColor ??
-      (tw.color('text-textSecondary dark:text-textSecondary') || colors.textSecondary),
+      (tw.color('text-text-secondary dark:text-text-secondary') || colors.textSecondary),
     [placeholderTextColor]
   );
   return (
@@ -45,7 +51,7 @@ export const Input: React.FC<InputProps> = ({
         <Text style={tw`text-sm font-medium text-text dark:text-text-dark mb-xs`}>{label}</Text>
       )}
       <TextInput
-        style={[inputStyle, style]}
+        style={[tw`${inputVariants({ hasError: !!error, variant })}`, style]}
         placeholderTextColor={placeholderColor}
         accessible={true}
         accessibilityLabel={label ? `${label}${error ? `, 오류: ${error}` : ''}` : undefined}

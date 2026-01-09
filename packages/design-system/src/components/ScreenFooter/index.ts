@@ -1,0 +1,1 @@
+export { ScreenFooter } from './ScreenFooter';
