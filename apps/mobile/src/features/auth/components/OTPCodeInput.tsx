@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import {
   View,
   TextInput,
@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { tw } from '@mockly/design-system';
 import { cn } from '@mockly/utils';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface OTPCodeInputProps {
   value: string;
@@ -27,14 +28,15 @@ export function OTPCodeInput({
 
   const digits = value.split('');
 
-  // 처음 마운트될 때 첫 번째 칸에 자동 포커스
-  useEffect(() => {
-    if (!disabled && inputRefs.current[0]) {
-      setTimeout(() => {
+  useFocusEffect(
+    useCallback(() => {
+      const id = setTimeout(() => {
         inputRefs.current[0]?.focus();
-      }, 100);
-    }
-  }, [disabled]);
+      }, 0);
+
+      return () => clearTimeout(id);
+    }, []),
+  );
 
   const handlePress = (index: number) => {
     if (disabled) return;

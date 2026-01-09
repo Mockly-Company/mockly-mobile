@@ -1,9 +1,15 @@
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import {
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { View } from 'react-native';
 import { tw, Text, ScreenFooter, Button } from '@mockly/design-system';
 import { useOTPTimer } from '@features/auth/hooks/useOTPTimer';
 import { useOTPVerification } from '@features/auth/hooks/useOTPVerification';
-import { useRoute } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { OTPCodeSchema } from '@mockly/domain';
 import { OTPCodeInput } from '@features/auth/components/OTPCodeInput';
@@ -17,6 +23,7 @@ type RouteParams = {
 
 export function OTPVerificationScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
   const params = route.params as RouteParams;
 
   const {
@@ -24,6 +31,7 @@ export function OTPVerificationScreen() {
     expiresIn: initialExpiresIn,
     canResendAfter: initialCanResendAfter,
   } = params;
+
   const [code, setCode] = useState<string>('');
 
   const { expiresIn, canResendAfter, isExpired, startTimer, resetTimer } =
@@ -75,6 +83,9 @@ export function OTPVerificationScreen() {
     },
     [handleVerifyOTP],
   );
+  if (!phoneNumber) {
+    navigation.goBack();
+  }
 
   const handleNumPress = (num: string) => {
     if (code.length < 6) {
@@ -124,11 +135,12 @@ type HeaderProps = {
 };
 
 const Header = ({ title, expiresIn }: HeaderProps) => {
+  const formattedTime = useMemo(() => secondsTommss(expiresIn), [expiresIn]);
   return (
     <View style={tw`px-6 mb-8`}>
       <Text variant="h1">{title}</Text>
       <Text variant="body" color={expiresIn < 60 ? 'error' : 'textSecondary'}>
-        남은 시간: {secondsTommss(expiresIn)}
+        남은 시간: {formattedTime}
       </Text>
     </View>
   );

@@ -16,6 +16,7 @@ type ResponseDTO = {
 
 export const postOTPMessage = async (req: RequestDTO) => {
   const res = await apiClient.post<ResponseDTO>('/api/auth/phone/send', req).catch(() => {
+    // TODO: API 없어서 Mock. MSW 추가 예정
     return {
       data: {
         expiresIn: 180,

@@ -32,7 +32,7 @@ export function OTPRequestScreen() {
   const handleChangePhoneNumber = (text: string) => {
     const formatted = PhoneNumber.format(text);
     // "010-" 이하로는 지워지지 않도록
-    if (formatted.length < 4) {
+    if (formatted.length <= 4) {
       setPhoneNumber('010-');
     } else {
       setPhoneNumber(formatted);

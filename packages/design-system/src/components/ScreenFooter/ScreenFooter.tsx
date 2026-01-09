@@ -22,9 +22,9 @@ export function ScreenFooter({
     <View
       style={[
         tw`${cn('px-6 py-4', {
-          'bg-black': withBackground,
+          'bg-surface dark:bg-surface-dark': withBackground,
           'shadow-lg': withShadow,
-          'border-t border-gray-800': withBorder,
+          'border-t border-border dark:border-border-dark': withBorder,
         })}`,
         style,
       ]}

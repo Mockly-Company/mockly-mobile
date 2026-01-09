@@ -1,5 +1,5 @@
-import { ReactNode } from 'react';
-import { Alert } from 'react-native';
+import React, { ReactNode } from 'react';
+import { Alert, PressableProps } from 'react-native';
 import { useUserProfile } from '@features/user/hooks';
 import { useNavigation } from '@react-navigation/native';
 
@@ -60,27 +60,14 @@ export function WithPhoneVerification({
     // onPress를 가로채지 않고 그냥 렌더링 (부모가 직접 처리)
     return <>{children}</>;
   }
+  if (React.isValidElement<PressableProps>(children)) {
+    return React.cloneElement(children, {
+      onPress: handleUnverified,
+    });
+  }
 
   // onPress를 가로채서 인증 확인
-  return (
-    <>
-      {typeof children === 'object' &&
-      children !== null &&
-      'props' in children &&
-      typeof children.props === 'object' &&
-      children.props !== null
-        ? {
-            ...children,
-            props: {
-              ...children.props,
-              onPress: () => {
-                handleUnverified();
-              },
-            },
-          }
-        : children}
-    </>
-  );
+  return children;
 }
 
 export function usePhoneVerification() {

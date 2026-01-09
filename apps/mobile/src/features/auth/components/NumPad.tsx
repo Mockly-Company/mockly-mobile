@@ -55,6 +55,9 @@ export function NumPad({ onPress, onDelete, disabled = false }: NumPadProps) {
           size="large"
           onPress={() => handlePress(num)}
           disabled={disabled}
+          accessible={true}
+          accessibilityLabel={`삭제`}
+          accessibilityRole="button"
           style={[
             tw`items-center justify-center`,
             { width: ITEM_WIDTH, height: ITEM_HEIGHT },
@@ -76,6 +79,9 @@ export function NumPad({ onPress, onDelete, disabled = false }: NumPadProps) {
         onPress={() => handlePress(num)}
         disabled={disabled}
         variant="outline"
+        accessible={true}
+        accessibilityLabel={`숫자 ${num}`}
+        accessibilityRole="button"
         style={[
           tw`items-center justify-center rounded-xl ${disabled ? 'opacity-50' : ''}`,
           { width: ITEM_WIDTH, height: ITEM_HEIGHT },
