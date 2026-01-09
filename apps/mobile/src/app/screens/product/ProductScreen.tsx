@@ -14,6 +14,7 @@ import { ProductList } from './components/ProductList';
 import { ProductDetail } from './components/ProductDetail';
 import { ProductSummary } from './components/ProductSummary';
 import { PurchaseCTA } from './components/PurchaseCTA';
+import { WithPhoneVerification } from '@features/auth/components/WithPhoneVerification';
 
 export interface PlanSelectionBottomSheetProps {
   bottomSheetRef: RefObject<GoHomeBottomSheet | null>;
@@ -93,11 +94,13 @@ export const ProductsScreen = ({
       isClosable={isNotOnPaymentProcess}
       ref={bottomSheetRef}
       FooterComponent={
-        <PurchaseCTA
-          onPress={handlePurchase}
-          disabled={isActionDisabled}
-          content={PURCHASE_CTA_TEXT[actionType]}
-        />
+        <WithPhoneVerification>
+          <PurchaseCTA
+            onPress={handlePurchase}
+            disabled={isActionDisabled}
+            content={PURCHASE_CTA_TEXT[actionType]}
+          />
+        </WithPhoneVerification>
       }
     >
       <BottomSheetScrollView

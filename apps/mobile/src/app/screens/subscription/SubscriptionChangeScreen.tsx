@@ -41,7 +41,7 @@ export const SubscriptionChangeScreen = ({ route }: Props) => {
     if (subscription.type === 'Free') {
       navigation.navigate('MainTabs', { screen: 'Home' });
     }
-  }, []);
+  }, [navigation, subscription]);
   if (subscription.type === 'Free') {
     return null;
   }
