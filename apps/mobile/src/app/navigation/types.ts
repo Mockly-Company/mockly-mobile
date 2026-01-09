@@ -9,7 +9,12 @@ export type LoggedInStackParamList = {
   MainTabs: NavigatorScreenParams<TabParamList>;
   Payments: NavigatorScreenParams<PaymentParamList>;
   Subscription: NavigatorScreenParams<SubscriptionParamList>;
-  PhoneVerification: undefined;
+  OTPRequest: undefined;
+  OTPVerification: {
+    phoneNumber: string;
+    expiresIn: number;
+    canResendAfter: number;
+  };
 };
 
 export type TabParamList = {

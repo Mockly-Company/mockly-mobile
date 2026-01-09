@@ -3,6 +3,15 @@ import api from '@mockly/api';
 
 // if you prefer to declare everything in one file
 export const queries = createQueryKeyStore({
+  auth: {
+    all: null,
+    postOTPMessage: () => ({
+      queryKey: ['OPT-Message'],
+    }),
+    postOTPVerification: () => ({
+      queryKey: ['OPT-Verify'],
+    }),
+  },
   user: {
     all: null,
     profile: () => ({

@@ -11,11 +11,12 @@ export const useInitializeProfile = () => {
 };
 
 export const useUserProfile = () => {
-  const { user, subscription, isSigned } = useProfileStore(
+  const { user, subscription, isSigned, isPhoneVerified } = useProfileStore(
     useShallow(state => ({
       user: state.user,
       subscription: state.subscription,
       isSigned: state.isSigned,
+      isPhoneVerified: state.isPhoneVerified,
     })),
   );
   if (!user || !subscription || !isSigned) {
@@ -26,5 +27,5 @@ export const useUserProfile = () => {
     );
   }
 
-  return { user, subscription, isSigned };
+  return { user, subscription, isSigned, isPhoneVerified };
 };

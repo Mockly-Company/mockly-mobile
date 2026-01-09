@@ -62,7 +62,7 @@ export const useInitializeAuthAndGetProfile = () => {
 
     const profile_user = { ...profile.user, provider: storedProvider };
     const profile_subscription = profile.subscription;
-    setProfile(profile_user, profile_subscription);
+    setProfile(profile_user, profile_subscription, profile.isPhoneVerified);
   };
 
   return initializeAuthAndGetProfile;
@@ -97,7 +97,7 @@ export const useSignIn = () => {
       }
       const profile_user = { ...profile.user, provider };
       const profile_subscription = profile.subscription;
-      setProfile(profile_user, profile_subscription);
+      setProfile(profile_user, profile_subscription, profile.isPhoneVerified);
       return profile_user.name;
     },
   });

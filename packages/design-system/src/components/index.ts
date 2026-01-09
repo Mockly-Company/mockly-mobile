@@ -9,3 +9,4 @@ export * from './Input';
 export * from './Text';
 export * from './Icon';
 export * from './Progress';
+export * from './ScreenFooter';

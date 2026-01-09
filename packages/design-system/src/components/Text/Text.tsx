@@ -29,7 +29,7 @@ const textVariants = cva({
       warning: 'text-warning dark:text-warning-dark',
       error: 'text-error dark:text-error-dark',
       text: 'text-text dark:text-text-dark',
-      textSecondary: 'text-text-secondary dark:text-text-secondary-dark',
+      textSecondary: 'text-secondary dark:text-secondary-dark',
       background: 'text-background dark:text-background-dark',
       border: 'text-border dark:text-border-dark',
       surface: 'text-surface dark:text-surface-dark',

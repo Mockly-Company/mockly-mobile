@@ -46,5 +46,6 @@ export async function updateUserProfile(
       cancelAtPeriodEnd: false,
       canceledAt: null,
     },
+    isPhoneVerified: false,
   };
 }

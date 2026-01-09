@@ -22,5 +22,6 @@ export async function getUserProfile(): Promise<UserProfile> {
         price: '0',
       },
     },
+    isPhoneVerified: false,
   };
 }
