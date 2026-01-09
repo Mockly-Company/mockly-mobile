@@ -6,6 +6,13 @@ export interface ApiResponse<T = unknown> {
   timestamp: number;
 }
 
+export interface ApiErrorResponse {
+  error: string;
+  message: string;
+  success: false;
+  timestamp: number;
+}
+
 export type Pageable<T = unknown> = T & {
   pagination: {
     page: number /** 기본값 = 1, 1부터 시작 */;
