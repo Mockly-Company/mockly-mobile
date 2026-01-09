@@ -12,4 +12,5 @@ export type User = z.infer<typeof User>;
 export interface UserProfile {
   user: User;
   subscription: Subscription;
+  isPhoneVerified: boolean;
 }
