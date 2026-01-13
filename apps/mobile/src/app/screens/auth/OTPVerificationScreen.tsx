@@ -169,8 +169,9 @@ function ResendButton({
   isLoading,
   resendRemainingSeconds,
 }: ResendButtonProps) {
-  const canResend = resendRemainingSeconds > 0;
-  if (canResend) {
+  const isCounting = resendRemainingSeconds > 0;
+
+  if (isCounting) {
     return (
       <Text
         variant="caption"
@@ -188,8 +189,10 @@ function ResendButton({
       disabled={isLoading}
       variant="secondary"
       style={tw`bg-transparent p-0 text-center`}
+      accessibilityLabel={isLoading ? '인증번호 전송 중' : '인증번호 재전송'}
+      accessibilityHint="탭하면 새로운 인증번호를 받을 수 있습니다"
     >
-      <Button.Text style={tw`underline text-sm`}>
+      <Button.Text style={tw`underline text-sm text-text dark:text-text-dark`}>
         {isLoading ? '전송중...' : '인증번호 재전송'}
       </Button.Text>
     </Button>
