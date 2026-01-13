@@ -1,21 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export function useOTPTimer() {
-  const expires = useTimer();
-  const resend = useTimer();
+  const [expireTime, setExpireTime] = useTimer();
+  const [resendTime, setResendTime] = useTimer();
+
+  const startTimer = useCallback(
+    (expiresInSeconds: number, canResendAfterSeconds: number) => {
+      setExpireTime(expiresInSeconds);
+      setResendTime(canResendAfterSeconds);
+    },
+    [setExpireTime, setResendTime],
+  );
+
+  const resetTimer = useCallback(() => {
+    setExpireTime(0);
+    setResendTime(0);
+  }, [setExpireTime, setResendTime]);
 
   return {
-    expiresIn: expires.seconds,
-    canResendAfter: resend.seconds,
-    isExpired: expires.seconds === 0,
-    startTimer: (expiresInSeconds: number, canResendAfterSeconds: number) => {
-      expires.setSeconds(expiresInSeconds);
-      resend.setSeconds(canResendAfterSeconds);
-    },
-    resetTimer: () => {
-      expires.setSeconds(0);
-      resend.setSeconds(0);
-    },
+    expiresIn: expireTime,
+    canResendAfter: resendTime,
+    isExpired: expireTime <= 0,
+    startTimer,
+    resetTimer,
   };
 }
 
@@ -33,5 +40,5 @@ function useTimer() {
     return () => clearInterval(timer);
   }, [isCounting]);
 
-  return { seconds, setSeconds };
+  return [seconds, setSeconds] as const;
 }
